@@ -1,0 +1,74 @@
+<!--page/component/publish/publish.wxml-->
+
+<view class="main">
+  <view class="message panel">
+    <input class="title" placeholder='简要'></input>
+    <view class="div-line"></view>
+    <textarea auto-height="true" maxlength="-1" class="detail" placeholder='简要' value="{{textarea_value}}">
+          
+    </textarea>
+    <template-quickinput class='quickinput' options="{{options}}" bind:myevent="select" hover-stop-propagation="true"></template-quickinput>        
+    <!-- 简介输入框，有输入的值会被清掉的bug，先搁置 -->
+  
+  </view>
+  <view class="img panel">
+  
+    <view class="question-images">
+      <view wx:if="{{images.length==0}}" class="question-hint" hover-class="none" hover-stop-propagation="false">
+        选择你的闲置物品叭
+      </view>
+        
+      <block class="images-item" wx:for="{{images}}" wx:key="*this">
+        <view class="q-image-wrap">
+          <!-- 图片缩略图  -->
+          <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
+          <!-- 移除图片的按钮  -->
+          <icon class="iconfont icon-close q-image-remover" data-idx="{{index}}" bindtap="removeImage"></icon>
+        </view>
+      </block>
+    </view>   
+    <view class="question-opera" hover-class="none" hover-stop-propagation="false">
+      <button
+        class="add-img"
+        type="default" size="mini" bindtap="chooseImage" 
+        wx:if="{{images.length < 9}}">添加图片
+    </button>
+    </view>
+    
+    <view class="div-line"></view>
+
+    <view class="category" >
+      <!-- <view  bindtap="toggle">
+        <button class='category-btn'>
+          <view class="category-btn-left"><text>{{accountName}}</text></view>
+          <view class="category-btn-right"><text class="text-placeholder">分类</text><icon class='iconfont icon-right'></icon></view>
+          
+        </button>
+      </view> -->
+      <!-- 组件:下拉弹出框 -->
+      <!-- <template-dialog id="dialog" account="{{account}}" accountName="{{accountName}}" bind:action="switchAccount"></template-dialog> -->
+      <!-- 自定义的下拉弹出框有卡顿，先用picker组件 -->
+      <picker bindchange="bindPickerChange" value="{{index}}" range="{{category}}">
+        <button class="picker category-btn">
+          <view class="category-btn-left"><text>{{category[index]}}</text></view>
+          <view class="category-btn-right"><text class="text-placeholder">分类</text><icon class='iconfont icon-right'></icon></view>
+        </button>
+      </picker>
+    
+    
+    </view>
+
+  
+
+  </view>
+
+
+  
+
+  <view class="price panel" hover-class="none" hover-stop-propagation="false">
+    <input type="number" ></input>
+    
+  </view>
+    
+
+</view>
