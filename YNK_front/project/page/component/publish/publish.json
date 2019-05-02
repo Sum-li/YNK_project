@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "template-dialog": "../../common/components/dialog/dialog",
+    "template-quickinput":"../../common/components/quickinput/quickinput"
+  }
+}
