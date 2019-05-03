@@ -1,10 +1,10 @@
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1556681303972'); /* IE9 */
-  src: url('iconfont.eot?t=1556681303972#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAQkAAsAAAAACMgAAAPWAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDKgqEbIQgATYCJAMUCwwABCAFhG0HShumB8guIScbekRUaBZb05Gi2r16dz0JtoIPJHi+3+9/a5+z7/VvZsmbqCAa8WgWEkOn49MhimUPmXl/rf3e/7gmZgeSSTORk3f7fW/2FouiXTTyIzDdqoiGBI3IQFS3vXmZ2EkZLQulmP7mAza2RZ0H2D3Ly8YG6TwPA1sCAW18A6Qx/++Cm6FvhSncf4Cb/w6OmW7NA8uzrV2iyjM5KJLHAxpQdJH9gzyY/zB2cRm7IUBIsRSmkYq6NvBF0QYJIKesVALfmBEtIQi+xs2ZqcgDHHxz07wH7ru/L/9ojw8Gx6KNnDrlKhR95vhn84TWbASi/uwAMw8s0AhQkBO5zj0evr+RB6EU7UkvwNfbGfjJ7pnHv8QIx4jXEu8TEkLbfzzFgLhoyhhiBxS6ZyLTgN1JEdQjsoqHNCj8egIY4JzmQQgUAp4DEiFBXEnpBoIhs3u+52UExhKrq0a6rr90r32cj9s8ORbxvpTeoOtwylG1JxIVH0/F6i2+QdZTvIa38MVkeRG4HrVV59GlmLsyYb+HcwjNE7KI8ZrV1tLZ0dre2dzWToN722ABrouUd/IlCJAbL9oCIBQzitt7JrngyxdgOfMuaTMI4kU58IRSRZZgp3J+oXJH8jxPoS90ViZEPziL/bp3P4aMT9Aclrk/w3KorLSsuMBd3+BWeUtlSWlJ2Rdo9kvcNc2lpbFVvltwsFUGf27qU4z7ttFYPaLNt95rqj3Vqovz/9P68sVWkGfzLWlo79DOaAX2ECv8w/NrqfpVprRGv+KRz36SLSau7E13TEjWuq485gY2o0cOrh4mzISmTDlebmI+PkOYRunaLCiA7V4V58cxt48K+j7zIc4BIFH9tQEA2ND8B+x1+2v8DaPPVjEYkvfrRwrAl3+H7doTtpomeL+i2qIfQYRzVJZoJkfFTFMoJjssiwQ3U/TeJT9AGNJ99qPOqp0Mgk9WCAaPIrD4VCIV2wgOEZ3g4tMPIQ0q50dk4DwQDYB6MwCEVLtgSOYtWFJdIBX7AQ7ZvsElNRZCFhKxYkR1jv1LOUoCVSKPE6vCXJphEf5eagvSYYfEoxKX2IHcsLpIZnNrMlSJLuR9jDFGaJYQGtE4c5IKsB86HIzonNlQEWkWIfSc9JaDvC+lKcwJ/gzjkERAKkI2jrBSMC6aXV/wT/18C0QNc5DwkqwSdwfEGazNE5nSZNRAVipdtbLO5R7DCCqLIGgIDcc4ERXAjhy6nyH0/G42SCGksbTw6nKko0JaXWXa+GrnNW4AQrTPOWLEioojLs4pRq0uL26lFuGlOJiBvi4mUGbMDgAAAA==') format('woff2'),
-  url('iconfont.woff?t=1556681303972') format('woff'),
-  url('iconfont.ttf?t=1556681303972') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
-  url('iconfont.svg?t=1556681303972#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1556867352964'); /* IE9 */
+  src: url('iconfont.eot?t=1556867352964#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAARYAAsAAAAACTQAAAQLAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDQAqFOIRfATYCJAMYCw4ABCAFhG0HUBsFCMiemjypmYEFPLCAI1RAiIInXHt7k0zyt9ktoANCxZJJGEBXloRO1507j/bYncX/06nfAcIrURgkxS6BCWWfZD4/+co8Ak9OMjadgcBQ5q1j4wYIuBjbAAFm5v/Yb1bMStCHaS+i1lQz9xNimcx1jpCYiZS8hbIS+xbYOdTBBJ0PAQJFZpMNyxcqIQ1F2kwA2XCJNkjzedGUViFC8DH7KnIPjshcJNwHuDN/X37SVBoYnEXadmJDDhg4fPuZuCV+xoqOAl19YeB2EFigAaAgB7HRLYl2vkEi4XPyJAYBgQiD+cLXnK95337G/4MvIds4omwgkMi6sfzDMzgsiEeyJogfKTj4giqCwJdsERS+5Ihg4EteGMcq6tDGajt9jesUAt4AUgMSrcJpBYdgyFtOapRK5WZlSaJelXZc4TBDq8/QZUCMymtimy6JhMNhGF8dIp9VsW+a6Fet+CSyJbzU7BBiscz9ES92PI1ujZlE/Di8LxoUDh8Ezoqxw3jsoVLxyFZPOKyMRFSxmCYaNaqVyzXqFSrNMqVKzKntFOrwZ01uSsYhZMr5WWUmBOEqrs7JZHu2eQ6HmTUZ69mQzJvBbVvZQebpqmermDe7vzaOv4wDr2ESZK2yQ9f6CTpvgzHFnr2KMVvS/cy8B3pP83OT3rr7+jdf/sQwb7mRi9zo24wDDMdyg32jrNEyMrRcwbAM944bOc+Mzl/Gsgz7Z5S7MMLB/6NXLU3bkxelKcUyuUKZtih5e1No2ZkaiMdD9vm7xBCqWK0Z3XDzVL/U4xzJQnyzpPcl6IVJxYmkF7ztyLuD9OAMtvlkOy7NLT7ebppl6ingZEluKT56cRIzaWkjP5FfSmxigzaMCTibUIMrvSw3/zUvOHWr8lav+imsAcD/y3ZSIgPw/4T9aXkAsMH8BdizxKvob8j8fbnJktvzL8pUAN79CmVm+P8WzekFLgUbuXXXjI479GuQfF7fyOq6COBZVAQ2/TwCAbhWkjne1mXPz90MQkS+C4YUhWCJqEArvgEcMR3gieiDQD3FwTG5JImIpgF1dgIIWU6DIYNXsGR5gFb8G3AU+AOerBIhMFfhMWOqcmWwErZR7ED8WuSyE7+gBGiG1bociyu9NslrMOlqLAVdKdRY1xAsKbAfS3XsEFwlNlEqIEEiPiSHi2Gvl6CARNzYTuuclAa66uuFuDeqsxMfZDBEgtlQmAPCWwtxsSP8BH06lRH6+eUw0UpeNlIK4kdZDZMEuRZHGtVpyIFWWP25EPvykKBVRE0oSoAIJIQPIocw5pXzBBKIX8sNs6PqOEtkA7rUUy8hr7WufbtvK88AAem1vRixouLESwq75+OTvUR0+ZMll+ikyXYvCeI0P6GYJ8QDAAA=') format('woff2'),
+  url('iconfont.woff?t=1556867352964') format('woff'),
+  url('iconfont.ttf?t=1556867352964') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1556867352964#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -13,6 +13,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-rmb:before {
+  content: "\e600";
 }
 
 .icon-login:before {

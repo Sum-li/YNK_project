@@ -10,10 +10,18 @@
         </navigator>
         
         <view class="goods-operation">
-            <text class="goods-operation-num">数量  {{num}}</text>
-            <text class="goods-operation-add" bindtap="addCount">+</text>
-            <text class="goods-to-cart" bindtap="addToCart">加入购物车</text>
-            <image src="/image/cart1.png"  class="goods-cart-img" bindtap="addToCart"></image>
+            <view class="operation-leavemsg" >
+                <!-- 留言 -->
+                <text class="goods-operation-leavemsg"bindtap="">留言 </text>
+                <text class="goods-operation-add" bindtap="">+</text>
+            </view>
+            <view class="operation-to-cart" hover-class="none" hover-stop-propagation="false">
+                <text class="goods-to-cart" bindtap="addToCart">加入购物车</text>
+                <image src="/image/cart1.png"  class="goods-cart-img" bindtap="addToCart"></image>    
+            </view>
+              
+            
+
         </view>
         <image wx:if="{{show}}" src="/image/cart1.png" class="to-carts-icon"></image>
         <view class="goods-stock">{{goods.stock}}</view>

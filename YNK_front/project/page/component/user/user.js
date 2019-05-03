@@ -14,6 +14,7 @@ Page({
      */
     wx.getUserInfo({
       success: function(res){
+        console.log(res)
         self.setData({
           thumb: res.userInfo.avatarUrl,
           nickname: res.userInfo.nickName

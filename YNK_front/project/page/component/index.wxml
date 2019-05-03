@@ -1,3 +1,5 @@
+<!-- 首页 -->
+
 <view class="main">
     <swiper indicator-dots="true" autoplay="true" interval="{{interval}}" duration="{{duration}}" circular="true">
         <block wx:for="{{imgUrls}}" wx:key="{{index}}">
@@ -26,72 +28,38 @@
             </navigator>
         </view>
     </view>
-    <view class="newest">
-        <view class="newest-title"><text>最近新品</text></view>
-        <view class="newest-box">
-            <view class="newest-list">
-                <navigator url="details/details">
-                    <image src="/image/s4.png"></image>
-                    <view class="newest-text"><text>瓜子 100g</text></view>
-                    <view class="newest-text"><text>￥ 0.01</text></view>
+    <view class="newgood">
+        <view class="newgood-title"><text>最近新品</text></view>
+        <view class="newgood-box">
+            <view class="newgood-list" wx:for="{{good_list}}">
+                <navigator class="nav" url="details/details">
+                    <view class="nav-left" hover-class="none" hover-stop-propagation="false">
+                        <image src="http://schoolbuy.online.:80/static/3.jpg"></image>
+                    </view>
+                    <view class="nav-right" hover-class="none" hover-stop-propagation="false">
+                        <view class="newgood-text good-name" ><text>{{item.name}}</text></view>
+                        <view class="newgood-text good-peice">
+                            <text class="">¥</text>
+                            <text>{{item.price}}</text>
+                        </view>
+                        <view class="newgood-text-user">
+                            <view class="newgood-text-school"><text>{{item.school}}</text></view>
+                            <view class="newgood-text-name" ><text>{{item.user_name}}</text></view>
+                            <view class="newgood-text-time" data-time='{{item.pub_time}}'><text>三天前 发布</text></view>
+
+                        </view>                                          
+                    </view>
+                        
+                    
                 </navigator>
             </view>
-            <view class="newest-list">
-                <navigator url="details/details">
-                    <image src="/image/s5.png"></image>
-                    <view class="newest-text"><text>芹菜 半斤</text></view>
-                    <view class="newest-text"><text>￥ 0.02</text></view>
-                </navigator>
-            </view>
-            <view class="newest-list">
-                <navigator url="details/details">
-                    <image src="/image/s6.png"></image>
-                    <view class="newest-text"><text>素米 375g</text></view>
-                    <view class="newest-text"><text>￥ 0.03</text></view>
-                </navigator>
-            </view>
-            <view class="newest-list">
-                <navigator url="details/details">
-                    <image src="/image/s4.png"></image>
-                    <view class="newest-text"><text>瓜子 100g</text></view>
-                    <view class="newest-text"><text>￥ 0.01</text></view>
-                </navigator>
-            </view>
-            <view class="newest-list">
-                <navigator url="details/details">
-                    <image src="/image/s5.png"></image>
-                    <view class="newest-text"><text>芹菜 半斤</text></view>
-                    <view class="newest-text"><text>￥ 0.02</text></view>
-                </navigator>
-            </view>
-            <view class="newest-list">
-                <navigator url="details/details">
-                    <image src="/image/s6.png"></image>
-                    <view class="newest-text"><text>素米 375g</text></view>
-                    <view class="newest-text"><text>￥ 0.03</text></view>
-                </navigator>
-            </view>
-            <view class="newest-list">
-                <navigator url="details/details">
-                    <image src="/image/s4.png"></image>
-                    <view class="newest-text"><text>瓜子 100g</text></view>
-                    <view class="newest-text"><text>￥ 0.01</text></view>
-                </navigator>
-            </view>
-            <view class="newest-list">
-                <navigator url="details/details">
-                    <image src="/image/s5.png"></image>
-                    <view class="newest-text"><text>芹菜 半斤</text></view>
-                    <view class="newest-text"><text>￥ 0.02</text></view>
-                </navigator>
-            </view>
-            <view class="newest-list">
-                <navigator url="details/details">
-                    <image src="/image/s6.png"></image>
-                    <view class="newest-text"><text>素米 375g</text></view>
-                    <view class="newest-text"><text>￥ 0.03</text></view>
-                </navigator>
-            </view>
+            
         </view>
+    </view>
+    <view class="bottom" wx:if="{{loading}}">
+        <text class="loading-text" selectable="false" space="false" decode="false">
+            加载中
+        </text>
+          
     </view>
 </view>

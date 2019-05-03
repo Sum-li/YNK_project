@@ -8,7 +8,8 @@
     "page/component/orders/orders",
     "page/component/details/details",
     "page/component/list/list",
-    "page/component/publish/publish"
+    "page/component/publish/publish",
+    "page/component/chat/chat"
   ],
   "window": {
     "navigationBarTextStyle": "white",
@@ -42,7 +43,7 @@
         "text": "发布"
       },
       {
-        "pagePath": "page/component/index",
+        "pagePath": "page/component/chat/chat",
         "iconPath": "image/12.png",
         "selectedIconPath": "image/11.png",
         "text": "消息"

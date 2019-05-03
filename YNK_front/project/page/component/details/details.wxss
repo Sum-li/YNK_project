@@ -81,6 +81,7 @@
     font-size: 24rpx;
 }
 .goods-box .goods-operation{
+    display: flex;
     position: relative;
     width: 100%;
     height: 100rpx;
