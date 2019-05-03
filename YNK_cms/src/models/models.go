@@ -7,6 +7,9 @@ import (
 
 type User struct {
 	gorm.Model
+	UserName string
+	StudentNumber string
+	School string
 	Openid string	`gorm:"not null;unique"`
 	Address string
 	Goods []Goods
