@@ -6,4 +6,5 @@ import (
 
 func main() {
 	server.Startserver()
+	//models.Createinit()
 }
