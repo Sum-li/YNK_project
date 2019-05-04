@@ -91,3 +91,5 @@ callback: {
         **openid**  
     }   
     }
+    
+  **微信小程序比赛**  https://mp.weixin.qq.com/s?__biz=MjM5NDAxMDg4MA==&mid=2650959617&idx=1&sn=e994a667c4a20bbd272d89262982a32e&chksm=bd788d6e8a0f0478f3caa749cab292708b4161e84f5e52f1beb984c68ec201579593f0d94873&mpshare=1&scene=1&srcid=0311VRpSe0wLkOrdUmNbOcM6&pass_ticket=5EOuj0T7kVHGvSlJb7Kd0aFz63Aq5Xz6DIbPvphvjxk%3D#rd
