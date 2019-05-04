@@ -5,7 +5,9 @@ Page({
     nickname:'',
     orders:[],
     hasAddress:false,
-    address:{}
+    address:{},
+    curIndex: 0,
+
   },
   onLoad(){
     var self = this;
@@ -69,6 +71,27 @@ Page({
           content:'<text>',
           showCancel: false
         })
+      }
+    })
+  },
+  dealBarChange(e) {
+    const index = parseInt(e.currentTarget.dataset.index);
+    this.setData({
+      curIndex: index
+    })
+  },
+  to(e){
+    const index = parseInt(e.currentTarget.dataset.index);
+    // index=1 购物车页
+    // index=2 已发布的物品页
+    // index=3 交易记录页
+    wx.navigateTo({
+      url:'',
+      success:function(){
+        
+      },
+      fail:function(){
+        
       }
     })
   }

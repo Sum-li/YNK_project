@@ -1,6 +1,8 @@
 // page/component/publish/publish.js
 import { $init, $digest } from '../../../util/common.util'
+import { promisify } from '../../../util/promise.util'
 
+const wxUploadFile = promisify(wx.uploadFile)
 
 
 
@@ -130,11 +132,11 @@ Component({
           console.log(">>>> upload images error:", err)
         }).then(urls => {
           // 调用保存问题的后端接口
-          return createQuestion({
-            title: title,
-            content: content,
-            images: urls
-          })
+          // return createQuestion({
+          //   title: title,
+          //   content: content,
+          //   images: urls
+          // })
         }).then(res => {
           // 发布成功，转到刚才发布的物品页
           wx.redirectTo({ url: 'pageE' }) 

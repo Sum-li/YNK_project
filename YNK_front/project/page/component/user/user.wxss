@@ -22,6 +22,30 @@
     float: right;
 }
 
+
+
+.deals-tab-nav{
+    display: inline-block;
+    width: 33.33%;
+    height: 90rpx;
+    line-height: 90rpx;
+    border-bottom: 1rpx solid #ededed;
+    box-sizing: border-box;
+    text-align: center;
+    color: #c7c7cb;
+}
+.deals-tab-nav.on{
+    color: #bcaa8a;
+    border-bottom: 5rpx solid #bcaa8a;
+}
+.deals-content{
+    padding: 40rpx;
+}
+.deals-icon{
+    height: 50rpx;
+    width: 50rpx;
+}
+
 .address-box{
     border-bottom: 20rpx solid #ededed;
     color: #999;
