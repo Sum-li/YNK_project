@@ -26,3 +26,17 @@ type GoodSer struct {
 //	db.Select("")
 //	return g
 //}
+
+//分类
+type CategorySer struct {
+	Name string		`json:"name"`
+	ID uint		`json:"id"`
+}
+
+//func (c *Category) Serialization() CategorySer {
+//	res := CategorySer{
+//		Name:c.Name,
+//		ID:c.ID,
+//	}
+//	return res
+//}
