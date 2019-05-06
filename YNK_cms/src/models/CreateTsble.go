@@ -18,5 +18,6 @@ func GetDB() *gorm.DB {
 func Createinit() {
 	db := GetDB()
 	defer db.Close()
-	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&User{},&Goods{},&Category{},&Photos{},&Collections{},&Buy{},Chatinfo{})
+	//db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&User{},&Goods{},&Category{},&Photos{},&Collections{},&Buy{},Chatinfo{})
+	db.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&Goods{})
 }

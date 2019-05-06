@@ -13,6 +13,8 @@ func Startserver() {
 	//r.Static("/static","/home/YNK/mygo/src/YNK_cms/src/static")
 	//r.GET("/category",GetCategory)
 	//r.GET("/login",GetUserid)
-	r.GET("/goodscategory",GoodsCategory)
+	//r.GET("/goodscategory",GoodsCategory)
+	r.POST("/pub",Pub_goods)
+	r.POST("/photo",Photos)
 	_ = r.Run(":80")
 }
