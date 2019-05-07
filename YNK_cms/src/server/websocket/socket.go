@@ -1,4 +1,4 @@
-package server
+package websocket
 
 import (
 	"encoding/json"
@@ -24,7 +24,7 @@ type Message struct {
 	Context string	`json:"context"`
 }
 
-func wsHandlee(c *gin.Context) {
+func WsHandlee(c *gin.Context) {
 	conn,err := wsupgrader.Upgrade(c.Writer,c.Request,nil)
 	if err != nil {
 		http.NotFound(c.Writer, c.Request)
