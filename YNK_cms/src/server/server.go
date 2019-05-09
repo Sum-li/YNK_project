@@ -1,7 +1,10 @@
 package server
 
 import (
+	"YNK_cms/src/server/websocket"
 	"github.com/gin-gonic/gin"
+	"log"
+	"strconv"
 )
 
 //func Startserver() {
@@ -22,13 +25,22 @@ import (
 func Startserver() {
 
 	r := gin.Default()
+
+	//websocket服务器
+	hub := websocket.Socket()
+	r.GET("/ws", func(c *gin.Context) {
+		id, _ := strconv.Atoi(c.Query("user_id"))
+		log.Printf("***********id*******:%v",id)
+		websocket.ServeWs(hub,id,c)
+	})
+
 	//
 	////静态页面渲染
 	//r.Static("/static","/home/YNK/mygo/src/YNK_cms/src/static")
 	//
-	////websocket实时聊天功能接口
-	//r.GET("/ws",websocket.WsHandlee)
-	//
+
+
+
 	////商品逻辑分组
 	//goods := r.Group("/goods")
 	//{
