@@ -1,4 +1,7 @@
 @import '../common/common.wxss';
+@import "../common/iconfont.wxss";
+
+
 swiper {
     height: 421.5rpx;
 }
@@ -6,7 +9,26 @@ swiper-item image {
     width: 100%;
     height: 100%;
 }
+swiper{
+    width: 90%;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 10rpx;
+}
 
+.dec{
+    position: absolute;
+    width: 100%;
+    height: 290rpx;
+    /* border-radius: 0 0 20rpx 20rpx; */
+    z-index: -1;
+    background-color: #AB956D;
+}
+.swiper-box{
+    /* background-color: #AB956D; */
+    position: relative;
+    background-position-y: -100rpx;
+}
 .select-title,.newgood-title{
     width: 100%;
     padding:30rpx 0;
@@ -29,46 +51,61 @@ swiper-item image {
     height: 100%;
 }
 
+
+
+.picker-view{
+    
+}
+
+
+
+
+
+
+
+
+
+
+
 .newgood{
-    padding: 0 20rpx;
+    padding: 0 10rpx;
+    background-color: white;
 }
-.newgood-box{
-}
-.newgood-box .newgood-list {
+
+.newgood-list {
     display: block;
-    /* width: 325rpx; */
-    /* height: 325rpx; */
     margin:0 0rpx 20rpx 0;
-    border-radius: 10px;
-    text-align: center;
+    border-radius: 4px;
+    overflow: hidden;
     background: #f5f6f5;
 }
-.newgood-box .newgood-list navigator{
-    display:flex;    
-    justify-content: space-around;
-    align-items: center;
-}   
-.newgood-box .newgood-list navigator view{
-    /* height: 100%; */
+
+.nav image{
+    width:250rpx;
+    height:250rpx;
 }
-.newgood-box .newgood-list image{
-    width: 175rpx;
-    height: 175rpx;
-    margin: 20rpx 0 10rpx;
-}
-.newgood-box .newgood-list .newgood-text{
+.newgood-text{
     font-size: 32rpx;
     text-align: left;
 }
-.nav-left image{
-    border-radius: 15rpx;
+.nav{
+    overflow: hidden;
+
 }
+.nav>view{
+    float: left;    
+}
+.nav-left{
+    height: 250rpx;
+}
+
 .nav-right{
     position: relative;
-    height:175rpx;
-    width: 500rpx;
+    height:220rpx;
+    width: 60%;
+    padding: 15rpx;
 }
-.good-name{
+.good-name{      /*只显示两行+超出部分省略号*/
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow:hidden;
@@ -76,18 +113,36 @@ swiper-item image {
     -webkit-line-clamp: 2;    /* white-space:nowrap;   */
 }
 .good-peice{
-    color:rgba(171,149,109,0.5)
+    color:rosybrown;
+    /* margin-top: 20rpx; */
+}
+.good-hot{
+    position: absolute;
+    bottom: 40rpx;
+    font-size: 20rpx;
+    color: rosybrown;
+    display: flex;
 }
 .newgood-text-user{
     width: 100%;
     position: absolute;
     bottom: 0rpx;
     display: flex;
+    overflow: hidden;
+    align-items: center;
     font-size: 24rpx;
     color: gray
 }
+.newgood-text-user icon{
+    /* font-size: 16px; */
+    position: relative;
+    top:-10rpx;
+}
 .newgood-text-user view{
     margin-right: 20rpx;
+}
+.newgood-text-school{
+    color: rosybrown;
 }
 .botton{
     height: 60rpx;

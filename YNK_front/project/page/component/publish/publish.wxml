@@ -77,7 +77,7 @@
 
   
   <view class="submit">
-    <button class="submit-btn" bindtap="submit"> 
+    <button class="submit-btn" bindtap="submitForm"> 
       发布
     </button>
   </view>

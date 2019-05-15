@@ -1,1 +1,5 @@
-{}
+{
+    "usingComponents": {
+        "template-picker":"../common/components/picker/picker"
+      }
+}

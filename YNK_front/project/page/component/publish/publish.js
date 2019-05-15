@@ -18,9 +18,10 @@ Component({
    * 组件的初始数据
    */
   data: {
-    good_name:'',
+    good_name:'',//名字
+    category_id:'',//分类id
     quickinput_index:-1,
-    textarea_value:"",
+    textarea_value:"",//详细描述
     category: ["其他","交通工具","电子产品","衣物鞋子","书本教材"],//可选的物品种类
     objectArray: [
       {
@@ -108,41 +109,105 @@ Component({
     submitForm(e) {
       const good_name = this.data.good_name
       const textarea_value = this.data.textarea_value
-  
-      if (good_name && textarea_value) {
+      const category_id = this.data.index
+      const price = this.data.price;
+      var good_id=1;//后台传回来的
+      const _this=this
+
+
+
+      // good_name && textarea_value
+      if (1) {
         wx.showLoading({
-          title: '发布...',
+          title: '发布中...',
           mask: true
         })
-  
+          
+        wx.uploadFile({
+          url:"http://www.schoolbuy.online.:80/pub",
+          filePath: _this.data.images[0],
+          name: 'gphoto',
+          formData:{
+            name:good_name,
+            user_id:"12345",
+            name:good_name,
+            category_id:category_id,
+            price:price,
+            discribe:textarea_value
+          },
+          success:(res)=>{
+            // console.log("返回good_id的res.data："+ JSON.parse(res.data).ID)
+            good_id=JSON.parse(res.data).ID;
+            console.log("good_id:"+good_id)
+            
+            const arr = _this.data.images.map( (path,index) => {
+              // if(index==0){
+              //   return wxUploadFile({
+              //     url: "http://www.schoolbuy.online.:80/pub",
+              //     filePath: path,
+              //     name: 'gphoto',
+              //     formData:{
+              //       name:good_name,
+              //       category_id:category_id,
+              //       user_id:"123",
+              //       price:price,
+              //       discribe:'textarea_value'
+              //     }
+              //   })
+              // }else{
+              //   return wxUploadFile({
+              //     url: "http://www.schoolbuy.online.:80/pub",
+              //     filePath: path,
+              //     name: 'image',
+              //     formData:{
+              //       name:good_name,
+              //       user_id:"123",
+              //     }
+              //   })
+              // }
+              if(index>0){
+                return wxUploadFile({
+                  url: "http://www.schoolbuy.online.:80/photo",
+                  filePath: path,
+                  name: 'image',
+                  formData:{
+                    name:good_name,
+                    user_id:"12345",
+                    goods_id:good_id
+                  }
+                })
+              }
+            })
+            Promise.all(arr).then(res => {
+                // 上传成功，获取这些图片在服务器上的地址，组成一个数组
+                // console.log("发布商品res:"+ JSON.stringify(res))
+                // return res.map(item => JSON.parse(item.data).url)
+              }).catch(err => {
+                console.log(">>>>error:", err)
+              }).then(res => {
+                // 发布成功，转到刚才发布的物品页
+                wx.redirectTo({ url: '../index' }) 
+              }).then(() => {
+                wx.hideLoading()
+              })
+          }
+        })
+
         // 将选择的图片组成一个Promise数组，准备进行并行上传
-        const arr = this.data.images.map(path => {
-          return wxUploadFile({
-            url: "",
-            filePath: path,
-            name: 'qimg',
-          })
-        })
-  
+       
         // 开始并行上传图片
-        Promise.all(arr).then(res => {
-          // 上传成功，获取这些图片在服务器上的地址，组成一个数组
-          return res.map(item => JSON.parse(item.data).url)
-        }).catch(err => {
-          console.log(">>>> upload images error:", err)
-        }).then(urls => {
-          // 调用保存问题的后端接口
-          // return createQuestion({
-          //   title: title,
-          //   content: content,
-          //   images: urls
-          // })
-        }).then(res => {
-          // 发布成功，转到刚才发布的物品页
-          wx.redirectTo({ url: 'pageE' }) 
-        }).then(() => {
-          wx.hideLoading()
-        })
+        // Promise.all(arr).then(res => {
+        //   // 上传成功，获取这些图片在服务器上的地址，组成一个数组
+        //   console.log("发布商品res:"+ JSON.stringify(res))
+        //   return res.map(item => JSON.parse(item.data).url)
+        // }).catch(err => {
+        //   console.log(">>>>error:", err)
+        // }).then(res => {
+        //   // 发布成功，转到刚才发布的物品页
+        //   wx.redirectTo({ url: '../index' }) 
+        // }).then(() => {
+        //   wx.hideLoading()
+        // })
       }
     }
   /**

@@ -1,3 +1,10 @@
+<view class="search">
+    <input type="search" name="" id=""></input>
+    <button type="default"><icon class="" type="search" size="18" color="white">
+    </icon>
+      </button>
+</view>
+  
 <view class="main">
     <view class="categroy-left">
         <view wx:for="{{category}}" wx:key="index" data-id="{{item.id}}"                     data-index="{{index}}"

@@ -1,41 +1,38 @@
 <view class="main">
+    <navigator class="cart" open-type="switchTab" url="../cart/cart">
+        <view class="carts-icon {{scaleCart?'on':''}}">
+            <!-- <image src="/image/cart2.png"></image> -->
+            <icon class="iconfont icon-qicheqianlian-1-copy"></icon>
+            <text class="carts-icon-num" wx:if="{{hasCarts}}">{{hasCarts>0?1:0}}</text>
+        </view>
+    </navigator>
     <view class="goods-box">
         <image src="{{goods.image}}" class="goods-thumb"></image>
-        
-        <navigator open-type="switchTab" url="../cart/cart">
-            <view class="carts-icon {{scaleCart?'on':''}}">
-                <image src="/image/cart2.png"></image>
-                <text class="carts-icon-num" wx:if="{{hasCarts}}">{{totalNum}}</text>
-            </view>
-        </navigator>
-        
-        <view class="goods-operation">
-            <view class="operation-leavemsg" >
-                <!-- 留言 -->
-                <text class="goods-operation-leavemsg"bindtap="">留言 </text>
-                <text class="goods-operation-add" bindtap="">+</text>
-            </view>
-            <view class="operation-to-cart" hover-class="none" hover-stop-propagation="false">
-                <text class="goods-to-cart" bindtap="addToCart">加入购物车</text>
-                <image src="/image/cart1.png"  class="goods-cart-img" bindtap="addToCart"></image>    
-            </view>
-              
-            
-
-        </view>
-        <image wx:if="{{show}}" src="/image/cart1.png" class="to-carts-icon"></image>
-        <view class="goods-stock">{{goods.stock}}</view>
+        <!-- <view class="goods-stock">{{goods.stock}}</view> -->
         <view class="goods-title">{{goods.title}}</view>
         <view class="goods-price">￥ {{goods.price}}</view>
+        <image wx:if="{{show}}" src="/image/cart1.png" class="to-carts-icon"></image>
     </view>
     <view class="goods-tab-box">
-        <view class="goods-tab-nav {{curIndex === 0 ?'on':''}}" bindtap="bindTap" data-index="0">商品详情</view>
-        <view class="goods-tab-nav {{curIndex === 1 ?'on':''}}" bindtap="bindTap" data-index="1">产品参数</view>
-        <view class="goods-tab-nav {{curIndex === 2 ?'on':''}}" bindtap="bindTap" data-index="2">售后保障</view>
+        <view class="goods-tab-nav" bindtap="bindTap" data-index="0">
+            商品详情
+        </view>
         <view class="goods-content">
-            <view wx:if="{{curIndex === 0}}">{{goods.detail}}</view>
-            <view wx:if="{{curIndex === 1}}">{{goods.parameter}}</view>
-            <view wx:if="{{curIndex === 2}}">{{goods.service}}</view>
+            <!-- <view wx:if="{{curIndex === 0}}">{{goods.detail}}</view> -->
+            <view >
+                asdasdasdasdasd
+商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情
+            </view>
+        </view>
+    </view>
+    <view class="goods-operation">
+       
+        <view class="operation-to-cart opera-item" hover-class="none" hover-stop-propagation="false">
+            <text class="goods-to-cart" bindtap="addToCart">立即购买</text>
+            <icon class="iconfont icon-goumai1"></icon>
+        </view>
+        <view class="operation-to-cart opera-item" bindtap="addToCart">
+            <icon class="iconfont icon-qicheqianlian-1-copy"></icon>
         </view>
     </view>
 </view>

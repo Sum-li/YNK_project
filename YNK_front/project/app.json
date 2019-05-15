@@ -9,13 +9,14 @@
     "page/component/details/details",
     "page/component/list/list",
     "page/component/publish/publish",
-    "page/component/chat/chat"
+    "page/component/chat/chat",
+    "page/component/chat-list/chat-list"
   ],
   "window": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "零食商贩",
     "navigationBarBackgroundColor": "#AB956D",
-    "backgroundColor": "#eeeeee",
+    "backgroundColor": "#AB956D",
     "enablePullDownRefresh": true
   },
   "tabBar": {

@@ -1,15 +1,24 @@
 <!-- 首页 -->
-
+<wxs module="beautify" src="../../util/beautify.wxs" />
 <view class="main">
-    <swiper indicator-dots="true" autoplay="true" interval="{{interval}}" duration="{{duration}}" circular="true">
-        <block wx:for="{{imgUrls}}" wx:key="{{index}}">
-            <swiper-item>
-                <image src="{{item}}" class="slide-image" width="100%"/>
-            </swiper-item>
-        </block>
-    </swiper>
+    <view class="swiper-box" hover-class="none" hover-stop-propagation="false">
+        <view class="dec" hover-class="none" hover-stop-propagation="false">
+            
+        </view>
+        <swiper indicator-dots="true" autoplay="true" interval="3000" duration="500" circular="true">
+            <block wx:for="{{imgUrls}}" wx:key="{{index}}">
+                <swiper-item>
+                    <image src="{{item}}" class="slide-image" width="100%" mode="aspectFill"/>
+                </swiper-item>
+            </block>
+        </swiper>
+        
+          
+    </view>
     <view class="selected">
-        <view class="select-title"><text>精选主题</text></view>
+        <view class="select-title">
+            <text>精选主题</text>
+        </view>
         <view class="select-top">
             <view class="select-top-small">
                 <navigator url="list/list">
@@ -28,38 +37,62 @@
             </navigator>
         </view>
     </view>
+    
+    <view class="" hover-class="none" hover-stop-propagation="false">
+        <template-picker >
+            
+        </template-picker>
+    </view>
+      
+
+
     <view class="newgood">
-        <view class="newgood-title"><text>最近新品</text></view>
+        <view class="newgood-title">
+            <text>最近新品</text>
+        </view>
         <view class="newgood-box">
-            <view class="newgood-list" wx:for="{{good_list}}">
+            <view class="newgood-list" wx:for="{{good_list}}" wx:key="key">
                 <navigator class="nav" url="details/details">
                     <view class="nav-left" hover-class="none" hover-stop-propagation="false">
-                        <image src="http://schoolbuy.online.:80/static/3.jpg"></image>
+                        <image mode='aspectFill' src="{{item.gphoto}}"></image>
                     </view>
                     <view class="nav-right" hover-class="none" hover-stop-propagation="false">
-                        <view class="newgood-text good-name" ><text>{{item.name}}</text></view>
-                        <view class="newgood-text good-peice">
-                            <text class="">¥</text>
-                            <text>{{item.price}}</text>
+                        <view class="newgood-text good-name">
+                            <text>{{item.name}}</text>
                         </view>
+                        <view class="newgood-text good-peice">
+                            <text class="">¥{{item.price}}</text>
+                        </view>
+                        <view class="newgood-text good-hot" hover-class="none" hover-stop-propagation="false">
+                            <!-- <text class="" selectable="false" space="false" decode="false">
+                                热度
+                            </text> -->
+                            <icon class="iconfont icon-redu"  size="23" color="red">
+                            </icon>
+                            <text class="" selectable="false" space="false" decode="false">
+                               99 
+                            </text>
+                              
+                        </view>
+                          
                         <view class="newgood-text-user">
-                            <view class="newgood-text-school"><text>{{item.school}}</text></view>
-                            <view class="newgood-text-name" ><text>{{item.user_name}}</text></view>
-                            <view class="newgood-text-time" data-time='{{item.pub_time}}'><text>三天前 发布</text></view>
-
-                        </view>                                          
+                            <view class="newgood-text-school">
+                                <text>{{item.school}}</text>
+                            </view>
+                            <icon class="iconfont icon-renzheng-"></icon>
+                            <view class="newgood-text-name">
+                                <text>{{item.user_name}}</text>
+                            </view>
+                            <view class="newgood-text-time" data-time='{{item.pub_time}}'>
+                                <text>{{beautify.beautify_time(item.pub_time)}}发布</text>
+                            </view>
+                        </view>
                     </view>
-                        
-                    
                 </navigator>
             </view>
-            
         </view>
     </view>
     <view class="bottom" wx:if="{{loading}}">
-        <text class="loading-text" selectable="false" space="false" decode="false">
-            加载中
-        </text>
-          
+        <text class="loading-text" selectable="false" space="false" decode="false">加载中</text>
     </view>
 </view>

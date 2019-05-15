@@ -1,9 +1,10 @@
+var app = getApp();
+
+
 Page({
     data: {
         category: [
-            {name:'电子产品',id:'guowei'},
-            {name:'衣服裙子',id:'shucai'},
-            {name:'零食饮料',id:'chaohuo'},
+            
             {name:'点心',id:'dianxin'},
             {name:'粗茶',id:'cucha'},
             {name:'淡饭',id:'danfan'}
@@ -15,10 +16,15 @@ Page({
     },
     onReady(){
         var self = this;
+        console.log(app.globalData)
+        self.setData({
+            category:app.globalData.category
+        })
+        
         wx.request({
             url:'http://www.gdfengshuo.com/api/wx/cate-detail.txt',
             success(res){
-                console.log(res.data)
+                // console.log(res.data)
                 self.setData({
                     detail : res.data
                 })

@@ -10,7 +10,7 @@
 
 Page({
   data: {
-    socketOpen:false,
+    socketOpen: false,
     message_list: [{
         myself: 0,
         head_img_url: 'https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0',
@@ -39,68 +39,94 @@ Page({
     },
     toView: ''
   },
-  onLoad: function(options) {
-    var _this=this;
+  onLoad: function (options) {
+    var _this = this;
     var self = this;
     console.log("将要连接websocket服务器。");
     wx.connectSocket({
-        url: 'ws://www.schoolbuy.online.:80/ws'
+      url: 'ws://www.schoolbuy.online.:800/ws' + "?user_id=21",
+      success: function (res) {
+        console.log(res)
+      }
     });
 
-    wx.onSocketOpen(function(res) {
-        console.log("连接websocket服务器成功。"+res);
-        self.setData({
-            // placeholderText:"连接服务器成功，请输入姓名。",
-            socketOpen:true
-        });
+    wx.onSocketOpen(function (res) {
+      console.log("连接websocket服务器成功。" + res);
+      self.setData({
+        // placeholderText:"连接服务器成功，请输入姓名。",
+        socketOpen: true
+      });
     });
+    wx.onSocketClose(function (res) {
+      console.log('WebSocket 已关闭！')
+    })
+    wx.onSocketMessage(function (res) {
+      console.log('收到服务器返回内容：' + (res.data));
+      var rec_content = res.data.context;
+      var message_list=_this.data.message_list
+      var message_img = {
+        myself: 0,
+        head_img_url: 'https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0',
+        msg_type: 'image',
+        content: 'scroll-into-view，默认不带动画，因此加上scroll-with-animation="true"属性，它的默认值是false的',
+        create_time: '2018-07-31 14:00:19'
+      };
 
-    wx.onSocketMessage(function(res) {
-        console.log('收到服务器返回内容：' + (res.data));
-        if(res =="收到"){  //我方发送出去消息成功
-          return
-        }
-        // 以下：收到消息时的
-        // var message= res.data;
-        var message = {
-          myself: 0,
-          head_img_url: 'https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0',
-          'msg_type': 'text',
-          'content': 'scroll-into-view，默认不带动画，因此加上scroll-with-animation="true"属性，它的默认值是false的',
-          create_time: '2018-07-31 14:00:19'
-        };
+      if (1) {
+        message_img.content =  JSON.parse (res.data).context
+        message_list.push(message_img);
 
-        var message_list = _this.data.message_list;
-        message_list.push(message);
         _this.setData({
           message_list: message_list,
-          content: '' // 清空输入框文本
+          // content: '' // 清空输入框文本
         })
         _this.scrollToBottom();
-        
-        // var newArray = self.data.message_list.push(newMessage);
-        // message_list.push(message);
+        console.log(message_img)
+      }
 
-        // self.setData({
-        //   message_list:newArray,
-        //     // placeholderText:"请输入信息"
-        // });
+      if (res == "收到") {
+        return
+      }
+      // var message= res.data;
+      var message = {
+        myself: 0,
+        head_img_url: 'https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0',
+        'msg_type': 'text',
+        'content': 'scroll-into-view，默认不带动画，因此加上scroll-with-animation="true"属性，它的默认值是false的',
+        create_time: '2018-07-31 14:00:19'
+      };
+
+      var message_list = _this.data.message_list;
+      message_list.push(message);
+      _this.setData({
+        message_list: message_list,
+        content: '' // 清空输入框文本
+      })
+      _this.scrollToBottom();
+
+      // var newArray = self.data.message_list.push(newMessage);
+      // message_list.push(message);
+
+      // self.setData({
+      //   message_list:newArray,
+      //     // placeholderText:"请输入信息"
+      // });
     });
   },
-  sendSocketMessage:function (msg,callback){
-      if (this.data.socketOpen) {
-          wx.sendSocketMessage({
-              data:msg,
-              success:callback
-          })
-      }
+  sendSocketMessage: function (msg, callback) {
+    if (this.data.socketOpen) {
+      wx.sendSocketMessage({
+        data: msg,
+        success: callback
+      })
+    }
   },
-  onUnload: function() {
-      wx.closeSocket();
+  onUnload: function () {
+    wx.closeSocket();
   },
   reply: function (e) {
     var content = e.detail.value;
-    var _this=this;
+    var _this = this;
     if (content == '') {
       wx.showToast({
         title: '总要写点什么吧'
@@ -115,13 +141,13 @@ Page({
       'content': content,
       create_time: '2018-07-31 21:04:31'
     }
-    var test={
-      send_id:111,
-      receive_id :222,
-      context:'今天天气不错'
+    var test = {
+      send_id: 21,
+      receive_id: 222,
+      context: '今天天气不错'
     }
-    this.sendSocketMessage( JSON.stringify(test) ,function(){
-      console.log("发送："+JSON.stringify(test))
+    this.sendSocketMessage(JSON.stringify(test), function () {
+      console.log("发送：" + JSON.stringify(test))
       message_list.push(message);
       _this.setData({
         message_list: message_list,
@@ -129,8 +155,8 @@ Page({
       })
       _this.scrollToBottom();
     });
-    
-    
+
+
   },
   chooseImage: function () {
     // 选择图片供上传
@@ -138,12 +164,12 @@ Page({
       count: 9,
       sizeType: ['compressed'],
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-      success:  res => {
+      success: res => {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         var tempFilePaths = res.tempFilePaths;
         // console.log(tempFilePaths);
         // 遍历多图
-        tempFilePaths.forEach( (tempFilePath) => {
+        tempFilePaths.forEach((tempFilePath) => {
           this.upload(tempFilePath, 'image');
         });
       }
@@ -171,68 +197,68 @@ Page({
       mode: !this.data.mode
     });
   },
-  record: function () {
-    // 录音事件
-    wx.startRecord({
-      success: function (res) {
-        if (!(this.data.cancel)) {
-          this.upload(res.tempFilePath, 'voice');
-        }
-      },
-      fail: function (res) {
-        console.log(res);
-        //录音失败
+  // record: function () {
+  //   // 录音事件
+  //   wx.startRecord({
+  //     success: function (res) {
+  //       if (!(this.data.cancel)) {
+  //         this.upload(res.tempFilePath, 'voice');
+  //       }
+  //     },
+  //     fail: function (res) {
+  //       console.log(res);
+  //       //录音失败
 
-      },
-      complete: function (res) {
-        console.log(res);
+  //     },
+  //     complete: function (res) {
+  //       console.log(res);
 
-      }
-    })
-  },
-  stop: function () {
-    wx.stopRecord();
-  },
-  touchStart: function (e) {
-    // 触摸开始
-    var startY = e.touches[0].clientY;
-    // 记录初始Y值
-    this.setData({
-      startY: startY,
-      status: this.data.state.pressed
-    });
-  },
-  touchMove: function (e) {
-    // 触摸移动
-    var movedY = e.touches[0].clientY;
-    var distance = this.data.startY - movedY;
-    // console.log(distance);
-    // 距离超过50，取消发送
-    this.setData({
-      status: distance > 50 ? this.data.state.cancel : this.data.state.pressed
-    });
-  },
-  touchEnd: function (e) {
-    // 触摸结束
-    var endY = e.changedTouches[0].clientY;
-    var distance = this.data.startY - endY;
-    // console.log(distance);
-    // 距离超过50，取消发送
-    this.setData({
-      cancel: distance > 50 ? true : false,
-      status: this.data.state.normal
-    });
-    // 不论如何，都结束录音
-    this.stop();
-  },
+  //     }
+  //   })
+  // },
+  // stop: function () {
+  //   wx.stopRecord();
+  // },
+  // touchStart: function (e) {
+  //   // 触摸开始
+  //   var startY = e.touches[0].clientY;
+  //   // 记录初始Y值
+  //   this.setData({
+  //     startY: startY,
+  //     status: this.data.state.pressed
+  //   });
+  // },
+  // touchMove: function (e) {
+  //   // 触摸移动
+  //   var movedY = e.touches[0].clientY;
+  //   var distance = this.data.startY - movedY;
+  //   // console.log(distance);
+  //   // 距离超过50，取消发送
+  //   this.setData({
+  //     status: distance > 50 ? this.data.state.cancel : this.data.state.pressed
+  //   });
+  // },
+  // touchEnd: function (e) {
+  //   // 触摸结束
+  //   var endY = e.changedTouches[0].clientY;
+  //   var distance = this.data.startY - endY;
+  //   // console.log(distance);
+  //   // 距离超过50，取消发送
+  //   this.setData({
+  //     cancel: distance > 50 ? true : false,
+  //     status: this.data.state.normal
+  //   });
+  //   // 不论如何，都结束录音
+  //   this.stop();
+  // },
   upload: function (tempFilePath, type) {
-    var _this=this
+    var _this = this
 
     // 开始上传
     wx.showLoading({
       title: '发送中'
     });
-  
+
     // 语音与图片通用上传方法
     var formData = {
       third_session: wx.getStorageSync('third_session'),
@@ -240,7 +266,7 @@ Page({
       fans_id: this.data.to_uid,
       msg_type: type,
     };
-    // console.log(tempFilePath);
+    console.log(tempFilePath);
     var message_list = this.data.message_list;
     var message = {
       myself: 1,
@@ -249,14 +275,20 @@ Page({
       'content': tempFilePath,
       create_time: '2018-07-31 17:20:39'
     };
-    this.sendSocketMessage(JSON.stringify(message),function(){
-      message_list.push(message);
-      console.log(11111111)
 
-      _this.setData({
-        message_list: message_list,
-        content: '' // 清空输入框文本
-      })
+    var test = {
+      send_id: 21,
+      receive_id: 111,
+      context: tempFilePath
+    }
+    this.sendSocketMessage(JSON.stringify(test), function (res) {
+      // message.content = res.data.context
+      // message_list.push(message);
+
+      // _this.setData({
+      //   message_list: message_list,
+      //   content: '' // 清空输入框文本
+      // })
       _this.scrollToBottom();
     });
 
@@ -268,7 +300,7 @@ Page({
     // setTimeout(() => {
     //   wx.hideLoading();
     // }, 500)
-      wx.hideLoading();
+    wx.hideLoading();
 
   },
   scrollToBottom: function () {
@@ -276,12 +308,11 @@ Page({
       toView: 'row_' + (this.data.message_list.length - 1)
     });
   },
-  
+  closeSocket: function () {
+    wx.closeSocket({
+      success: function () {
+        console.log("close success")
+      }
+    })
+  }
 })
-
-// create an ArrayBuffer with a size in bytes
-var buffer = new ArrayBuffer(8);
-buffer.JSON
-
-console.log(buffer.byteLength);
-// expected output: 8

@@ -14,7 +14,7 @@ Page({
     num: 1,
     totalNum: 0,
     hasCarts: false,
-    curIndex: 0,
+    // curIndex: 0,
     show: false,
     scaleCart: false
   },

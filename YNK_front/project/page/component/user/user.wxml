@@ -1,22 +1,46 @@
+<!-- 我的 页 -->
+
 <view class="main">
     <view class="header">
-        <image src="{{thumb}}" class="thumb"></image>
-        <text class="nickname">{{nickname}}</text>
+        <view class="thumb" hover-class="none" hover-stop-propagation="false">
+                      <open-data class="avatar" type="userAvatarUrl"></open-data>
+
+        </view>
+        <open-data class="name" type="userNickName"></open-data>
+
+        <!-- <image src="{{thumb}}" class="thumb"></image> -->
+        <!-- <text class="nickname">{{nickname}}</text> -->
         <text class="about">关于我们</text>
     </view>
     <view class="deals-tab-box">
         <view class="deals-tab-nav on" bindtap="to" data-index="0">
-            <image class="deals-icon" src="/image/cart2.png" />
+            <icon class="iconfont icon-shoucang"></icon>
             <text class="" selectable="false" space="false" decode="false">
-                想要
+                想要的
             </text>
         </view>
-        <view class="deals-tab-nav on" bindtap="to" data-index="1">已发布</view>
-        <view class="deals-tab-nav on" bindtap="to" data-index="2">订单</view>
+        <view class="deals-tab-nav " bindtap="to" data-index="1">
+            <icon class="iconfont icon-fabu"></icon>
+            <text class="" selectable="false" space="false" decode="false">
+                发布的
+            </text>
+        </view>
+        <view class="deals-tab-nav " bindtap="to" data-index="2">
+            <icon class="iconfont icon-fabu"></icon>
+            <text class="" selectable="false" space="false" decode="false">
+                卖出的
+            </text>
+        </view>
+        <view class="deals-tab-nav " bindtap="to" data-index="3">
+            <icon class="iconfont icon-fabu1"></icon>
+            <text class="" selectable="false" space="false" decode="false">
+                买到的
+            </text>
+        </view>
     </view>
     <view class="address-box">
         <view class="address-manage">
-            <navigator url="/page/component/address/address">地址管理</navigator>
+            <navigator url="/page/component/address/address">信息管理</navigator>
         </view>
         <view wx:if="{{hasAddress}}" class="address-list">
             <view>{{address.name}}</view>
