@@ -1,8 +1,13 @@
 package main
 
-import "YNK_cms/src/server"
+import (
+	"YNK_cms/src/server"
+	"fmt"
+)
 
 func main() {
-	server.Startserver()
+	fmt.Println("web服务器开始")
+	go server.Socketserver()
+	server.Apiserver()
 	//models.Createinit()
 }

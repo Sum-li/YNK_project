@@ -37,15 +37,13 @@ func (h *Hub) run() {
 				close(client.send)
 			}
 		case message := <-h.sendhub:
-			if client,ok := h.clients[message.ReceiveID]; ok {
+			if client,ok := h.clients[message.SendID]; ok {
 				select {
 				case client.send <- message:
 				default:
 					close(client.send)
 					delete(h.clients, client.id)
 				}
-			} else {
-				//
 			}
 		}
 	}

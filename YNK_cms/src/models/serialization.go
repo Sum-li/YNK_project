@@ -2,6 +2,8 @@ package models
 
 import "time"
 
+
+//商品
 type GoodSer struct {
 	Price uint		`json:"price"`
 	Name string		`json:"name";orm:"Scan:name"`
@@ -13,19 +15,6 @@ type GoodSer struct {
 	StudentNumber string	`json:"student_number"`
 }
 
-//func (goods *Goods) Serialization() GoodSer {
-//	var g GoodSer = GoodSer{
-//		Price:  goods.Price,
-//		Name:   goods.Name,
-//		Gphoto: goods.Gphoto,
-//		GoodID: goods.ID,
-//		Pubtime:goods.CreatedAt,
-//	}
-//	db := GetDB()
-//	defer db.Close()
-//	db.Select("")
-//	return g
-//}
 
 //分类
 type CategorySer struct {
@@ -33,10 +22,3 @@ type CategorySer struct {
 	ID uint		`json:"id"`
 }
 
-//func (c *Category) Serialization() CategorySer {
-//	res := CategorySer{
-//		Name:c.Name,
-//		ID:c.ID,
-//	}
-//	return res
-//}

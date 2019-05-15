@@ -5,22 +5,23 @@ import (
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+	"time"
 )
 
 //
-//const (
+const (
 //	// Time allowed to write a message to the peer.
-//	writeWait = 10 * time.Second
+	writeWait = 10 * time.Second
 //
 //	//Time allowed to read the next pong message from the peer.
-//	pongWait = 60 * time.Second
+	pongWait = 60 * time.Second
 //
 //	//Send pings to peer with this period. Must be less than pongWait.
-//	pingPeriod = (pongWait * 9) / 10
+	pingPeriod = (pongWait * 9) / 10
 //
 //	// Maximum message size allowed from peer.
 //	//maxMessageSize = 512
-//)
+)
 
 //var (
 //	newline = []byte{'\n'}
@@ -97,15 +98,15 @@ func (c *Client) readPump() {
 //application ensures that there is at most one writer to a connection by
 //executing all writes from this goroutine.
 func (c *Client) writePump() {
-	//ticker := time.NewTicker(pingPeriod)
+	ticker := time.NewTicker(pingPeriod)
 	defer func() {
-		//ticker.Stop()
+		ticker.Stop()
 		c.hub.unregister <- c
 		c.conn.Close()
 	}()
 	for {
-		for i := 0; i < len(c.send); i++ {
-			message, ok := <-c.send
+		select {
+		case message,ok := <-c.send:
 			if !ok {
 				return
 			}
@@ -114,6 +115,24 @@ func (c *Client) writePump() {
 				return
 			}
 			if err := c.conn.WriteMessage(message.messagetype,data);err !=nil{
+				return
+			}
+			for i := 0; i < len(c.send); i++ {
+				message, ok := <-c.send
+				if !ok {
+					return
+				}
+				data,err := json.Marshal(*message)
+				if err != nil {
+					return
+				}
+				if err := c.conn.WriteMessage(message.messagetype,data);err !=nil{
+					return
+				}
+			}
+		case <-ticker.C:
+			_ = c.conn.SetWriteDeadline(time.Now().Add(writeWait))
+			if err := c.conn.WriteMessage(websocket.PingMessage, nil); err != nil {
 				return
 			}
 		}
