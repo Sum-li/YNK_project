@@ -2,18 +2,14 @@
 <wxs module="beautify" src="../../util/beautify.wxs" />
 <view class="main">
     <view class="swiper-box" hover-class="none" hover-stop-propagation="false">
-        <view class="dec" hover-class="none" hover-stop-propagation="false">
-            
-        </view>
+        <view class="dec" hover-class="none" hover-stop-propagation="false"></view>
         <swiper indicator-dots="true" autoplay="true" interval="3000" duration="500" circular="true">
             <block wx:for="{{imgUrls}}" wx:key="{{index}}">
                 <swiper-item>
-                    <image src="{{item}}" class="slide-image" width="100%" mode="aspectFill"/>
+                    <image src="{{item}}" class="slide-image" width="100%" mode="aspectFill" />
                 </swiper-item>
             </block>
         </swiper>
-        
-          
     </view>
     <view class="selected">
         <view class="select-title">
@@ -37,19 +33,38 @@
             </navigator>
         </view>
     </view>
-    
-    <view class="" hover-class="none" hover-stop-propagation="false">
-        <template-picker >
-            
-        </template-picker>
-    </view>
-      
+    <view class="orderBy" hover-class="none" hover-stop-propagation="false">
+        <view class='menu'>
+            <view class='menu-list'>
+                <view class='menu-nav' data-hi="{{ idx }}" bindtap="menuClick">
+                    <text class='menu-text'>综合排序</text>
+                    <icon class="iconfont icon-right {{menu_direction[0]==1?'icon-down':''}}" >
+                        
+                    </icon>
 
-
-    <view class="newgood">
-        <view class="newgood-title">
-            <text>最近新品</text>
+                </view>
+                <view class='menu-nav' data-hi="{{ idx }}" bindtap="menuClick">
+                    <text class='menu-text'>附近</text>
+                    <icon class="iconfont icon-right {{menu_direction[1]==1?'icon-down':''}} " >
+                        
+                    </icon>
+                </view>
+                <view class='menu-nav' data-hi="{{ idx }}" bindtap="menuClick">
+                    <text class='menu-text'>热度</text>
+                </view>
+                <view class='menu-nav' data-hi="{{ idx }}" bindtap="menuClick">
+                    <text class='menu-text'>筛选</text>
+                    <icon class="iconfont icon-right {{menu_direction[2]==1?'icon-down':''}}">
+                        
+                    </icon>
+                </view>
+            </view>
         </view>
+    </view>
+    <view class="newgood">
+        <!-- <view class="newgood-title">
+            <text>最近新品</text>
+        </view> -->
         <view class="newgood-box">
             <view class="newgood-list" wx:for="{{good_list}}" wx:key="key">
                 <navigator class="nav" url="details/details">
@@ -67,14 +82,9 @@
                             <!-- <text class="" selectable="false" space="false" decode="false">
                                 热度
                             </text> -->
-                            <icon class="iconfont icon-redu"  size="23" color="red">
-                            </icon>
-                            <text class="" selectable="false" space="false" decode="false">
-                               99 
-                            </text>
-                              
+                            <icon class="iconfont icon-redu" size="23" color="red"></icon>
+                            <text class="" selectable="false" space="false" decode="false">99</text>
                         </view>
-                          
                         <view class="newgood-text-user">
                             <view class="newgood-text-school">
                                 <text>{{item.school}}</text>

@@ -1,35 +1,90 @@
 @import '../../common/common.wxss';
 @import "../../common/iconfont.wxss";
 
+page{
+    background-color: #f5f6f5;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    
+}
+.text-placeholder{
+    color: rgb(143, 143, 143);
+    font-size: 0.8rem;
+    /* position: absolute; */
+    /* right: 0rpx; */
+  }
+button::after{border:0}
+.div-line{
+    background: #E0E3DA;
+    width: 91%;
+    margin: 0 auto;
+    height: 3rpx;
+  }
+
+
 .header{
-    /* display: flex; */
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
     position: relative;
-    height: 160rpx;
-    line-height: 100rpx;
-    /* border-bottom: 20rpx solid #ededed; */
-    padding:30rpx 30rpx 30rpx 150rpx; 
+    height: 250rpx;
+    line-height: 90rpx;
+    border-bottom: 20rpx solid #ededed;
+    padding:30rpx; 
     box-sizing: border-box;
-    background: #AB956D;
-    font-size: 28rpx;
-    color: #fff;
+    background: white;
+    font-size: 35rpx;
+    color: black;
 }
-.header .thumb{
-    position: absolute;
-    left: 30rpx;
-    top: 30rpx;
-    width: 100rpx;
-    height: 100rpx;
+.thumb{
+    width: 20%;
+    height: 140rpx;
     overflow: hidden;
-    border-radius: 50% !important;
+    border-radius: 10rpx;
 }
-.header .about{
-    float: right;
+.user-msg{
+    width: 80%;
+    margin-left: 30rpx;
+}
+.other-msg{
+    color: gray;
+}
+.name{
+    font-size: 50rpx;
 }
 
+
+.certific{
+
+}
+
+
+
+
+.deals-all{
+    background: white;
+}
+.deals-btn{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    overflow: hidden;
+    background-color: transparent;
+    border: 0px solid snow;
+    font-size: 0.8rem !important; 
+    padding-top: 10rpx;
+}
+
+.deals-btn-left{
+    font-size: 30rpx;
+}
+.deals-btn-right icon,.deals-btn-right text{
+    font-size: 28rpx;
+}
 .deals-tab-box{
-    border-bottom: 1rpx solid #ededed;
-    width: 90%;
-    margin: 0 auto;
+    border-bottom: 20rpx solid #ededed;
+    padding-bottom: 30rpx;
+    background: white;
 
 }
 .deals-tab-nav{
@@ -39,7 +94,15 @@
     /* line-height: 90rpx; */
     box-sizing: border-box;
     text-align: center;
-    color: #c7c7cb;
+    color: grey;
+}
+.deals-tab-nav icon{
+    display: block;
+    font-size: 30rpx;
+    padding: 14rpx;
+}
+.deals-tab-nav text{
+    font-size: 30rpx;
 }
 .deals-tab-nav.on{
     color: #bcaa8a;
@@ -54,18 +117,30 @@
 }
 
 .address-box{
-    border-bottom: 20rpx solid #ededed;
-    color: #999;
+    /* color: #999; */
     line-height: 90rpx;
     font-size: 28rpx;
+    background: white;
+
 }
-.address-box .address-manage{
+.address-manage ,.certific{
+    display: flex;
+    align-items: center;
+    padding-left: 40rpx;
     position: relative;
     height: 90rpx;
     border-bottom: 1rpx solid #e9e9e9;
-    text-align: center;
+    text-align: left;
 }
-.address-box .address-manage::after{
+.address-box navigator{
+    display: flex;
+    align-items: center;
+}
+.address-box image{
+    width: 50rpx;
+    height: 50rpx;
+}
+.address-box>view::after{
     position: absolute;
     right: 30rpx;
     top: 34rpx;
@@ -87,6 +162,38 @@
 .address-box .address-list view:last-child{
     border-bottom: 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .orders-box{
     color: #999;

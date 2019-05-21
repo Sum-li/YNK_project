@@ -17,19 +17,19 @@ Component({
     // 筛选导航栏数据
     msgList: [{
         key: 1,
-        name: '区域'
+        name: '综合排序'
       },
       {
         key: 2,
-        name: '售价'
+        name: '附近'
       },
       {
         key: 3,
-        name: '房型'
+        name: '热度'
       },
       {
         key: 4,
-        name: '更多'
+        name: '筛选'
       }
     ],
     // 判断导航栏列表是否显示

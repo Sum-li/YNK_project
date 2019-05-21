@@ -1,27 +1,32 @@
-<view class="main">
-    <view wx:if="{{hasList}}">
-        <view class="cart-box">
-            <view class="cart-list" wx:for="{{carts}}" wx:key="{{index}}">
-                <icon wx:if="{{item.selected}}" type="success" color="red" data-index="{{index}}"  class="cart-pro-select" bindtap="selectList"/>
-                <icon wx:else type="circle" class="cart-pro-select" data-index="{{index}}" bindtap="selectList"/>
-                <navigator url="../details/details?id={{item.id}}"><image class="cart-thumb" src="{{item.image}}"></image></navigator>
-                <text class="cart-pro-name">{{item.title}}</text>
-                <text class="cart-pro-price">￥{{item.price}}</text>
-                <view class="cart-count-box">
-                    <text class="cart-count-down" bindtap="minusCount" data-index="{{index}}">-</text>
-                    <text class="cart-count-num">{{item.num}}</text>
-                    <text class="cart-count-add" bindtap="addCount" data-index="{{index}}">+</text>
-                </view>
-                <text class="cart-del" bindtap="deleteList" data-index="{{index}}">×</text>
-            </view>
-        </view>
+<view class="block" >
+    
+</view>
+<view class="" hover-class="none" hover-stop-propagation="false">
+    <input class="search" value="" type="text" placeholder="关键词" maxlength="140" bindinput="" bindconfirm=""> 
+    </input>
+      
+</view>
+  
 
-        <view class="cart-footer">
-            <icon wx:if="{{selectAllStatus}}" type="success_circle" color="#fff" class="total-select" bindtap="selectAll"/>
-            <icon wx:else type="circle" color="#fff" class="total-select" bindtap="selectAll"/>
-            <navigator url="../orders/orders"><view class="order-icon"></view></navigator>
-            <text>全选</text>
-            <text class="cart-toatl-price">￥{{totalPrice}}</text>
+
+<view class="main">
+    <view class="list" wx:if="{{hasList}}">
+        <view class="list-left" >
+            <view wx:for="{{goods}}" wx:if="{{index%2==0}}" wx:key="key" data-goodid="{{item.good_id}}" bind:tap="to" class="good_box" hover-class="touch">
+                <image class="good-gphoto" src="{{item.good_gphoto}}" mode="widthFix" lazy-load="true" />
+                <view class="good-name">
+                    {{item.good_name}}
+                </view>
+            </view>
+              
+        </view>
+        <view class="list-right" >
+            <view wx:for="{{goods}}" wx:if="{{index%2==1}}" wx:key="key" class="good_box" hover-class="touch">
+                <image class="good-gphoto" src="{{item.good_gphoto}}" mode="widthFix" lazy-load="false" />
+                <view class="good-name">
+                    {{item.good_name}}
+                </view>
+            </view>
         </view>
     </view>
     <view wx:else>

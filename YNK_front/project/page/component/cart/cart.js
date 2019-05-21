@@ -1,38 +1,95 @@
 // page/component/new-pages/cart/cart.js
 Page({
   data: {
-    carts:[],               // 购物车列表
-    hasList:false,          // 列表是否有数据
-    totalPrice:0,           // 总价，初始为0
-    selectAllStatus:true    // 全选状态，默认全选
+    hasList:true,          // 列表是否有数据
+    goods:[{
+      good_id:"1",
+      user_id:"1",
+      good_name:"Ipad air2金色 99新",
+      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae0e814eb58405.jpg      ',
+      good_desc:`
+        2017年购入，64g内存，打游戏没问题
+        因换新出手
+      `
+    },{
+      good_id:"1",
+      user_id:"1",
+      good_name:"Ipad air2金色 99新",
+      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae0e814eb58405.jpg      ',
+      good_desc:`
+        2017年购入，64g内存，打游戏没问题
+        因换新出手
+      `
+    },{
+      good_id:"1",
+      user_id:"1",
+      good_name:"Ipad air2金色 99新",
+      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae0e814eb58405.jpg      ',
+      good_desc:`
+        2017年购入，64g内存，打游戏没问题
+        因换新出手
+      `
+    },{
+      good_id:"1",
+      user_id:"1",
+      good_name:"Ipad air2金色 99新",
+      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae0e814eb58405.jpg      ',
+      good_desc:`
+        2017年购入，64g内存，打游戏没问题
+        因换新出手
+      `
+    },{
+      good_id:"1",
+      user_id:"1",
+      good_name:"漂亮的小裙子 m码",
+      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae119398f76026.jpg',
+      good_desc:`
+        2017年购入，64g内存，打游戏没问题
+        因换新出手
+      `
+    },{
+      good_id:"1",
+      user_id:"1",
+      good_name:"三只松鼠大礼包 原价158，现礼包 原价158，现礼包 原价158，现在只要88！",
+      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae119565d87811.jpg',
+      good_desc:`
+        2017年购入，64g内存，打游戏没问题
+        因换新出手
+      `
+    },{
+      good_id:"1",
+      user_id:"1",
+      good_name:"电动车 能骑到万博来回3次能骑到万博来回3次能骑到万博来回3次",
+      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae11e5f2836752.jpg',
+      good_desc:`
+        2017年购入，64g内存，打游戏没问题
+        因换新出手
+      `
+    },],
+    total:""   //收藏的物品总数
   },
   onShow() {
-    this.setData({
-      hasList: true,
-      carts:[
-        {id:1,title:'新鲜芹菜 半斤',image:'/image/s5.png',num:4,price:0.01,selected:true},
-        {id:2,title:'素米 500g',image:'/image/s6.png',num:1,price:0.03,selected:true}
-      ]
-    });
-    this.getTotalPrice();
-  },
-  /**
-   * 当前商品选中事件
-   */
-  selectList(e) {
-    const index = e.currentTarget.dataset.index;
-    let carts = this.data.carts;
-    const selected = carts[index].selected;
-    carts[index].selected = !selected;
-    this.setData({
-      carts: carts
-    });
-    this.getTotalPrice();
-  },
 
-  /**
-   * 删除购物车当前商品
-   */
+    if(this.data.goods.length==0){
+      this.setData({
+        hasList: false,
+      });
+    }
+
+
+  },
+  to(e){
+    console.log(e.currentTarget.dataset)
+    wx.navigateTo({
+      url: '../details/details',
+      success: (result) => {
+        
+      },
+      fail: () => {},
+      complete: () => {}
+    });
+      
+  },
   deleteList(e) {
     const index = e.currentTarget.dataset.index;
     let carts = this.data.carts;
@@ -49,72 +106,5 @@ Page({
     }
   },
 
-  /**
-   * 购物车全选事件
-   */
-  selectAll(e) {
-    let selectAllStatus = this.data.selectAllStatus;
-    selectAllStatus = !selectAllStatus;
-    let carts = this.data.carts;
-
-    for (let i = 0; i < carts.length; i++) {
-      carts[i].selected = selectAllStatus;
-    }
-    this.setData({
-      selectAllStatus: selectAllStatus,
-      carts: carts
-    });
-    this.getTotalPrice();
-  },
-
-  /**
-   * 绑定加数量事件
-   */
-  addCount(e) {
-    const index = e.currentTarget.dataset.index;
-    let carts = this.data.carts;
-    let num = carts[index].num;
-    num = num + 1;
-    carts[index].num = num;
-    this.setData({
-      carts: carts
-    });
-    this.getTotalPrice();
-  },
-
-  /**
-   * 绑定减数量事件
-   */
-  minusCount(e) {
-    const index = e.currentTarget.dataset.index;
-    let carts = this.data.carts;
-    let num = carts[index].num;
-    if(num <= 1){
-      return false;
-    }
-    num = num - 1;
-    carts[index].num = num;
-    this.setData({
-      carts: carts
-    });
-    this.getTotalPrice();
-  },
-
-  /**
-   * 计算总价
-   */
-  getTotalPrice() {
-    let carts = this.data.carts;                  // 获取购物车列表
-    let total = 0;
-    for(let i = 0; i<carts.length; i++) {         // 循环列表得到每个数据
-      if(carts[i].selected) {                     // 判断选中才会计算价格
-        total += carts[i].num * carts[i].price;   // 所有价格加起来
-      }
-    }
-    this.setData({                                // 最后赋值到data中渲染到页面
-      carts: carts,
-      totalPrice: total.toFixed(2)
-    });
-  }
 
 })
