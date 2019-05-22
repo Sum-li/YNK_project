@@ -64,9 +64,13 @@ func Goodsdetail(c *gin.Context) {
 
 	var goods models.Goods
 	var images []string
+	var user models.User
+	var goodses []models.Goods
 
 	db.Table("goods").Where("id = ?",goods_id).First(&goods)
 	db.Table("photos").Where("goods_id = ?",goods_id).Pluck("photo",&images)
+	db.Table("users").Where("id = ?",goods.UserID).First(&user)
+	db.Table("goods").Where("user_id = ? AND is_buy = 1",goods.UserID).Find(&goodses)
 
 	var result = make(map[string]interface{})
 	result["name"] = goods.Name
@@ -77,6 +81,9 @@ func Goodsdetail(c *gin.Context) {
 	result["is_buy"] = goods.Is_buy
 	result["gphoto"] = goods.Gphoto
 	result["images"] = images
+	result["username"] = user.UserName
+	result["school"] = user.School
+	result["sell_count"] = len(goodses)
 
 	c.JSON(http.StatusOK,result)
 
