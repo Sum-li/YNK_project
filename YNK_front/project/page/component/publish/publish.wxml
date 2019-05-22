@@ -15,7 +15,7 @@
   
     <view class="good-images">
       <view wx:if="{{images.length==0}}" class="images-hint" hover-class="none" hover-stop-propagation="false">
-        选择你的闲置物品8
+        选择你的闲置物品
       </view>
         
       <block class="images-item" wx:for="{{images}}" wx:key="*this">
@@ -78,7 +78,9 @@
   
   <view class="submit">
     <button class="submit-btn" bindtap="submitForm"> 
-      发布
+      发布  
+      <icon class="iconfont icon-fabu"></icon>
+        
     </button>
   </view>
     

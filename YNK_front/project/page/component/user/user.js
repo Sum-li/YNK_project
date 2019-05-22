@@ -6,7 +6,7 @@ Page({
     orders:[],
     hasAddress:false,
     address:{},
-    curIndex: 0,
+    curIndex: 6,
 
   },
   onLoad(){
@@ -75,17 +75,15 @@ Page({
     })
   },
   dealBarChange(e) {
-    const index = parseInt(e.currentTarget.dataset.index);
-    this.setData({
-      curIndex: index
-    })
+    var index = parseInt(e.currentTarget.dataset.index);
+    var target=e.currentTarget.dataset.type;
+    var url="../"+target+"/"+target
+    console.log(target)
+    wx.navigateTo({
+      url:url
+    })    
+    // this.setData({
+    //   curIndex: index
+    // })
   },
-  to(e){
-    const index = parseInt(e.currentTarget.dataset.index);
-    // index=1 想要的
-    // index=2 发布的
-    // index=3 卖出的
-    // index=4 买到的
-    
-  }
 })

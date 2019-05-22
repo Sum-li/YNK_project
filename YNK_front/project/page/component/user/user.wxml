@@ -1,54 +1,71 @@
 <!-- 我的 页 -->
-
 <view class="main">
     <view class="header">
         <view class="thumb" hover-class="none" hover-stop-propagation="false">
-                      <open-data class="avatar" type="userAvatarUrl"></open-data>
-
+            <open-data class="avatar" type="userAvatarUrl"></open-data>
         </view>
-        <open-data class="name" type="userNickName"></open-data>
-
-        <!-- <image src="{{thumb}}" class="thumb"></image> -->
-        <!-- <text class="nickname">{{nickname}}</text> -->
-        <text class="about">关于我们</text>
+        <view class="user-msg" hover-class="none" hover-stop-propagation="false">
+            <open-data class="name" type="userNickName"></open-data>
+            <view class="other-msg" hover-class="none" hover-stop-propagation="false">
+                <text class="school">华北电力大学</text>
+            </view>
+        </view>
     </view>
+  
+      
+      
+    <view class="deals-all">
+        <button class="deals-btn">
+            <view class="deals-btn-left">
+                <text>我的订单</text>
+            </view>
+            <view class="deals-btn-right">
+                <text class="text-placeholder">查看全部</text>
+                <icon class='iconfont icon-right'></icon>
+            </view>
+        </button>
+    </view>
+    <view class="div-line"></view>
     <view class="deals-tab-box">
-        <view class="deals-tab-nav on" bindtap="to" data-index="0">
+        <view class="deals-tab-nav {{curIndex==0?'on':''}}" data-type="cart" bindtap="dealBarChange" data-index="0">
             <icon class="iconfont icon-shoucang"></icon>
-            <text class="" selectable="false" space="false" decode="false">
-                想要的
-            </text>
+            <text class="" selectable="false" space="false" decode="false">想要的</text>
         </view>
-        <view class="deals-tab-nav " bindtap="to" data-index="1">
+        <view class="deals-tab-nav {{curIndex==1?'on':''}}" data-type="cart2" bindtap="dealBarChange" data-index="1">
             <icon class="iconfont icon-fabu"></icon>
-            <text class="" selectable="false" space="false" decode="false">
-                发布的
-            </text>
+            <text class="" selectable="false" space="false" decode="false">发布的</text>
         </view>
-        <view class="deals-tab-nav " bindtap="to" data-index="2">
+        <view class="deals-tab-nav {{curIndex==2?'on':''}}" data-type="cart3" bindtap="dealBarChange" data-index="2">
             <icon class="iconfont icon-fabu"></icon>
-            <text class="" selectable="false" space="false" decode="false">
-                卖出的
-            </text>
+            <text class="" selectable="false" space="false" decode="false">卖出的</text>
         </view>
-        <view class="deals-tab-nav " bindtap="to" data-index="3">
+        <view class="deals-tab-nav {{curIndex==3?'on':''}}" data-type="cart4" bindtap="dealBarChange" data-index="3">
             <icon class="iconfont icon-fabu1"></icon>
-            <text class="" selectable="false" space="false" decode="false">
-                买到的
-            </text>
+            <text class="" selectable="false" space="false" decode="false">买到的</text>
         </view>
     </view>
     <view class="address-box">
         <view class="address-manage">
-            <navigator url="/page/component/address/address">信息管理</navigator>
+            <navigator url="/page/component/address/address">
+                <image class="" src="/image/checklist.png" />
+                <text class="text-placeholder">信息管理</text>
+            </navigator>
         </view>
+        <view class="certific">
+         <navigator url="/page/component/address/address">
+                <image class="" src="/image/certific2.png" />
+                <text class="text-placeholder">认证</text>
+            </navigator>
+        </view>
+
+
         <view wx:if="{{hasAddress}}" class="address-list">
             <view>{{address.name}}</view>
             <view>{{address.phone}}</view>
             <view>{{address.detail}}</view>
         </view>
     </view>
-    <view class="orders-box">
+    <!-- <view class="orders-box">
         <view class="orders">我的订单</view>
         <view class="orders-list" wx:for="{{orders}}" wx:key="index">
             <view class="orders-number">订单编号：{{item.number}}</view>
@@ -63,5 +80,5 @@
                 <button size="mini" class="orders-btn" bindtap="payOrders">付款</button>
             </view>
         </view>
-    </view>
+    </view> -->
 </view>

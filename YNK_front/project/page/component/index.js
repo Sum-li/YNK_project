@@ -10,6 +10,7 @@ Page({
     page_count: 0,
     loading: false,
     autoplay: false,
+    menu_direction:[0,1,0],
     good_list: [{
       name: 'ipad2018 99新 深空灰 在保',
       price: "2099",
@@ -60,31 +61,44 @@ Page({
 
     }, ]
   },
-  beautify_time(time) { //时间格式：yyyy-mm-dd hh:mm:ss  2018-09-01 11:11:11
-    var timestamp = Date.parse(new Date(time))
-    var mistiming = Math.round((Date.now() - timestamp) / 1000);
-    var postfix = mistiming > 0 ? '前' : '后'
-    mistiming = Math.abs(mistiming) //绝对值
-    var arrr = ['年', '个月', '星期', '天', '小时', '分钟', '秒'];
-    var arrn = [31536000, 2592000, 604800, 86400, 3600, 60, 1];
 
-    for (var i = 0; i < 7; i++) {
-      var inm = Math.floor(mistiming / arrn[i])
-      if (inm != 0) {
-        return inm + arrr[i] + postfix
-      }
-    }
-  },
   onLoad(options) {
     // 页面初次加载，请求第一页数据，并且判断是否用户已经授权，若为授权，则转到授权页面
     // this.loadMore(0) //请求第一页
-
+    console.log()
     //查询授权情况
-
-
-
-
-
+    var _this = this
+    var user = wx.getStorageSync('user') || {};
+    var userInfo = wx.getStorageSync('userInfo') || {};
+    console.log("初次判断user:" + JSON.stringify(user))
+    console.log("初次判断userInfo:" + JSON.stringify(userInfo))
+    if ((!userInfo.nickName)) {
+      console.log("没有授权公开信息 将转入授权页")
+      wx.redirectTo({
+        url: "accredit/accredit",
+      })
+      wx.login({
+        success: function (res) {
+          if (res.code) {
+            var d = app.globalData; //这里存储了appid、secret、token串  
+            var l = 'https://api.weixin.qq.com/sns/jscode2session?appid=' + d.appid + '&secret=' + d.secret + '&js_code=' + res.code + '&grant_type=authorization_code';
+            wx.request({
+              url: l,
+              data: {},
+              method: 'GET',
+              success: function (res) {
+                console.log("请求到openID:" + JSON.stringify(res.data))
+                var obj = {};
+                obj.openid = res.data.openid;
+                wx.setStorageSync('user', obj); //存储openid
+              }
+            });
+          } else {
+            console.log('获取用户登录态失败！' + res.errMsg)
+          }
+        } //end success  
+      });
+    }  
   },
   bindChange: function (e) {
     const val = e.detail.value

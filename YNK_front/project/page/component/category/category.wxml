@@ -1,36 +1,37 @@
-<view class="search">
-    <input type="search" name="" id=""></input>
-    <button type="default"><icon class="" type="search" size="18" color="white">
-    </icon>
-      </button>
-</view>
-  
-<view class="main">
-    <view class="categroy-left">
-        <view wx:for="{{category}}" wx:key="index" data-id="{{item.id}}"                     data-index="{{index}}"
-            bindtap="switchTab"
-            class="cate-list {{curIndex === index?'on':''}}">{{item.name}}</view>
+<view class="page">
+    <view class="page-bottom">
+        <view class="page-content">
+            <view wx:for="category" class="wc" data-id="{{category[index].id}}" bindtap="switchTab">
+                <text>{{category[index].name}}</text>
+            </view>
+        </view>
     </view>
-
-    <scroll-view class="categroy-right" scroll-y="{{isScroll}}" scroll-into-view="{{toView}}" scroll-with-animation="true">
-        <block wx:for="{{detail}}" wx:for-index wx:key="idx">
-            <view id="{{item.id}}" class="cate-box">
-                <view class="cate-banner">
-                    <image src="{{item.banner}}"></image>
-                </view>
-                <view class="cate-title">
-                    <text>{{item.cate}}</text>
-                </view>
-                <view class="product">
-                    <view class="product-list" wx:for="{{item.detail}}" wx:key="index" wx:for-item="val">
-                        <navigator url="../list/list">
-                            <image src="{{val.thumb}}"></image>
-                            <view class="classname"><text>{{val.name}}</text></view>
-                        </navigator>
+    <view bindtouchmove="tap_drag" bindtouchend="tap_end" bindtouchstart="tap_start" class="page-top" style="{{translate}}">
+        <view class="operat" hover-class="none" hover-stop-propagation="false">
+            <icon class="iconfont icon-zhankai" bindtap="tap_ch" src="../../images/btn.png"></icon>
+        </view>
+        <scroll-view class="categroy-right" scroll-y scroll-into-view="{{toView}}" scroll-with-animation="true">
+            <scroll-view scroll-y  wx:for="{{detail}}" wx:for-index wx:key="idx">
+                <view id="{{item.id}}" class="cate-box">
+                    <view class="cate-banner">
+                        <image src="/image/list1.png"></image>
+                    </view>
+                    <view class="cate-title">
+                        <text>{{item.cate}}</text>
+                    </view>
+                    <view class="product">
+                        <view class="product-list" wx:for="{{item.detail}}" wx:key="index" wx:for-item="val">
+                            <navigator url="../details/details">
+                                <image src="/image/s4.png" mode="widthFix"></image>
+                                <view class="classname">
+                                    <text>{{val.name}}</text>
+                                </view>
+                            </navigator>
+                        </view>
                     </view>
                 </view>
-            </view>
-        </block>
-    </scroll-view>
-
+            </scroll-view>
+            
+        </scroll-view>
+    </view>
 </view>

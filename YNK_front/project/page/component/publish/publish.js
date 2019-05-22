@@ -186,7 +186,7 @@ Component({
                 console.log(">>>>error:", err)
               }).then(res => {
                 // 发布成功，转到刚才发布的物品页
-                wx.redirectTo({ url: '../index' }) 
+                wx.redirectTo({ url: '../detail/detail' }) 
               }).then(() => {
                 wx.hideLoading()
               })
