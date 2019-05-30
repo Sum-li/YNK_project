@@ -1,36 +1,40 @@
 <view class="page">
     <view class="page-bottom">
         <view class="page-content">
-            <view wx:for="category" class="wc" data-id="{{category[index].id}}" bindtap="switchTab">
-                <text>{{category[index].name}}</text>
+            <view wx:for="{{category}}" class="wc" data-index="{{item.id}}" bindtap="switchTab" wx:key="key">
+                <text>{{item.name}}</text>
             </view>
         </view>
     </view>
-    <view bindtouchmove="tap_drag" bindtouchend="tap_end" bindtouchstart="tap_start" class="page-top" style="{{translate}}">
+    <view bindtouchmove="tap_drag" bindtouchend="tap_end" bindtouchstart="tap_start" class="page-top" style="{{translate}}" bindscrolltolower="loadMore">
         <view class="operat" hover-class="none" hover-stop-propagation="false">
-            <icon class="iconfont icon-zhankai" bindtap="tap_ch" src="../../images/btn.png"></icon>
+            <icon class="iconfont icon-zhankai" bindtap="tap_ch"></icon>
         </view>
-        <scroll-view class="categroy-right" scroll-y scroll-into-view="{{toView}}" scroll-with-animation="true">
-            <scroll-view scroll-y  wx:for="{{detail}}" wx:for-index wx:key="idx">
-                <view id="{{item.id}}" class="cate-box">
+        <scroll-view class="categroy-right" scroll-y scroll-with-animation="true" >
+            <view wx:for="{{detail}}" wx-if="{{index==curIndex}}" wx:for-index wx:key="idx">
+                <view data-index="{{index}}" class="cate-box">
                     <view class="cate-banner">
-                        <image src="/image/list1.png"></image>
+                        <image src="/image/poster1.png" mode="aspectFill"></image>
                     </view>
                     <view class="cate-title">
                         <text>{{item.cate}}</text>
                     </view>
-                    <view class="product">
-                        <view class="product-list" wx:for="{{item.detail}}" wx:key="index" wx:for-item="val">
-                            <navigator url="../details/details">
-                                <image src="/image/s4.png" mode="widthFix"></image>
+                    <view class="product" >
+                        <view class="product-list" wx:for="{{detail[index]}}" wx:key="index" wx:for-item="val">
+                            <navigator url="../details/details?good_id={{val.good_id}}">
+                                <image src="{{val.gphoto}}" mode="widthFix"></image>
                                 <view class="classname">
-                                    <text>{{val.name}}</text>
+                                    {{val.name}}
                                 </view>
                             </navigator>
                         </view>
                     </view>
+                    <view class="bottom" wx:if="{{loading}}">
+                <!-- <text class="loading-text" selectable="false" space="false" decode="false"></text> -->
+                加载中...
+            </view>
                 </view>
-            </scroll-view>
+            </view>
             
         </scroll-view>
     </view>

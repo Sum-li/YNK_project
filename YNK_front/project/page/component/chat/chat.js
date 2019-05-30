@@ -7,26 +7,16 @@
  * status 0为normal，1为pressed，2为cancel
  * hud的尺寸是150*150
  */
+let app =  getApp();
 
+  
 Page({
   data: {
-    socketOpen: false,
-    message_list: [{
-        myself: 0,
-        head_img_url: 'https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0',
-        'msg_type': 'text',
-        'content': 'scroll-into-view，默认不带动画，因此加上scroll-with-animation="true"属性，它的默认值是false的',
-        create_time: '2018-07-31 14:00:19'
-      },
-      {
-        myself: 1,
-        head_img_url: 'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqSucF9v6bKPfUPSTuQjpqmr8jAZEOgsFjFCHc73UIlUAgnI2nz6aFdnkRWAxxy1uZGfC82Yp7fMg/0',
-        'msg_type': 'image',
-        'content': 'http://img13.360buyimg.com/cms/jfs/t3028/328/2417978329/220902/f29f6c36/57d8b3fbNc03f8716.jpg',
-        create_time: '2018-07-31 17:20:39'
-      }
+    my_avavtar:"",
+    socketOpen: true,
+    message_list: [
     ],
-    scroll_height: wx.getSystemInfoSync().windowHeight - 54,
+    scroll_height: wx.getSystemInfoSync().windowHeight ,
     page_index: 0,
     mode: true,
     cancel: false,
@@ -37,93 +27,138 @@ Page({
       'pressed': 1,
       'cancel': 2
     },
-    toView: ''
+    toView: '',
+    myid:"",
+    yourid:"",
+    your_avartar:'',
+    your_info:{}
   },
   onLoad: function (options) {
-    var _this = this;
-    var self = this;
-    console.log("将要连接websocket服务器。");
-    wx.connectSocket({
-      url: 'ws://www.schoolbuy.online.:800/ws' + "?user_id=21",
-      success: function (res) {
-        console.log(res)
-      }
-    });
+    var _this = this; 
+    var pages = getCurrentPages();
+    var currentPage = pages[pages.length-1]
+    var url = currentPage.route //当前页面url
+console.log(url)
+    var prevPage = pages[pages.length - 2];  //上一个页面
+    var your_info=prevPage.data.list[options.index]
 
-    wx.onSocketOpen(function (res) {
-      console.log("连接websocket服务器成功。" + res);
-      self.setData({
-        // placeholderText:"连接服务器成功，请输入姓名。",
-        socketOpen: true
-      });
-    });
-    wx.onSocketClose(function (res) {
-      console.log('WebSocket 已关闭！')
+    console.log(your_info)
+    this.setData({
+      my_avavtar:wx.getStorageSync("userInfo").avatarUrl,
+      myid:app.globalData.userID,
+      yourid:your_info.user_id,
+      your_avartar:your_info.gphoto,
+      your_info:your_info
     })
     wx.onSocketMessage(function (res) {
-      console.log('收到服务器返回内容：' + (res.data));
-      var rec_content = res.data.context;
+      console.log('收到服务器返回内容（chat）：' + (res.data));
       var message_list=_this.data.message_list
-      var message_img = {
-        myself: 0,
-        head_img_url: 'https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0',
-        msg_type: 'image',
-        content: 'scroll-into-view，默认不带动画，因此加上scroll-with-animation="true"属性，它的默认值是false的',
-        create_time: '2018-07-31 14:00:19'
-      };
-
-      if (1) {
-        message_img.content =  JSON.parse (res.data).context
-        message_list.push(message_img);
-
+      var data=JSON.parse(res.data)
+      if( data.send_id==_this.data.myid && data.receive_id==_this.data.yourid){
+        var new_msg={
+          myself: 0,
+          head_img_url: _this.data.your_avartar,   //发来消息的人的头像路径(未改)
+          msg_type: data.type,
+          content: data.context,
+          create_time: data.time
+        }
+        message_list.push(new_msg);
         _this.setData({
           message_list: message_list,
-          // content: '' // 清空输入框文本
+          content: '' // 清空输入框文本
         })
         _this.scrollToBottom();
-        console.log(message_img)
       }
-
-      if (res == "收到") {
-        return
-      }
-      // var message= res.data;
-      var message = {
-        myself: 0,
-        head_img_url: 'https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0',
-        'msg_type': 'text',
-        'content': 'scroll-into-view，默认不带动画，因此加上scroll-with-animation="true"属性，它的默认值是false的',
-        create_time: '2018-07-31 14:00:19'
-      };
-
-      var message_list = _this.data.message_list;
-      message_list.push(message);
-      _this.setData({
-        message_list: message_list,
-        content: '' // 清空输入框文本
-      })
-      _this.scrollToBottom();
-
-      // var newArray = self.data.message_list.push(newMessage);
-      // message_list.push(message);
-
-      // self.setData({
-      //   message_list:newArray,
-      //     // placeholderText:"请输入信息"
-      // });
+      _this.freshStorage(data)
     });
+    _this.getHistory()
+
   },
-  sendSocketMessage: function (msg, callback) {
+  fistLoadUserInfo(){
+    var _this=this
+    wx.request({
+      url:"https://schoolbuy.online:80/ws/getchatusersinfo",
+      data:_this.data.yourid,
+      success:(res)=>{
+        _this.setData({
+          your_avartar:res.data.gphoto,
+          your_school:res.data.school,
+          your_name:res.data.name,
+        })
+      }
+    })
+  },
+  freshStorage(obj){//更新消息列表
+    var list=wx.getStorageSync("chatList")
+    var pages = getCurrentPages();
+    var prevPage = pages[pages.length - 2];  //上一个页面
+    // console.log(obj)
+    // console.log(list)
+    //已经在缓存中,更新那一条的lasttime
+    var had=0;
+    list.forEach( (element,index) => { 
+      if(element.user_id == obj.send_id){
+        // console.log("zai")
+        // console.log(element.user_id)
+        // console.log(obj.send_id)
+        // console.log(obj)
+        element.last_time=obj.time
+        // wx.getStorage("chatlist",list)
+        had=1;
+        
+      }
+    });
+    //不在缓存中    
+    if(had==1){
+      wx.setStorage({
+        key:"chatList",
+        data:list
+      })
+    }else{
+      var new_list_item={
+        user_id: obj.send_id,  //对方id
+        gphoto:obj.gphoto,//对方头像
+        last_time:obj.time,//最后一条消息记录时间
+        from:"xxxxxxxx",//通过什么物品找来
+        school:obj.school,
+        name:obj.name
+      }
+      console.log(new_list_item)
+      wx.request({
+        url:"https://schoolbuy.online:80/ws/getchatuserinfo",
+        data:{
+          user_id:obj.send_id,
+        },
+        success(res){
+          new_list_item.gphoto=res.data.gphoto
+          new_list_item.school=res.data.school
+          new_list_item.name=res.data.name
+        }
+      })
+      list.push(new_list_item)
+      wx.setStorage({
+        key:"chatList",
+        data:list
+      })
+    }
+
+    prevPage.setData({list:list })//设置数据
+
+    
+  },
+  sendSocketMessage: function (msg, callback,callback2,callback3) {
     if (this.data.socketOpen) {
       wx.sendSocketMessage({
         data: msg,
-        success: callback
+        success: callback,
+        fail:callback2,
+        complete:callback3
       })
     }
   },
-  onUnload: function () {
-    wx.closeSocket();
-  },
+  // onUnload: function () {
+  //   wx.closeSocket();
+  // },
   reply: function (e) {
     var content = e.detail.value;
     var _this = this;
@@ -136,15 +171,16 @@ Page({
     var message_list = this.data.message_list;
     var message = {
       myself: 1,
-      head_img_url: 'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqSucF9v6bKPfUPSTuQjpqmr8jAZEOgsFjFCHc73UIlUAgnI2nz6aFdnkRWAxxy1uZGfC82Yp7fMg/0',
-      'msg_type': 'text',
-      'content': content,
-      create_time: '2018-07-31 21:04:31'
+      head_img_url: _this.data.my_avavtar,
+      msg_type: 'text',
+      content: content,
+      create_time: new Date()
     }
     var test = {
-      send_id: 21,
-      receive_id: 222,
-      context: '今天天气不错'
+      send_id: _this.data.myid,
+      receive_id:parseInt(_this.data.yourid) ,
+      context:  content,
+      type:"text"
     }
     this.sendSocketMessage(JSON.stringify(test), function () {
       console.log("发送：" + JSON.stringify(test))
@@ -156,8 +192,10 @@ Page({
       _this.scrollToBottom();
     });
 
-
   },
+
+
+
   chooseImage: function () {
     // 选择图片供上传
     wx.chooseImage({
@@ -270,27 +308,27 @@ Page({
     var message_list = this.data.message_list;
     var message = {
       myself: 1,
-      head_img_url: 'http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqSucF9v6bKPfUPSTuQjpqmr8jAZEOgsFjFCHc73UIlUAgnI2nz6aFdnkRWAxxy1uZGfC82Yp7fMg/0',
+      head_img_url: _this.data.my_avavtar,
       'msg_type': type,
       'content': tempFilePath,
-      create_time: '2018-07-31 17:20:39'
+      create_time: new Date()
     };
 
     var test = {
-      send_id: 21,
-      receive_id: 111,
+      send_id: _this.data.myid,
+      receive_id: parseInt( _this.data.yourid),
+      type:"image",
       context: tempFilePath
     }
     this.sendSocketMessage(JSON.stringify(test), function (res) {
       // message.content = res.data.context
-      // message_list.push(message);
-
-      // _this.setData({
-      //   message_list: message_list,
-      //   content: '' // 清空输入框文本
-      // })
-      _this.scrollToBottom();
-    });
+      console.log("发送图片的res："+JSON.stringify(res))
+      message_list.push(message);
+      _this.setData({
+        message_list: message_list,
+        // content: '' // 清空输入框文本
+      })
+    },(res)=>{console.log(res)},(res)=>{console.log(res)});
 
     // message_list.push(message);
     // this.setData({
@@ -314,5 +352,69 @@ Page({
         console.log("close success")
       }
     })
+  },
+  onUnload: function () {
+    wx.onSocketMessage(function (res) {
+      console.log('收到服务器返回内容：' + (res.data));
+      // var message_list = _this.data.message_list
+
+      if (res.data) {  //代表有新消息发来
+        app.globalData.haveUnread = true
+        wx.showTabBarRedDot({
+          index: 3,
+        });
+      }
+    });
+  },
+  getHistory(){
+    var _this=this
+    var old_msglist=this.data.message_list
+    //获取历史聊天记录
+    
+    wx.request({
+      url:"https://schoolbuy.online:80/ws/getchatinfo",
+      data:{
+        send_id:_this.data.myid,
+        receive_id:_this.data.yourid
+      },
+      success(res){
+        var message_list=_this.data.message_list
+        var new_list=[]
+        console.log("history")
+        console.log(res.data)
+
+        res.data.forEach( (element,index) => {
+          if(element.SendID ==_this.data.myid ){
+            var message = {
+              myself: 1,
+              head_img_url: _this.data.my_avavtar,
+              msg_type: element.Type,
+              content: element.Context,
+              create_time: element.CreatedAt
+            };
+          }else{
+            var message = {
+              myself: 0,
+              head_img_url: _this.data.your_avartar,
+              msg_type: element.Type,
+              content: element.Context,
+              create_time: element.CreatedAt
+            };
+          } 
+          new_list.push(message)
+        });
+
+        new_list.concat(message_list)
+        _this.setData({
+          message_list:new_list
+        })
+        _this.scrollToBottom();
+
+      },
+      fail(res){
+
+      }
+    })
+
   }
 })

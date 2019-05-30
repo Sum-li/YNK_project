@@ -7,7 +7,7 @@
         </view>
     </navigator> -->
     <view class="goods-box">
-        <image src="{{goods.gphoto}}" class="goods-thumb" mode="aspectFill"></image>
+        <image src="{{goods.gphoto}}" class="goods-thumb" mode="widthFix"></image>
         <!-- <view class="goods-stock">{{goods.stock}}</view> -->
         <view class="goods-title">{{goods.title}}</view>
         <view class="goods-price">￥{{goods.price}}</view>
@@ -17,7 +17,7 @@
     <view class="goods-user" >
         <navigator class="to" target="" url="" hover-class="navigator-hover" open-type="navigate">
            <view class="gphoto">
-                <image class="gphoto-img" src="https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0" mode="aspectFit|aspectFill|widthFix" />
+                <image class="gphoto-img" src="{{user.avavtar}}" mode="aspectFit|aspectFill|widthFix" />
             </view>
             <view class="message">
                 <view class="msg-user" >
@@ -34,16 +34,12 @@
                 
             </view>
             <view class="operate" >
-                <button >
+                <button bindtap="chat" hover-stop-propagation="true">
                     私信TA
                 </button>
             </view>
         </navigator>
     </view>
-      
-
-
-
     <view class="goods-tab-box">
         <!-- <view class="goods-tab-nav" bindtap="bindTap" data-index="0">
             物品详情
@@ -55,25 +51,38 @@
                     {{goods.detail}}
                 </text>
                 <view class="good-img-box" hover-class="none" hover-stop-propagation="false">
-                    <image class="good-img" mode="aspectFill" wx:for="{{goods.images}}" wx:key="{{key}}" src="{{goods.images[index]}}"     />
+                    <image class="good-img" mode="widthFix" wx:for="{{goods.images}}" wx:key="{{key}}" src="{{goods.images[index]}}"     />
                 </view>
                   
             </view>
         </view>
     </view>
-    <view class="goods-operation">
-       
-        <view class="operation-to-cart opera-item" hover-class="none" hover-stop-propagation="false">
-            
-            <navigator class="to-pay" target="" url="../orders/orders" hover-class="navigator-hover" open-type="navigate">
-                <text class="goods-to-cart" bindtap="addToCart">立即购买</text>
+    <view class="goods-operation" wx:if="{{!isMyself}}">
+        <view class="opera-item" hover-class="none" hover-stop-propagation="false">
+            <navigator class="to-pay" target="" url="../orders/orders?good_id={{goods.id}}" hover-class="navigator-hover" open-type="navigate">
+                立即购买
                 <icon class="iconfont icon-goumai1"></icon>  
             </navigator>
-              
-
         </view>
-        <view class="operation-to-cart opera-item" bindtap="addToCart">
-            <icon class="iconfont icon-qicheqianlian-1-copy"></icon>
+        <view wx:if="{{isnotCart}}" class="operation-to-cart opera-item" bindtap="addToCart">
+            收藏<icon class="iconfont icon-shoucang1"></icon>
+        </view>
+        <view wx:else  class="operation-to-cart opera-item" bindtap="popToCart">
+            取消收藏<icon class="iconfont icon-shoucang"></icon>
+        </view>
+    </view>
+    <view class="goods-operation operate-ismyself" wx:else>
+        <view class="opera-item" hover-class="none" hover-stop-propagation="false">
+            <navigator class="to-pay" target="" url="../orders/orders?good_id={{goods.id}}" hover-class="navigator-hover" open-type="navigate">
+                编辑
+                <icon class="iconfont icon-edit"></icon>  
+            </navigator>
+        </view>
+        <view wx:if="{{isnotCart}}" class="operation-to-cart opera-item" bindtap="addToCart">
+            下架<icon class="iconfont icon-xiajia"></icon>
+        </view>
+        <view wx:else  class="operation-to-cart opera-item" bindtap="popToCart">
+            重新上架<icon class="iconfont icon-shangjia"></icon>
         </view>
     </view>
 </view>

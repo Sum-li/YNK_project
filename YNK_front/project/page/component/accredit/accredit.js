@@ -6,7 +6,17 @@ Page({
     },
     onLoad: function () {
         var _this = this;
-
+        wx.setStorage({
+            key:"chatList",
+            data:[{
+                user_id:15,  //对方id
+                gphoto:'https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0',//对方头像
+                last_time:'2018-09-01',//最后一条消息记录时间
+                from:"ipad pro 灰色 128G 99新",//通过什么物品找来
+                school:"华北电力大学",
+                name:"陈某某"
+              }]
+          })//缓存是空的话，还有建一个消息列表 缓存
     },
     bindGetUserInfo: function (e) {
         var userInfo=e.detail.userInfo

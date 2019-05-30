@@ -6,7 +6,7 @@
 .icon-qicheqianlian-1-copy, .icon-goumai1{
     font-size: 55rpx;
 }
-.iconfont{margin-left: -80rpx}
+
 .cart{
     position: fixed;
     bottom:150rpx;
@@ -17,7 +17,6 @@
     padding: 40rpx 45rpx;
     text-align: center;
     color: #454552;
-    /* border-bottom: 10rpx solid #ededed; */
 }
 
 .goods-box .goods-thumb {
@@ -122,7 +121,18 @@
 }
 .opera-item{
     /* width: 33.3%; */
+    width: 50%;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    /* text-align: center; */
+}
+.opera-item icon{
+    font-size: 55rpx;
+    margin-left: 10rpx;
+}
+.operate-ismyself  .operation-to-cart,.operate-ismyself  .operation-to-cart icon {
+    color:gray;
 }
 .goods-operation text {
     height: 100rpx;
@@ -134,7 +144,7 @@
 
 .goods-operation-add {
     width: 80rpx;
-    margin-right: 30rpx;
+    /* margin-right: 30rpx; */
 }
 .operation-leavemsg{
     border-right:1rpx solid gray
@@ -258,4 +268,13 @@
 .to-pay{
     display: flex;
     align-items: center;
+}
+.operation-to-cart{
+    color:rgb(228, 214, 188);
+}
+
+.operation-to-cart icon{
+    margin-left: 5rpx;
+    color: rgb(241, 206, 140);
+    font-size: 50rpx;
 }

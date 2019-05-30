@@ -1,35 +1,48 @@
 {
   "pages": [
-    "page/component/user/user",
-    
     "page/component/index",
     
-        "page/component/cart/cart",
-        
+    "page/component/cart/cart",
+    
 
-    "page/component/category/category",        
-    "page/component/address/address",
-    "page/component/orders/orders",
-    "page/component/details/details",
-    "page/component/list/list",
-    "page/component/publish/publish",
-    "page/component/chat/chat",
     "page/component/chat-list/chat-list",
-    "page/component/accredit/accredit"
 
+    
+    
+    
+    "page/component/cart2/cart2",
+    
+    
+    "page/component/publish/publish",
+    
+    
+    
+    "page/component/category/category",
+  
+    "page/component/orders/orders",
+    
+    "page/component/details/details",
+    
+    "page/component/user/user",
+    "page/component/cart4/cart4",
+    "page/component/address/address",
+    "page/component/list/list",
+    "page/component/chat/chat",
+    "page/component/accredit/accredit",
+    "page/component/cart3/cart3"
   ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "零食商贩",
-    "navigationBarBackgroundColor": "white",
-    "backgroundColor": "white",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#fff",
     "enablePullDownRefresh": true
   },
   "tabBar": {
     "color": "#b7b7b7",
     "selectedColor": "#BC8F8F",
     "borderStyle": "white",
-    "backgroundColor": "white",
+    "backgroundColor": "#ffffff",
     "list": [
       {
         "pagePath": "page/component/index",

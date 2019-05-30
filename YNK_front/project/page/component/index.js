@@ -3,75 +3,38 @@ var app = getApp()
 Page({
   data: {
     imgUrls: [
-      '/image/b1.jpg',
-      '/image/b2.jpg',
-      '/image/b3.jpg'
+      'http://schoolbuy.online:70/static/Poster/poster1.png',
+      'http://schoolbuy.online:70/static/Poster/poster2.png',
+      'http://schoolbuy.online:70/static/Poster/poster3.png',
     ],
-    page_count: 0,
+    search_val: "",
+    ortherBy: 0,
+    page_count: 1,
     loading: false,
     autoplay: false,
-    menu_direction:[0,1,0],
-    good_list: [{
-      name: 'ipad2018 99新 深空灰 在保',
-      price: "2099",
-      gphoto: 'https://i.loli.net/2019/05/11/5cd6683e69b8d.jpg',
-      good_id: '99',
-      user_name: '陈同学',
-      school: '华北电力大学',
-      student_number: '201709000103',
-      pub_time: "2014-09-01"
-    }, {
-      name: 'iphonexsm 99新 金色 在保',
-      price: "5099",
-      gphoto: 'https://i.loli.net/2019/05/11/5cd6683f0d244.jpg',
-      good_id: '919',
-      user_name: '陈同学',
-      school: '华北电力大学',
-      student_number: '201709000103',
-      pub_time: "2018-09-01"
-    }, {
-      name: '漂亮的小裙子 m码',
-      price: "199",
-      gphoto: 'https://i.loli.net/2019/05/11/5cd6683f1c711.jpg',
-      good_id: '1919',
-      user_name: '陈同学',
-      school: '华北电力大学',
-      student_number: '201709000103',
-      pub_time: "2018-09-01"
-
-    }, {
-      name: '三只松鼠大礼包 原价158，现礼包 原价158，现礼包 原价158，现在只要88！',
-      price: "88",
-      gphoto: 'https://i.loli.net/2019/05/11/5cd6683f3bf75.jpg',
-      good_id: '499',
-      user_name: '陈同学',
-      school: '华北电力大学',
-      student_number: '201709000103',
-      pub_time: "2018-09-01"
-
-    }, {
-      name: '电动车 能骑到万博来回3次',
-      price: "399",
-      gphoto: 'https://i.loli.net/2019/05/11/5cd6688074c5b.jpg',
-      good_id: '699',
-      user_name: '陈同学',
-      school: '华北电力大学',
-      student_number: '201709000103',
-      pub_time: "2018-09-01"
-
-    }, ]
+    menu_direction: [0, 1, 0],
+    good_list: [
+    //   {
+    //   name: 'ipad2018 99新 深空灰 在保',
+    //   price: "2099",
+    //   gphoto: 'https://i.loli.net/2019/05/26/5ce9e4fa8824823515.jpg',
+    //   good_id: '99',
+    //   user_name: '陈同学',
+    //   school: '华北电力大学',
+    //   student_number: '201709000103',
+    //   pub_time: "2014-09-01"
+    // }
+  ],
+    avavtar:""
   },
 
   onLoad(options) {
     // 页面初次加载，请求第一页数据，并且判断是否用户已经授权，若为授权，则转到授权页面
-    // this.loadMore(0) //请求第一页
-    console.log()
-    //查询授权情况
+    // this.loadMore(1) //请求第一页
+   
     var _this = this
     var user = wx.getStorageSync('user') || {};
     var userInfo = wx.getStorageSync('userInfo') || {};
-    console.log("初次判断user:" + JSON.stringify(user))
-    console.log("初次判断userInfo:" + JSON.stringify(userInfo))
     if ((!userInfo.nickName)) {
       console.log("没有授权公开信息 将转入授权页")
       wx.redirectTo({
@@ -98,14 +61,39 @@ Page({
           }
         } //end success  
       });
-    }  
+    } else {
+      _this.getUserId(); // 已经授权，把openid、userInfo发给后台，获取我们的库中的userid
+      this.data.avavtar=wx.getStorageSync("userInfo").avatarUrl
+      this.socketConn()
+      this.socketOn()
+    }
+    this.loadMore(1) //请求第一页
+
   },
-  bindChange: function (e) {
-    const val = e.detail.value
+  getUserId: function () {
+    console.log("把openid、userInfo发给后台，获取我们的库中的userid")
+    var _this = this;
+    var openid = wx.getStorageSync('user').openid;
+    var userInfo = wx.getStorageSync("userInfo")
+
+    if (openid) {
+      wx.request({
+        url: "https://www.schoolbuy.online:80/user/id",
+        data: {
+          openid: openid,
+          user_name: userInfo.nickName,
+          gphoto: userInfo.avatarUrl
+        },
+        success: (res) => {
+          console.log(res)
+          app.globalData.userID = res.data
+        }
+      })
+    }
+  },
+  bindsearch(e) {
     this.setData({
-      year: this.data.years[val[0]],
-      month: this.data.months[val[1]],
-      day: this.data.days[val[2]]
+      search_val: e.detail.value
     })
   },
   onReachBottom() {
@@ -119,10 +107,14 @@ Page({
       loading: true
     })
     wx.request({
-      url: 'http://www.schoolbuy.online.:80/test',
-      data: 0,
+      url: 'https://www.schoolbuy.online:80/goods/index',
+      method: "get",
+      data: {
+        page_count: _this.data.page_count
+      },
       succes: function (res) {
         console.log("request success")
+        console.log(res)
         var new_goods = res.data;
         var good_list = _this.data.good_list
         good_list.push(new_goods)
@@ -136,7 +128,9 @@ Page({
         console.log("加载请求失败：" + JSON.stringify(res))
       },
       complete(res) {
-        console.log("request success")
+        // console.log("request complete")
+        console.log(res)
+
         if (!res.data) {
           console.log("请求下一页失败")
           return
@@ -154,5 +148,52 @@ Page({
 
       }
     })
+  },
+  menuClick(e) {
+    var index = e.currentTarget.dataset.index;
+    this.setData({
+      ortherBy: index
+    })
+  },
+  socketConn() {
+    var _this = this
+    var user_id=app.globalData.userID
+    wx.connectSocket({
+      url: `ws://www.schoolbuy.online:800/ws?user_id=18`,
+      success: function (res) {}
+    });
+
+    wx.onSocketOpen(function (res) {
+      console.log("连接websocket服务器成功。" + res);
+      app.globalData.socketOpen = true
+    });
+  },
+  getUnread() {
+    wx.request({
+      url: "https://schollbuy.online:80/ws/isnotread",
+      data: {
+        user_id: app.globalData.userID
+      },
+      success(res) {
+        if (res.data.yes == 1) { //有未读消息
+
+        } else { //无未读消息
+
+        }
+      }
+    })
+  },
+  socketOn() { //socket长连接   接受新消息
+    var _this=this
+    wx.onSocketMessage(function (res) {
+      console.log('收到服务器返回内容：' + (res.data));
+      if (res.data) {  //代表有新消息发来
+        app.globalData.haveUnread = true
+        wx.showTabBarRedDot({
+          index: 3,
+        });
+      }
+    });
   }
+
 })

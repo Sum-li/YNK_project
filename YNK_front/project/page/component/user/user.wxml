@@ -57,7 +57,7 @@
                 <text class="text-placeholder">认证</text>
             </navigator>
         </view>
-
+        
 
         <view wx:if="{{hasAddress}}" class="address-list">
             <view>{{address.name}}</view>

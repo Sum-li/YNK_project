@@ -1,99 +1,146 @@
 // page/component/details/details.js
+let app = getApp();
+
 Page({
-  data:{
+  data: {
     goods: {
       id: 1,
-      images: ['https://i.loli.net/2019/05/11/5cd6683f0d244.jpg',
-      'https://i.loli.net/2019/05/11/5cd6683e69b8d.jpg',
-      'https://i.loli.net/2019/05/11/5cd6683f0d244.jpg',
-      'https://i.loli.net/2019/05/11/5cd6683f1c711.jpg',
-      'https://i.loli.net/2019/05/11/5cd6683f3bf75.jpg',
-      'https://i.loli.net/2019/05/11/5cd6688074c5b.jpg',
-    ],
-      title: '新鲜梨花带雨',
+      images: [
+      ],
+      title: '',
       price: 0.01,
-      gphoto:'https://i.loli.net/2019/05/11/5cd6683f1c711.jpg',
+      gphoto: '',
       detail: '这里是梨花带雨详情。',
       // parameter: '125g/个',
       service: '不支持退货',
-      isbuy:false
+      isbuy: false
     },
-    user:{
-      user_id:"",
-      user_name:'',
-      user_school:"",
-      sell_count:""
+    user: {
+      user_id: "1",
+      user_name: '陈某某',
+      user_school: "华北电力大学",
+      sell_count: "12",
+      avavtar:""
     },
+    isnotCart: true,
     num: 1,
     totalNum: 0,
-    isMyself:false,
+    isMyself: false,
     hasCarts: false,
     // curIndex: 0,
     show: false,
     scaleCart: false
   },
-  onLoad(){
-    var _this=this;
-    wx.request({
-      url:"http://www.schoolbuy.online:80/goods/detail?goods_id=5",
-      success:(res)=>{
-        console.log(res)
-        var good={
-          title:res.data.name,
-          images:res.data.images,
-          price:res.data.price,
-          isbuy:res.data.isbuy,
-          gphoto:res.data.gphoto,
-          detail:res.data.discribe
-        }
-        var user={
-          user_id:res.data.user_id,
-          user_name:res.data.username,
-          user_school:res.data.school,
-          sell_count:res.data.sell_count
-        };
+  onLoad(options) {
+    console.log(options)
+    var _this = this;
 
+    wx.request({
+      url: `https://www.schoolbuy.online:80/goods/detail`,
+      data:{
+        user_id:app.globalData.userID,
+        goods_id:options.good_id
+      },
+      success: (res) => {
+        console.log(res.data.isnotcoll)
+        var isMyself=false
+        var good = {
+          id:`${options.good_id}`,
+          title: res.data.name,
+          images: res.data.images,
+          price: res.data.price,
+          isbuy: res.data.isbuy,
+          gphoto: res.data.gphoto,
+          detail: res.data.discribe,
+        }
+        var user = {
+          user_id: res.data.user_id,
+          user_name: res.data.username,
+          user_school: res.data.school,
+          sell_count: res.data.sell_count,
+          avavtar:res.data.avavtar
+        };
+        if(user.user_id==app.globalData.userID){
+          isMyself=true
+        }
         _this.setData({
-          goods:good,
-          user:user,
+          goods: good,
+          user: user,
+          isnotCart: res.data.isnotcoll,
+          isMyself:isMyself
         })
       },
-      fail(res){
+      fail(res) {
         console.log(res)
-
       }
     })
   },
-  addCount() {
-    let num = this.data.num;
-    num++;
-    this.setData({
-      num : num
-    })
+  chat(e){
+    var user_id=app.globalData.userID;
+    wx.navigateTo({
+      url:"../chat/chat?user_id="+user_id
+    })  
   },
 
   addToCart() {
-    const self = this;
-    const num = this.data.num;
-    let total = this.data.totalNum;
+    wx.showLoading({
+      title: "收藏...",
+      mask: true,
+    });
+    var _this = this;
+    var user_id = app.globalData.userID;
+    console.log(user_id)
+    console.log(_this.data.goods.id)
 
-    self.setData({
-      show: true
-    })
-    setTimeout( function() {
-      self.setData({
-        show: false,
-        scaleCart : true
-      })
-      setTimeout( function() {
-        self.setData({
-          scaleCart: false,
-          hasCarts : true,
-          totalNum: num + total
+    wx.request({
+      url: "https://www.schoolbuy.online:80/logic/coll",
+      method:"get",
+      data: {
+        user_id: user_id,
+        goods_id: _this.data.goods.id
+      },
+      success(res){
+        console.log("收藏成功")
+        _this.setData({
+          isnotCart: !_this.data.isnotCart
         })
-      }, 200)
-    }, 300)
+      },
+      complete(res){
+        wx.hideLoading()
+      }
+    })
+   
+  },
+  popToCart(e) {
+    wx.showLoading({
+      title: "取消收藏...",
+      mask: true,
+    });
+    var _this = this;
+    var user_id = app.globalData.userID;
+    wx.request({
+      url: "https://www.schoolbuy.online:80/logic/cancelcoll",
+      method:"get",
+      data: {
+        user_id: user_id,
+        goods_id: _this.data.goods.id
+      },
+      success(res) {
+        _this.setData({
+          isnotCart: !_this.data.isnotCart
+        })
+        setTimeout(()=>{wx.hideLoading()},100)
+      },
+      fail(res){
+        wx.showLoading({
+          title: "操作失败...",
+          mask: true,
+        });
+        setTimeout(()=>{wx.hideLoading()},100)
+      },
+    })
 
+ 
   },
 
   bindTap(e) {
@@ -102,5 +149,5 @@ Page({
       curIndex: index
     })
   }
- 
+
 })

@@ -1,0 +1,17 @@
+<!-- page/component/cart4/cart4.wxml -->
+<view class="orders-box">
+    <view class="orders">我的订单</view>
+    <view class="orders-list" wx:for="{{orders}}" wx:key="index">
+        <view class="orders-number">订单编号:{{item.OrderId}}</view>
+        <view class="orders-detail">
+            <image src="{{item.Gphoto}}" mode="aspectFill"></image>
+            <view class="">{{item.Name}}</view>
+            <view class="">配送帮正在配送</view>
+            <text class="orders-status">{{item.status}}</text>
+        </view>
+        <view class="orders-footer">
+            <text>实付：￥{{item.Price}}</text>
+            <button wx:if="{{item.Islow}}" size="mini" class="orders-btn" bindtap="payOrders">收货</button>
+        </view>
+    </view>
+</view>

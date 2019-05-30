@@ -1,21 +1,26 @@
 <!--page/component/chat-list/chat-list.wxml-->
+
+<wxs module="beautify" src="../../../util/beautify.wxs" />
+
+
+
 <view class="box">
-    <view class="chat-item" hover-class="none" hover-stop-propagation="false">
-        <navigator class="to" target="" url="../chat/chat" hover-class="navigator-hover" open-type="navigate">
+    <view wx:for="{{list}}" wx:for-index="index" class="chat-item" wx:key="key" hover-class="none" hover-stop-propagation="false">
+        <navigator class="to" url="../chat/chat?index={{index}}" hover-class="navigator-hover" open-type="navigate">
            <view class="gphoto">
-                <image class="gphoto-img" src="https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0" mode="aspectFit|aspectFill|widthFix" />
+                <image class="gphoto-img" src="{{item.gphoto}}" mode="aspectFit" />
             </view>
             <view class="message">
                 <view class="msg-user" >
-                    <view class="user-school" > 
-                        <text class="" >华北电力大学 </text>
-                    </view>
                     <view class="user-name" > 
-                        <text class="" >陈同学</text>
+                        <text class="" >{{item.name}}</text>
                     </view>  
+                    <view class="user-school" > 
+                        <text class="" >{{item.school}}</text>
+                    </view>
                 </view>
                 <view class="msg-good" >
-                    # <text class="">ipad pro 灰色 128G 99新</text>
+                    # <text class="">{{item.from}}</text>
                 </view>
                 <!-- <view class="time" >
                     <text class="" selectable="false" space="false" decode="false">
@@ -25,164 +30,10 @@
             </view>
             <view class="time" >
                 <text class="" selectable="false" space="false" decode="false">
-                    三天前
+                    {{item.last_time}}
                 </text>
             </view>
         </navigator>
-    </view>  
-          
-       
-    <view class="chat-item" hover-class="none" hover-stop-propagation="false">
-        <navigator class="to" target="" url="../chat/chat" hover-class="navigator-hover" open-type="navigate">
-           <view class="gphoto">
-                <image class="gphoto-img" src="https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0" mode="aspectFit|aspectFill|widthFix" />
-            </view>
-            <view class="message">
-                <view class="msg-user" >
-                    <view class="user-school" > 
-                        <text class="" >华北电力大学 </text>
-                    </view>
-                    <view class="user-name" > 
-                        <text class="" >陈同学</text>
-                    </view>  
-                </view>
-                <view class="msg-good" >
-                    # <text class="">ipad pro 灰色 128G 99新</text>
-                </view>
-                <!-- <view class="time" >
-                    <text class="" selectable="false" space="false" decode="false">
-                        三天前
-                    </text>
-                </view> -->
-            </view>
-            <view class="time" >
-                <text class="" selectable="false" space="false" decode="false">
-                    三天前
-                </text>
-            </view>
-        </navigator>
-    </view>  
-    <view class="chat-item" hover-class="none" hover-stop-propagation="false">
-        <navigator class="to" target="" url="../chat/chat" hover-class="navigator-hover" open-type="navigate">
-           <view class="gphoto">
-                <image class="gphoto-img" src="https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0" mode="aspectFit|aspectFill|widthFix" />
-            </view>
-            <view class="message">
-                <view class="msg-user" >
-                    <view class="user-school" > 
-                        <text class="" >华北电力大学 </text>
-                    </view>
-                    <view class="user-name" > 
-                        <text class="" >陈同学</text>
-                    </view>  
-                </view>
-                <view class="msg-good" >
-                    # <text class="">ipad pro 灰色 128G 99新</text>
-                </view>
-                <!-- <view class="time" >
-                    <text class="" selectable="false" space="false" decode="false">
-                        三天前
-                    </text>
-                </view> -->
-            </view>
-            <view class="time" >
-                <text class="" selectable="false" space="false" decode="false">
-                    三天前
-                </text>
-            </view>
-        </navigator>
-    </view>  
-    <view class="chat-item" hover-class="none" hover-stop-propagation="false">
-        <navigator class="to" target="" url="../chat/chat" hover-class="navigator-hover" open-type="navigate">
-           <view class="gphoto">
-                <image class="gphoto-img" src="https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0" mode="aspectFit|aspectFill|widthFix" />
-            </view>
-            <view class="message">
-                <view class="msg-user" >
-                    <view class="user-school" > 
-                        <text class="" >华北电力大学 </text>
-                    </view>
-                    <view class="user-name" > 
-                        <text class="" >陈同学</text>
-                    </view>  
-                </view>
-                <view class="msg-good" >
-                    # <text class="">ipad pro 灰色 128G 99新</text>
-                </view>
-                <!-- <view class="time" >
-                    <text class="" selectable="false" space="false" decode="false">
-                        三天前
-                    </text>
-                </view> -->
-            </view>
-            <view class="time" >
-                <text class="" selectable="false" space="false" decode="false">
-                    三天前
-                </text>
-            </view>
-        </navigator>
-    </view>  
-    <view class="chat-item" hover-class="none" hover-stop-propagation="false">
-        <navigator class="to" target="" url="../chat/chat" hover-class="navigator-hover" open-type="navigate">
-           <view class="gphoto">
-                <image class="gphoto-img" src="https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0" mode="aspectFit|aspectFill|widthFix" />
-            </view>
-            <view class="message">
-                <view class="msg-user" >
-                    <view class="user-school" > 
-                        <text class="" >华北电力大学 </text>
-                    </view>
-                    <view class="user-name" > 
-                        <text class="" >陈同学</text>
-                    </view>  
-                </view>
-                <view class="msg-good" >
-                    # <text class="">ipad pro 灰色 128G 99新</text>
-                </view>
-                <!-- <view class="time" >
-                    <text class="" selectable="false" space="false" decode="false">
-                        三天前
-                    </text>
-                </view> -->
-            </view>
-            <view class="time" >
-                <text class="" selectable="false" space="false" decode="false">
-                    三天前
-                </text>
-            </view>
-        </navigator>
-    </view>  
-    <view class="chat-item" hover-class="none" hover-stop-propagation="false">
-        <navigator class="to" target="" url="../chat/chat" hover-class="navigator-hover" open-type="navigate">
-           <view class="gphoto">
-                <image class="gphoto-img" src="https://wx.qlogo.cn/mmopen/vi_32/njwaSUP5DiabKEr626aBGHEhibiaAEFLqungTIkqq4WibYRBXcWnCdwBDqbibsZBo67O3ic0O56ZLAUicyKg0RwJ08sSg/0" mode="aspectFit|aspectFill|widthFix" />
-            </view>
-            <view class="message">
-                <view class="msg-user" >
-                    <view class="user-school" > 
-                        <text class="" >华北电力大学 </text>
-                    </view>
-                    <view class="user-name" > 
-                        <text class="" >陈同学</text>
-                    </view>  
-                </view>
-                <view class="msg-good" >
-                    # <text class="">ipad pro 灰色 128G 99新</text>
-                </view>
-                <!-- <view class="time" >
-                    <text class="" selectable="false" space="false" decode="false">
-                        三天前
-                    </text>
-                </view> -->
-            </view>
-            <view class="time" >
-                <text class="" selectable="false" space="false" decode="false">
-                    三天前
-                </text>
-            </view>
-        </navigator>
-    </view>  
-    
-      
+    </view>   
 </view>
   

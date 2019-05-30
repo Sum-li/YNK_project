@@ -15,7 +15,9 @@ page{
     width: 100%;
     z-index: -2;
 }
-
+button::after{
+    border: 0;
+}
 
 .search{
     position: fixed;
@@ -35,6 +37,7 @@ page{
 .main{
     position: absolute;
     top: 150rpx;
+    width:100%;
 }
 .cart-no-data{
     padding:40rpx 0;
@@ -44,18 +47,17 @@ page{
 
 
 .touch{
-    transform: translateY(5rpx);
+    transform: translateY(3rpx);
     transition: all 0.05s;
+    box-shadow:0px 0px 8px #999 inset; 
 
 }
-.list{
-}
-.list>view{
-    width: 45%;
-    float: left;
-    margin-left: 26rpx;
-}
+
 .good_box{
+    position: relative;
+    display: inline-block;
+    margin-left: 25rpx;
+    width: 45%;
     margin-top: 30rpx;
     border-radius: 4rpx;
     overflow: hidden;
@@ -64,6 +66,7 @@ page{
 }
 .good-gphoto{
     width: 100%;
+    height: 300rpx;
 }
 .good-name{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -71,4 +74,79 @@ page{
     padding: 15rpx;
    color: gray;
 }
+.operate{
+    position: absolute;
+    top: 0rpx;
+    right: 0rpx;
+    width: 0;
+    height:0;
+    background-color: transparent;
+    overflow: hidden;
+    transition: all 0.3s;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-items: center;
+    /* padding: 50rpx; */
+    z-index: 5;
 
+}
+.open{
+    height: 100%;
+    width: 100%;
+    /* background-color: rgba(0, 0, 0, 0.2); */
+
+}
+.operate button{
+    width: 70%;
+    /* margin: 10rpx 52rpx; */
+}
+.icon-zhankai{
+    font-size: 20px;
+    position: absolute;
+    top: 0rpx;
+    right: 6rpx;
+    color: #fefefe;
+    transition: all 0.3s ;
+    z-index: 10;
+}
+.i-rotate{
+    transform: rotate(90deg)
+}
+.cover{
+    background-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0rpx;
+}
+.cover-div{
+    background-color: rgba(0, 0, 0,0);
+    transition: all 0.3s;
+}
+
+
+/* 长按呼出操作面板的波纹动画  有bug 先不用*/
+.container{
+    overflow: hidden;
+    transform:translateZ(0);
+    /* -webkit-appearance: button;  */
+    /* transform: translateY(0); */
+}
+.ripple {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 100%;
+    height:20px;
+    width:20px;
+    margin-top: -300rpx;
+    position: absolute;
+    -webkit-transform: scale(0);
+    /* overflow: hidden */
+}
+@-webkit-keyframes ripple {
+    100% {
+    -webkit-transform: scale(20);
+    transform: scale(20);
+    background-color: transparent;
+    }
+}

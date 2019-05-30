@@ -1,110 +1,131 @@
 // page/component/new-pages/cart/cart.js
+let app =  getApp();
+
+  
+
 Page({
   data: {
-    hasList:true,          // 列表是否有数据
-    goods:[{
-      good_id:"1",
-      user_id:"1",
-      good_name:"Ipad air2金色 99新",
-      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae0e814eb58405.jpg      ',
-      good_desc:`
-        2017年购入，64g内存，打游戏没问题
-        因换新出手
-      `
-    },{
-      good_id:"1",
-      user_id:"1",
-      good_name:"Ipad air2金色 99新",
-      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae0e814eb58405.jpg      ',
-      good_desc:`
-        2017年购入，64g内存，打游戏没问题
-        因换新出手
-      `
-    },{
-      good_id:"1",
-      user_id:"1",
-      good_name:"Ipad air2金色 99新",
-      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae0e814eb58405.jpg      ',
-      good_desc:`
-        2017年购入，64g内存，打游戏没问题
-        因换新出手
-      `
-    },{
-      good_id:"1",
-      user_id:"1",
-      good_name:"Ipad air2金色 99新",
-      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae0e814eb58405.jpg      ',
-      good_desc:`
-        2017年购入，64g内存，打游戏没问题
-        因换新出手
-      `
-    },{
-      good_id:"1",
-      user_id:"1",
-      good_name:"漂亮的小裙子 m码",
-      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae119398f76026.jpg',
-      good_desc:`
-        2017年购入，64g内存，打游戏没问题
-        因换新出手
-      `
-    },{
-      good_id:"1",
-      user_id:"1",
-      good_name:"三只松鼠大礼包 原价158，现礼包 原价158，现礼包 原价158，现在只要88！",
-      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae119565d87811.jpg',
-      good_desc:`
-        2017年购入，64g内存，打游戏没问题
-        因换新出手
-      `
-    },{
-      good_id:"1",
-      user_id:"1",
-      good_name:"电动车 能骑到万博来回3次能骑到万博来回3次能骑到万博来回3次",
-      good_gphoto:'https://i.loli.net/2019/05/20/5ce2ae11e5f2836752.jpg',
-      good_desc:`
-        2017年购入，64g内存，打游戏没问题
-        因换新出手
-      `
-    },],
-    total:""   //收藏的物品总数
+    goods:[],
+    total:"",   //收藏的物品总数
+    isStretch:[],
+    page_count:1
+  },
+  onLoad(opstions){
+    this.fresh()
+
+    
+  },
+  fresh(){
+    var _this=this
+    console.log("fresh")
+    wx.request({
+      url: "https://www.schoolbuy.online:80/goods/wantbuy",
+      data: {
+        user_id: app.globalData.userID,
+        page_count:_this.data.page_count
+      },
+      success(res) {
+        console.log(res)
+        var goods=_this.data.goods
+        var newgoods=res.data
+        for(var i=0;i<newgoods.length;i++){
+          goods.push(newgoods[i])
+        }
+        _this.setData({
+          goods:goods,
+          page_count:_this.data.page_count+1
+        })
+      }
+    })
   },
   onShow() {
-
-    if(this.data.goods.length==0){
-      this.setData({
-        hasList: false,
-      });
-    }
-
+    
+    
 
   },
-  to(e){
-    console.log(e.currentTarget.dataset)
+  longtap(e){
+    var that = this
+    var x = e.touches[0].pageX;
+    var y = e.touches[0].pageY;
+    this.setData({
+      rippleStyle: ''
+    });
+    setTimeout(function () {
+      that.setData({
+        rippleStyle: 'top:' + y + 'px;left:' + x + 'px;-webkit-animation: ripple 0.4s linear;animation:ripple 0.4s linear;'
+      });
+    }, 200)
+  },
+  
+  stretch(e){
+    var _this=this
+    var index=e.currentTarget.dataset.index;
+    var temp=this.data.isStretch
+    var value=temp[index]
+    if(value==0){
+        temp[index]=1;
+        this.setData({
+        isStretch:temp
+      })
+    }else{
+      temp[index]=0;
+      this.setData({
+      isStretch:temp
+    })
+    }
+    this.data.isStretch.forEach( (element,index) => {
+      _this.data.isStretch[index]=0
+    });
+    
+  },
+  unstretch(){
+    var temp=this.data.isStretch
+    for(var i=0;i<temp.length;i++){
+      temp[i]=0;
+    }
+    this.setData({
+      isStretch:temp
+    })
+  },
+  cancle(e){
+    var good_id=e.currentTarget.dataset.goodid
+    var index=e.currentTarget.dataset.index
+    var _this=this
+    var goods=this.data.goods
+    wx.request({
+      url: "https://www.schoolbuy.online:80/logic/cancelcoll",
+      data:{
+        goods_id:good_id,
+        user_id:app.globalData.userID
+      },
+      success(res){
+        console.log("success")
+        // console.log(res)
+        goods.splice(index,1)
+        // console.log(goods)
+        _this.unstretch()
+      },
+      fail(res){
+        console.log("delete fail")
+      },
+      complete(res){
+        _this.setData({
+          goods:goods,
+        })
+      }
+    })   
+  },//end cancle()
+  buy(e){
+    var _this=this
+    var good_id=e.currentTarget.dataset.goodid
     wx.navigateTo({
-      url: '../details/details',
+      url: `../orders/orders?good_id=${good_id}`,
       success: (result) => {
         
       },
       fail: () => {},
       complete: () => {}
     });
-      
-  },
-  deleteList(e) {
-    const index = e.currentTarget.dataset.index;
-    let carts = this.data.carts;
-    carts.splice(index,1);
-    this.setData({
-      carts: carts
-    });
-    if(!carts.length){
-      this.setData({
-        hasList: false
-      });
-    }else{
-      this.getTotalPrice();
-    }
-  },
-
-
+  }//end buy()
+  
 })

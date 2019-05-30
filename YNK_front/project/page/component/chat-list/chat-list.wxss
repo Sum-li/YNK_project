@@ -30,7 +30,8 @@ page{
     /* margin-left: 30rpx; */
     /* padding: 15rpx; */
     position: relative;
-    left: -100rpx;
+    /* left: -100rpx; */
+    width: 60%;
 }
 .msg-user{
     display: flex;

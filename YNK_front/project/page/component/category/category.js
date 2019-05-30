@@ -5,21 +5,23 @@ Page({
   data: {
     category: [{
         name: '点心',
-        id: 'dianxin'
+        id: '0'
       },
       {
         name: '粗茶',
-        id: 'cucha'
+        id: '1'
       },
-      {
-        name: '淡饭',
-        id: 'danfan'
-      }
     ],
-    detail: [],
+    page_count: [],
+    detail: [
+      [],
+      
+      [],[],[],[],[],[],[],
+    ],
     curIndex: 0,
     isScroll: false,
-    toView: 'guowei',
+    loading: false,
+    toView: 0,
     open: false,
     mark: 0,
     newmark: 0,
@@ -29,31 +31,74 @@ Page({
     staus: 1,
     translate: ''
   },
-  onReady() {
-    var self = this;
-    console.log(app.globalData)
-    self.setData({
-      category: app.globalData.category
+  onLoad(options) {
+    var _this = this;
+    var arr = []
+    for (let i = 0; i < app.globalData.category.length; i++) {
+      arr[i] = 0
+    }
+    _this.setData({
+      category: app.globalData.category,
+      page_count: arr
     })
-
-    wx.request({
-      url: 'http://www.gdfengshuo.com/api/wx/cate-detail.txt',
-      success(res) {
-        // console.log(res.data)
-        self.setData({
-          detail: res.data
-        })
-      }
-    });
+  },
+  onReady() {
+    this.tap_ch() //进入分类页面时打开菜单
+  },
+  loadGoods(e) {
+    var _this = this
+    var id = e.detail.dataset.id
 
   },
+  onReachBottom(){
+    this.loadMore()
+  },
+  loadMore() {
+    console.log("loadMore")
+    this.data.loading = true
+    var _this = this
+    wx.request({
+      url: 'https://www.schoolbuy.online:80/goods/goodscategory',
+      data: {
+        category_id: _this.data.curIndex,
+        page_count: 1
+      },
+      success(res) {
+        if(res.data.length==0){
+          return
+        }
+        var page_count=_this.data.page_count
+        page_count[_this.data.curIndex]++
+        console.log(res)
+        var new_goods = res.data;
+        var good_list = _this.data.detail;
+        for(var i=0;i<new_goods.length;i++){
+          　　good_list[_this.data.curIndex].push(new_goods[i])
+          }
+        _this.setData({
+          detail: good_list,
+          page_count: page_count,
+        })
+      },
+      fail(res) {
+        console.log("load more fail")
+        console.log(res)
+
+      },
+      complete(res) {
+        _this.data.loading = false
+      }
+    })
+  },
+
 
   switchTab(e) {
     console.log(e.currentTarget.dataset)
     this.setData({
-      toView: e.currentTarget.dataset.id,
-      curIndex: e.currentTarget.dataset.id
+      // toView: e.currentTarget.dataset.id,
+      curIndex: e.currentTarget.dataset.index
     })
+    this.loadMore()
   },
   tap_ch: function (e) {
     if (this.data.open) {
@@ -128,12 +173,12 @@ Page({
         })
         this.data.staus = 2;
       }
-    }else if(this.data.staus == 1 && this.data.startmark > this.data.newmark){
+    } else if (this.data.staus == 1 && this.data.startmark > this.data.newmark) {
       this.setData({
         translate: 'transform: translateX(0px)'
       })
       this.data.staus = 1;
-    }else {
+    } else {
       if (Math.abs(this.data.newmark - this.data.startmark) <= (this.data.windowWidth * 0.2)) {
         this.setData({
           translate: 'transform: translateX(' + this.data.windowWidth * 0.30 + 'px)'

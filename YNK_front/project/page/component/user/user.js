@@ -86,4 +86,5 @@ Page({
     //   curIndex: index
     // })
   },
+  
 })

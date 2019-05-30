@@ -1,7 +1,9 @@
 // page/component/publish/publish.js
 import { $init, $digest } from '../../../util/common.util'
 import { promisify } from '../../../util/promise.util'
+let app =  getApp();
 
+  
 const wxUploadFile = promisify(wx.uploadFile)
 
 
@@ -22,25 +24,26 @@ Component({
     category_id:'',//分类id
     quickinput_index:-1,
     textarea_value:"",//详细描述
+    price:"",
     category: ["其他","交通工具","电子产品","衣物鞋子","书本教材"],//可选的物品种类
-    objectArray: [
-      {
-        id: 0,
-        name: '交通工具'
-      },
-      {
-        id: 1,
-        name: '电子产品'
-      },
-      {
-        id: 2,
-        name: '衣物鞋子'
-      },
-      {
-        id: 3,
-        name: '书本教材'
-      }
-    ],
+    // objectArray: [
+    //   {
+    //     id: 0,
+    //     name: '交通工具'
+    //   },
+    //   {
+    //     id: 1,
+    //     name: '电子产品'
+    //   },
+    //   {
+    //     id: 2,
+    //     name: '衣物鞋子'
+    //   },
+    //   {
+    //     id: 3,
+    //     name: '书本教材'
+    //   }
+    // ],
     index: 0,  //picker组件用到
     images: [],
     options:['新旧程度:','入手渠道:','使用感受:','出手原因:','222222','222222','222222','222222','222222']
@@ -53,17 +56,24 @@ Component({
       $init(this)//图片选择功能初始化
     },
     inputedit(e){
-      let value = e.detail.value;
-      this.data.good_name=value;
       this.setData({
-        name:this.data.good_name
+        good_name:e.detail.value
       });
     },
     textareaedit(e){
-      let value = e.detail.value;
-      this.data.textarea_value=value;
       this.setData({
-        name:this.data.textarea_value
+        textarea_value:e.detail.value
+      });
+    },
+    priceEdit(e){
+      this.setData({
+        price:e.detail.value
+      });
+    },
+    onLuanch(e){
+      var _this=this
+      app.globalData.category.forEach( (element ,index) => {
+        _this.data.category[index]=element.name
       });
     },
     chooseImage(e) {
@@ -124,12 +134,12 @@ Component({
         })
           
         wx.uploadFile({
-          url:"http://www.schoolbuy.online.:80/pub",
+          url:"https://www.schoolbuy.online:80/logic/pub",
           filePath: _this.data.images[0],
           name: 'gphoto',
           formData:{
             name:good_name,
-            user_id:"12345",
+            user_id:app.globalData.userID,
             name:good_name,
             category_id:category_id,
             price:price,
@@ -167,12 +177,12 @@ Component({
               // }
               if(index>0){
                 return wxUploadFile({
-                  url: "http://www.schoolbuy.online.:80/photo",
+                  url: "https://www.schoolbuy.online:80/logic/photo",
                   filePath: path,
                   name: 'image',
                   formData:{
                     name:good_name,
-                    user_id:"12345",
+                    user_id:app.globalData.userID,
                     goods_id:good_id
                   }
                 })
@@ -185,9 +195,19 @@ Component({
               }).catch(err => {
                 console.log(">>>>error:", err)
               }).then(res => {
-                // 发布成功，转到刚才发布的物品页
-                wx.redirectTo({ url: '../detail/detail' }) 
+                // 发布成功，清空输入框、转到刚才发布的物品页
+
+
+                wx.navigateTo({ url: `../details/details?good_id=${good_id}` }) 
               }).then(() => {
+                _this.setData({
+                  good_name:'',
+                  textarea_value:"",
+                  price:0,
+                  images: []
+                })
+
+
                 wx.hideLoading()
               })
           }

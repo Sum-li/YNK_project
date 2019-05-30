@@ -1,5 +1,8 @@
 {
-    "usingComponents": {
-        "template-picker":"../common/components/picker/picker"
-      }
+  "usingComponents": {
+      "template-picker":"../common/components/picker/picker"
+    },
+  "navigationBarBackgroundColor": "white",
+  "navigationBarTitleText": "主页",
+  "backgroundColor": "#ffffff"
 }
