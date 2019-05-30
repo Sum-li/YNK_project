@@ -11,6 +11,7 @@ type User struct {
 	StudentNumber string
 	School string
 	Openid string	`gorm:"not null;unique"`
+	Gphoto string
 	Address string
 	Goods []Goods
 	Collections []Collections
@@ -63,4 +64,5 @@ type Chatinfo struct {
 	ReceiveID uint
 	CreatedAt time.Time
 	Context string
+	IsRead bool
 }
