@@ -35,7 +35,9 @@ Page({
   onReady: function () {
 
   },
+  down(){
 
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -79,7 +81,7 @@ Page({
   },
   edit(e) {
     wx.navigateTo({
-      url: '../publish/publish',
+      url: `../edit/edit?good_id=${e.currentTarget.dataset.goodid}`,
       success: (result) => {
 
       },
@@ -95,9 +97,7 @@ Page({
     })
   },
 
-  preventTouchMove: function () {
 
-  },
   fresh(){
     var _this=this
     console.log("fresh")

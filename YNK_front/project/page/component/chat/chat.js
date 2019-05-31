@@ -34,22 +34,30 @@ Page({
     your_info:{}
   },
   onLoad: function (options) {
+    console.log(options.user_id)
     var _this = this; 
-    var pages = getCurrentPages();
-    var currentPage = pages[pages.length-1]
-    var url = currentPage.route //当前页面url
-console.log(url)
-    var prevPage = pages[pages.length - 2];  //上一个页面
-    var your_info=prevPage.data.list[options.index]
-
-    console.log(your_info)
     this.setData({
       my_avavtar:wx.getStorageSync("userInfo").avatarUrl,
       myid:app.globalData.userID,
-      yourid:your_info.user_id,
-      your_avartar:your_info.gphoto,
-      your_info:your_info
+      yourid:options.user_id,
     })
+    wx.request({
+      url:"https://schoolbuy.online:80/ws/getchatuserinfo",
+      data:{
+        send_id:options.user_id
+      },
+      success(res){
+        console.log(res)
+        _this.setData({
+          your_avartar:res.data.gphoto,
+        })
+      }
+    })
+
+
+
+
+
     wx.onSocketMessage(function (res) {
       console.log('收到服务器返回内容（chat）：' + (res.data));
       var message_list=_this.data.message_list
@@ -384,21 +392,21 @@ console.log(url)
         console.log(res.data)
 
         res.data.forEach( (element,index) => {
-          if(element.SendID ==_this.data.myid ){
+          if(element.send_id ==_this.data.myid ){
             var message = {
               myself: 1,
               head_img_url: _this.data.my_avavtar,
               msg_type: element.Type,
-              content: element.Context,
-              create_time: element.CreatedAt
+              content: element.context,
+              create_time: element.created_at
             };
           }else{
             var message = {
               myself: 0,
               head_img_url: _this.data.your_avartar,
               msg_type: element.Type,
-              content: element.Context,
-              create_time: element.CreatedAt
+              content: element.context,
+              create_time: element.created_at
             };
           } 
           new_list.push(message)

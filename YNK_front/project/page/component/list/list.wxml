@@ -1,29 +1,25 @@
 <view class="main">
-    <view class="banner">
-        <image src="/image/list1.png"></image>
-    </view>
-
-    <view class="list-box">
-        <view class="newest-list">
-            <navigator url="../details/details">
-                <image src="/image/s4.png"></image>
-                <view class="newest-text"><text>瓜子 100g</text></view>
-                <view class="newest-text"><text>￥ 0.01</text></view>
-            </navigator>
+    <scroll-view class="categroy-right" scroll-y scroll-with-animation="true">
+        <view class="cate-box">
+            <view class="cate-banner">
+                <image src="http://schoolbuy.online:70/static/Poster/poster2.png" mode="aspectFill"></image>
+            </view>
+            <view class="cate-title">
+                <text>{{cate}}</text>
+            </view>
+            <view class="product">
+                <view class="product-list" wx:for="{{detail}}" wx:key="index" wx:for-item="val">
+                    <navigator url="../details/details?good_id={{val.good_id}}">
+                        <image src="{{val.gphoto}}" mode="aspectFill"></image>
+                        <view class="classname">{{val.name}}</view>
+                    </navigator>
+                </view>
+            </view>
+            <view class="bottom" wx:if="{{loading}}">
+                <!-- <text class="loading-text" selectable="false" space="false" decode="false"></text> -->
+                <!-- 加载中... -->
+                {{noMore==false?"加载中":"下面没有了"}}
+            </view>
         </view>
-        <view class="newest-list">
-            <navigator url="../details/details">
-                <image src="/image/s5.png"></image>
-                <view class="newest-text"><text>芹菜 半斤</text></view>
-                <view class="newest-text"><text>￥ 0.02</text></view>
-            </navigator>
-        </view>
-        <view class="newest-list">
-            <navigator url="../details/details">
-                <image src="/image/s6.png"></image>
-                <view class="newest-text"><text>素米 375g</text></view>
-                <view class="newest-text"><text>￥ 0.03</text></view>
-            </navigator>
-        </view>
-    </view>
+    </scroll-view>
 </view>

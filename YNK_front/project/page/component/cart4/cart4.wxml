@@ -12,6 +12,8 @@
         <view class="orders-footer">
             <text>实付：￥{{item.Price}}</text>
             <button wx:if="{{item.Islow}}" size="mini" class="orders-btn" bindtap="payOrders">收货</button>
+            <button wx:if="{{item.Islow}}" size="mini" class="orders-btn" bindtap="payOrders">评价</button>
+            <button wx:if="{{item.Islow}}" size="mini" class="orders-btn" bindtap="delOrders">删除</button>
         </view>
     </view>
 </view>

@@ -15,9 +15,16 @@ Page({
     page_count: [],
     detail: [
       [],
-      
-      [],[],[],[],[],[],[],
+
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
     ],
+    noMore: [],
     curIndex: 0,
     isScroll: false,
     loading: false,
@@ -29,52 +36,58 @@ Page({
     endmark: 0,
     windowWidth: wx.getSystemInfoSync().windowWidth,
     staus: 1,
-    translate: ''
+    translate: '',
   },
   onLoad(options) {
     var _this = this;
     var arr = []
+    var noMore = []
     for (let i = 0; i < app.globalData.category.length; i++) {
-      arr[i] = 0
+      arr[i] = 1;
+      noMore.push(false)
     }
     _this.setData({
       category: app.globalData.category,
-      page_count: arr
+      page_count: arr,
+      noMore: noMore
     })
   },
   onReady() {
     this.tap_ch() //进入分类页面时打开菜单
   },
-  loadGoods(e) {
-    var _this = this
-    var id = e.detail.dataset.id
 
-  },
-  onReachBottom(){
+  onReachBottom() {
     this.loadMore()
   },
   loadMore() {
-    console.log("loadMore")
-    this.data.loading = true
     var _this = this
+
+    console.log("loadMore")
+    this.setData({
+      loading: true
+    })
     wx.request({
       url: 'https://www.schoolbuy.online:80/goods/goodscategory',
       data: {
         category_id: _this.data.curIndex,
-        page_count: 1
+        page_count: _this.data.page_count[_this.data.curIndex]
       },
       success(res) {
-        if(res.data.length==0){
-          return
-        }
-        var page_count=_this.data.page_count
+
+        var page_count = _this.data.page_count
         page_count[_this.data.curIndex]++
-        console.log(res)
         var new_goods = res.data;
         var good_list = _this.data.detail;
-        for(var i=0;i<new_goods.length;i++){
-          　　good_list[_this.data.curIndex].push(new_goods[i])
-          }
+        if (new_goods.length == 0) {
+          _this.setData({
+            noMore: true
+          })
+          return
+        }
+        for (var i = 0; i < new_goods.length; i++) {
+          good_list[_this.data.curIndex].push(new_goods[i])
+        }
+
         _this.setData({
           detail: good_list,
           page_count: page_count,
@@ -86,7 +99,13 @@ Page({
 
       },
       complete(res) {
-        _this.data.loading = false
+
+        setTimeout(() => {
+          _this.setData({
+            loading: false
+          })
+        }, 500)
+
       }
     })
   },
@@ -98,6 +117,7 @@ Page({
       // toView: e.currentTarget.dataset.id,
       curIndex: e.currentTarget.dataset.index
     })
+
     this.loadMore()
   },
   tap_ch: function (e) {

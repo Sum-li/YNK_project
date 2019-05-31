@@ -2,34 +2,22 @@
   "pages": [
     "page/component/index",
     
+    "page/component/list/list",
+    "page/component/approve/approve",
     "page/component/cart/cart",
-    
-
     "page/component/chat-list/chat-list",
-
-    
-    
-    
     "page/component/cart2/cart2",
-    
-    
     "page/component/publish/publish",
-    
-    
-    
     "page/component/category/category",
-  
     "page/component/orders/orders",
-    
     "page/component/details/details",
-    
     "page/component/user/user",
     "page/component/cart4/cart4",
     "page/component/address/address",
-    "page/component/list/list",
     "page/component/chat/chat",
     "page/component/accredit/accredit",
-    "page/component/cart3/cart3"
+    "page/component/cart3/cart3",
+    "page/component/edit/edit"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -64,8 +52,8 @@
       },
       {
         "pagePath": "page/component/chat-list/chat-list",
-        "iconPath": "image/chat.png",
-        "selectedIconPath": "image/chat2.png",
+        "iconPath": "image/chat77.png",
+        "selectedIconPath": "image/chat66.png",
         "text": ""
       },
       {

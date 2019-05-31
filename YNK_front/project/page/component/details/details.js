@@ -8,18 +8,18 @@ Page({
       images: [
       ],
       title: '',
-      price: 0.01,
+      price: 0,
       gphoto: '',
-      detail: '这里是梨花带雨详情。',
+      detail: '',
       // parameter: '125g/个',
-      service: '不支持退货',
+      service: '',
       isbuy: false
     },
     user: {
       user_id: "1",
-      user_name: '陈某某',
-      user_school: "华北电力大学",
-      sell_count: "12",
+      user_name: '',
+      user_school: "",
+      sell_count: "",
       avavtar:""
     },
     isnotCart: true,

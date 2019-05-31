@@ -6,7 +6,7 @@
 
 <view class="box">
     <view wx:for="{{list}}" wx:for-index="index" class="chat-item" wx:key="key" hover-class="none" hover-stop-propagation="false">
-        <navigator class="to" url="../chat/chat?index={{index}}" hover-class="navigator-hover" open-type="navigate">
+        <navigator class="to" url="../chat/chat?user_id={{item.user_id}}" hover-class="navigator-hover" open-type="navigate">
            <view class="gphoto">
                 <image class="gphoto-img" src="{{item.gphoto}}" mode="aspectFit" />
             </view>

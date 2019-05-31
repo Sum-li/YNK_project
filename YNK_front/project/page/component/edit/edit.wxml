@@ -1,4 +1,4 @@
-<!-- page/component/publish/publish.wxml -->
+<!--page/component/edit/edit.wxml-->
 <view class="main">
   <view class="message panel">
     <input class="title" placeholder='标题' data-name="name" bindinput="inputedit" value="{{good_name}}"></input>
@@ -16,7 +16,7 @@
           <!-- 图片缩略图 -->
           <image class="image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
           <!-- 移除图片的按钮 -->
-          <icon class="iconfont icon-close image-remover" data-idx="{{index}}" bindtap="removeImage"></icon>
+          <icon class="iconfont icon-close image-remover" data-url="{{}}" data-idx="{{index}}" bindtap="removeImage"></icon>
         </view>
       </block>
       <view class="image-opera image-wrap" hover-class="none" hover-stop-propagation="false">
@@ -63,7 +63,7 @@
   <view class="submit">
     <button class="submit-btn" bindtap="submitForm">
       <text class="" selectable="false" space="false" decode="false">
-              发布
+              保存
 
       </text>
         

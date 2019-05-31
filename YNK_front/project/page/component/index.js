@@ -3,35 +3,37 @@ var app = getApp()
 Page({
   data: {
     imgUrls: [
-      'http://schoolbuy.online:70/static/Poster/poster1.png',
-      'http://schoolbuy.online:70/static/Poster/poster2.png',
-      'http://schoolbuy.online:70/static/Poster/poster3.png',
+      'https://i.loli.net/2019/05/31/5cf11a2f6d34099154.jpg',
+      'https://i.loli.net/2019/05/31/5cf11a2f6b69b65005.jpg',
+      // 'http://schoolbuy.online:70/static/Poster/poster3.png',
     ],
     search_val: "",
     ortherBy: 0,
     page_count: 1,
+    certified:false,
     loading: false,
     autoplay: false,
     menu_direction: [0, 1, 0],
     good_list: [
-    //   {
-    //   name: 'ipad2018 99新 深空灰 在保',
-    //   price: "2099",
-    //   gphoto: 'https://i.loli.net/2019/05/26/5ce9e4fa8824823515.jpg',
-    //   good_id: '99',
-    //   user_name: '陈同学',
-    //   school: '华北电力大学',
-    //   student_number: '201709000103',
-    //   pub_time: "2014-09-01"
-    // }
-  ],
-    avavtar:""
+      //   {
+      //   name: 'ipad2018 99新 深空灰 在保',
+      //   price: "2099",
+      //   gphoto: 'https://i.loli.net/2019/05/26/5ce9e4fa8824823515.jpg',
+      //   good_id: '99',
+      //   user_name: '陈同学',
+      //   school: '华北电力大学',
+      //   student_number: '201709000103',
+      //   pub_time: "2014-09-01"
+      // }
+    ],
+    avavtar: "",
+    noMore:false
   },
 
   onLoad(options) {
     // 页面初次加载，请求第一页数据，并且判断是否用户已经授权，若为授权，则转到授权页面
     // this.loadMore(1) //请求第一页
-   
+
     var _this = this
     var user = wx.getStorageSync('user') || {};
     var userInfo = wx.getStorageSync('userInfo') || {};
@@ -63,11 +65,12 @@ Page({
       });
     } else {
       _this.getUserId(); // 已经授权，把openid、userInfo发给后台，获取我们的库中的userid
-      this.data.avavtar=wx.getStorageSync("userInfo").avatarUrl
+      this.data.avavtar = wx.getStorageSync("userInfo").avatarUrl
       this.socketConn()
       this.socketOn()
+      this.loadMore(1) //请求第一页
+
     }
-    this.loadMore(1) //请求第一页
 
   },
   getUserId: function () {
@@ -87,6 +90,7 @@ Page({
         success: (res) => {
           console.log(res)
           app.globalData.userID = res.data
+          // app.globalData.certified= res.data
         }
       })
     }
@@ -115,6 +119,10 @@ Page({
       succes: function (res) {
         console.log("request success")
         console.log(res)
+        if(res.data==[]){
+          console.log('已经没有数据了')
+          return
+        }
         var new_goods = res.data;
         var good_list = _this.data.good_list
         good_list.push(new_goods)
@@ -130,13 +138,16 @@ Page({
       complete(res) {
         // console.log("request complete")
         console.log(res)
-
-        if (!res.data) {
-          console.log("请求下一页失败")
-          return
-        }
         var new_goods = res.data;
         var good_list = _this.data.good_list
+        if(new_goods.length==0){
+          _this.setData({
+            noMore:true
+          })  
+          return
+        }
+
+
         new_goods.forEach(element => {
           good_list.push(element)
         });
@@ -157,9 +168,9 @@ Page({
   },
   socketConn() {
     var _this = this
-    var user_id=app.globalData.userID
+    var user_id = app.globalData.userID
     wx.connectSocket({
-      url: `ws://www.schoolbuy.online:800/ws?user_id=18`,
+      url: `ws://www.schoolbuy.online:800/ws?user_id=${user_id}`,
       success: function (res) {}
     });
 
@@ -184,16 +195,37 @@ Page({
     })
   },
   socketOn() { //socket长连接   接受新消息
-    var _this=this
+    var _this = this
     wx.onSocketMessage(function (res) {
       console.log('收到服务器返回内容：' + (res.data));
-      if (res.data) {  //代表有新消息发来
+      if (res.data) { //代表有新消息发来
         app.globalData.haveUnread = true
         wx.showTabBarRedDot({
           index: 3,
         });
       }
     });
+  },
+  onPullDownRefresh(){
+    var _this=this
+    this.setData({
+      page_count:1
+    })
+    this.loadMore(_this.data.page_count)
+    wx.stopPullDownRefresh();
+  },
+  search(){
+    var _this=this
+    wx.navigateTo({
+      url: `list/list?key=${_this.data.search_val}`,
+      success: (res) => {
+        
+      },
+      fail: () => {},
+      complete: () => {}
+    });
+      
+
   }
 
 })

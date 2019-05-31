@@ -56,7 +56,18 @@ Page({
       }
     })
   },
-
+  delOrders(){
+    var _this=this
+    wx.request({
+      url: "https://www.schoolbuy.online:80/goods/",
+      data: {
+        user_id: app.globalData.userID,
+      },
+      success(res) {
+       _this.fresh()
+      }
+    })
+  },
   onReady: function () {
 
   },

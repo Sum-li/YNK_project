@@ -10,9 +10,10 @@
         </view>
         <view class="orders-footer">
             <!-- <text>实付：￥{{item.money}}</text> -->
-            <button size="mini" class="orders-btn" bindtap="">删除</button>
+            <button size="mini" class="orders-btn" bindtap="delOrders">删除</button>
             <!-- <button size="mini" class="orders-btn" bindtap="">下架</button> -->
             <!-- <button size="mini" class="orders-btn" bindtap="">改价</button> -->
+            <button size="mini" class="orders-btn" bindtap="">评论</button>
             <button size="mini" class="orders-btn" bindtap="">联系买家</button>
         </view>
     </view>

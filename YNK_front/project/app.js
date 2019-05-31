@@ -32,7 +32,8 @@ App({
     ],
     userID: '0',
     socketOpen:false,
-    haveUnread:false
+    haveUnread:false,
+    certified:false
   },
   onLaunch: function () {
     console.log('App Launch')

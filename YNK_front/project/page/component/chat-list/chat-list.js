@@ -50,37 +50,33 @@ Page({
       success(res) {
         new_list = res.data
         console.log(res.data)
-        if(!res.data){
-          return
-        }
-        new_list.forEach((element, index) => {
-          list_storage.forEach((elm, idx) => {
-            // console.log(elm,element)
-            if (element.user_id == elm.user_id) { //已经有这条记录
-              list_storage.splice(idx, 1)
-            }
+        if (1) {
+          _this.setData({
+            list: wx.getStorageSync("chatList")
           })
-        });
-        for(var i=0;i<new_list.length;i++){
-          list_storage.push(new_list[i])
-        }
-        wx.setStorage({
-          key: 'chatList',
-          data: list_storage,
-          success: (result) => {
-            // console.log(list_storage)
-            _this.setData({
-              list: wx.getStorageSync("chatList")
+        } else {
+          new_list.forEach((element, index) => {
+            list_storage.forEach((elm, idx) => {
+              // console.log(elm,element)
+              if (element.user_id == elm.user_id) { //已经有这条记录
+                list_storage.splice(idx, 1)
+              }
             })
-          },
-          fail: (res) => {
-            // console.log(res)
-          },
-          complete: (res) => {
-            // console.log(res)
+          });
+          for (var i = 0; i < new_list.length; i++) {
+            list_storage.push(new_list[i])
           }
-        });
+          wx.setStorage({
+            key: 'chatList',
+            data: list_storage,
+            success: (result) => {
+              _this.setData({
+                list: wx.getStorageSync("chatList")
+              })
+            },
 
+          });
+        }
       }
     })
   },
@@ -95,8 +91,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // console.log("showsadasdasd")
-    // this.getList()
+
     wx.hideTabBarRedDot({
       index: 3,
     });
@@ -139,5 +134,5 @@ Page({
   getUnread() {
 
   },
-  
+
 })

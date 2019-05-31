@@ -52,7 +52,7 @@
             </navigator>
         </view>
         <view class="certific">
-         <navigator url="/page/component/address/address">
+         <navigator url="/page/component/approve/approve">
                 <image class="" src="/image/certific2.png" />
                 <text class="text-placeholder">认证</text>
             </navigator>

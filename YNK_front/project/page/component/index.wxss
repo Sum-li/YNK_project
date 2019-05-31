@@ -138,7 +138,7 @@ button::after{border:0}
 
 .menu-list {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     /* height: 75rpx; */
     padding: 20rpx;
 }
@@ -289,11 +289,13 @@ button::after{border:0}
 }
 .good-peice{
     color:rosybrown;
-    /* margin-top: 20rpx; */
+    font-size: 40rpx;
+    margin-top: 15rpx;
 }
 .good-hot{
     position: absolute;
-    bottom: 40rpx;
+    bottom: 10rpx;
+    right: 10rpx;
     font-size: 20rpx;
     color: rosybrown;
     /* display: flex; */
@@ -311,13 +313,18 @@ button::after{border:0}
 .newgood-text-user icon{
     /* font-size: 16px; */
     position: relative;
-    top:-10rpx;
+    top:-6rpx;
 }
 .newgood-text-user view{
     margin-right: 20rpx;
+    margin-left: 10rpx;
+
 }
 .newgood-text-school{
     color: rosybrown;
+    position: absolute;
+    bottom: 40rpx;
+    left: 10rpx;
 }
 .bottom{
     height: 60rpx;

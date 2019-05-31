@@ -2,7 +2,7 @@
 <wxs module="beautify" src="../../util/beautify.wxs" />
 <view class="main">
     <view class="search-box" hover-class="none" hover-stop-propagation="false">
-        <input type="text" class="search" confirm-type="search" bindinput="bindsearch" maxlength='30'>
+        <input type="text" class="search" confirm-type="search" bindconfirm="search" bindinput="bindsearch" maxlength='30'>
             <button>
                 <icon class="" type="search" size="23" color=""></icon>
             </button>
@@ -34,19 +34,16 @@
             <view class='menu-list'>
                 <view class='menu-nav {{ortherBy==0?"menu-nav-on":""}} ' data-index="0" bindtap="menuClick">
                     <text class='menu-text'>综合排序</text>
-                    <!-- <icon class="iconfont icon-right {{menu_direction[0]==1?'icon-down':''}}"></icon> -->
                 </view>
-                <view class='menu-nav {{ortherBy==1?"menu-nav-on":""}}' data-index="1" bindtap="menuClick">
+                <!-- <view class='menu-nav {{ortherBy==1?"menu-nav-on":""}}' data-index="1" bindtap="menuClick">
                     <text class='menu-text'>附近</text>
-                    <!-- <icon class="iconfont icon-right {{menu_direction[1]==1?'icon-down':''}} "></icon> -->
-                </view>
+                </view> -->
                 <view class='menu-nav {{ortherBy==2?"menu-nav-on":""}}' data-index="2" bindtap="menuClick">
                     <text class='menu-text'>热度</text>
                 </view>
-                <view class='menu-nav {{ortherBy==3?"menu-nav-on":""}}' data-index="3" bindtap="menuClick">
+                <!-- <view class='menu-nav {{ortherBy==3?"menu-nav-on":""}}' data-index="3" bindtap="menuClick">
                     <text class='menu-text'>筛选</text>
-                    <!-- <icon class="iconfont icon-right {{menu_direction[2]==1?'icon-down':''}}"></icon> -->
-                </view>
+                </view> -->
             </view>
         </view>
     </view>
@@ -67,6 +64,9 @@
                         <view class="newgood-text good-peice">
                             <text class="">¥{{item.price}}</text>
                         </view>
+                         <view class="newgood-text newgood-text-school" hover-class="none" hover-stop-propagation="false">
+                                <text>{{item.school}}</text>
+                        </view>
                         <view class="newgood-text good-hot" hover-class="none" hover-stop-propagation="false">
                             <!-- <text class="" selectable="false" space="false" decode="false">
                                 热度
@@ -74,13 +74,14 @@
                             <icon class="iconfont icon-redu" size="23" color="red"></icon>
                             <text class="" selectable="false" space="false" decode="false">99</text>
                         </view>
+                       
                         <view class="newgood-text-user">
-                            <view class="newgood-text-school">
+                            <!-- <view class="newgood-text-school">
                                 <text>{{item.school}}</text>
-                            </view>
-                            <icon class="iconfont icon-renzheng-"></icon>
+                            </view> -->
+                            <icon class="iconfont     icon-yirenzheng2"></icon>
                             <view class="newgood-text-name">
-                                <text>{{item.user_name}}</text>
+                                <text>| {{item.user_name}}</text>
                             </view>
                             <view class="newgood-text-time" data-time='{{item.pub_time}}'>
                                 <text>{{beautify.beautify_time(item.pub_time)}}发布</text>
@@ -93,6 +94,7 @@
     </view>
     <view class="bottom" wx:if="{{loading}}">
         <!-- <text class="loading-text" selectable="false" space="false" decode="false"></text> -->
-        加载中...
+        
+        {{noMore==true?"下面没有了":"加载中..."}}
     </view>
 </view>

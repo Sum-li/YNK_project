@@ -9,6 +9,7 @@ page{
 .text-placeholder{
     color: rgb(143, 143, 143);
     font-size: 0.8rem;
+    padding-left: 30rpx;
     /* position: absolute; */
     /* right: 0rpx; */
   }

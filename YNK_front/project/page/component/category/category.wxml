@@ -1,7 +1,7 @@
 <view class="page">
     <view class="page-bottom">
         <view class="page-content">
-            <view wx:for="{{category}}" class="wc" data-index="{{item.id}}" bindtap="switchTab" wx:key="key">
+            <view wx:for="{{category}}" class="wc {{index==curIndex?'wc-on':'' }}" data-index="{{item.id}}" bindtap="switchTab" wx:key="key">
                 <text>{{item.name}}</text>
             </view>
         </view>
@@ -10,32 +10,30 @@
         <view class="operat" hover-class="none" hover-stop-propagation="false">
             <icon class="iconfont icon-zhankai" bindtap="tap_ch"></icon>
         </view>
-        <scroll-view class="categroy-right" scroll-y scroll-with-animation="true" >
+        <scroll-view class="categroy-right" scroll-y scroll-with-animation="true">
             <view wx:for="{{detail}}" wx-if="{{index==curIndex}}" wx:for-index wx:key="idx">
                 <view data-index="{{index}}" class="cate-box">
                     <view class="cate-banner">
-                        <image src="/image/poster1.png" mode="aspectFill"></image>
+                        <image src="http://schoolbuy.online:70/static/Poster/poster2.png" mode="aspectFill"></image>
                     </view>
                     <view class="cate-title">
-                        <text>{{item.cate}}</text>
+                        <text>{{category[curIndex].name}}</text>
                     </view>
-                    <view class="product" >
+                    <view class="product">
                         <view class="product-list" wx:for="{{detail[index]}}" wx:key="index" wx:for-item="val">
                             <navigator url="../details/details?good_id={{val.good_id}}">
-                                <image src="{{val.gphoto}}" mode="widthFix"></image>
-                                <view class="classname">
-                                    {{val.name}}
-                                </view>
+                                <image src="{{val.gphoto}}" mode="aspectFill"></image>
+                                <view class="classname">{{val.name}}</view>
                             </navigator>
                         </view>
                     </view>
                     <view class="bottom" wx:if="{{loading}}">
-                <!-- <text class="loading-text" selectable="false" space="false" decode="false"></text> -->
-                加载中...
-            </view>
+                        <!-- <text class="loading-text" selectable="false" space="false" decode="false"></text> -->
+                        <!-- 加载中... -->
+                        {{noMore[curIndex]==false?"加载中":"下面没有了"}}
+                    </view>
                 </view>
             </view>
-            
         </scroll-view>
     </view>
 </view>

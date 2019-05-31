@@ -4,5 +4,7 @@
     },
   "navigationBarBackgroundColor": "white",
   "navigationBarTitleText": "主页",
-  "backgroundColor": "#ffffff"
+  "backgroundColor": "#ffffff",
+  "enablePullDownRefresh": true
+
 }
