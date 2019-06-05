@@ -1,7 +1,7 @@
 <!-- page/component/cart4/cart4.wxml -->
 <view class="orders-box">
     <view class="orders">我的订单</view>
-    <view class="orders-list" wx:for="{{orders}}" wx:key="index">
+    <navigator class="orders-list" wx:for="{{orders}}" wx:key="index" url="../details/details?good_id={{item.Id}}">
         <view class="orders-number">订单编号:{{item.OrderId}}</view>
         <view class="orders-detail">
             <image src="{{item.Gphoto}}" mode="aspectFill"></image>
@@ -11,9 +11,9 @@
         </view>
         <view class="orders-footer">
             <text>实付：￥{{item.Price}}</text>
-            <button wx:if="{{item.Islow}}" size="mini" class="orders-btn" bindtap="payOrders">收货</button>
-            <button wx:if="{{item.Islow}}" size="mini" class="orders-btn" bindtap="payOrders">评价</button>
-            <button wx:if="{{item.Islow}}" size="mini" class="orders-btn" bindtap="delOrders">删除</button>
+            <button wx:if="{{!item.IsReceived}}" size="mini" class="orders-btn" data-OrderId="{{item.OrderId}}" catchtap="receive">收货</button>
+            <!-- <button wx:if="{{item.Islow}}" size="mini" class="orders-btn" bindtap="payOrders">评价</button> -->
+            <!-- <button size="mini" class="orders-btn" bindtap="delOrders">删除</button> -->
         </view>
-    </view>
+    </navigator>
 </view>

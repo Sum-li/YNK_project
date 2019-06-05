@@ -2,9 +2,9 @@ const app = getApp();
 
 App({
   globalData: {
-    url_path: "http://www.schoolbuy.online.:80/",
-    appid: 'wxbd407de09e3f2d9b',
-    secret: '5be81acd89752e697503caafa0be0bd4',
+    // url_path: "http://www.schoolbuy.online.:80/",
+    appid: 'wx9cfbc6a0999d6e12',
+    secret: '3407cf52445ca173899bb2d217b030df',
     category: [{
         name: '电子产品',
         id: '0'
@@ -30,10 +30,10 @@ App({
         id: '5'
       }
     ],
-    userID: '0',
+    userID: '',
     socketOpen:false,
     haveUnread:false,
-    certified:false
+    certified:false//已认证
   },
   onLaunch: function () {
     console.log('App Launch')

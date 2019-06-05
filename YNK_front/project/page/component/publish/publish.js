@@ -92,7 +92,7 @@ Component({
 
     certify(){
       //判断是否已经认证
-      if(app.globalData.certified=true){
+      if(app.globalData.certified=false){
         wx.showModal({
           title: '未认证',
           content: '发布闲置需要进行认证',

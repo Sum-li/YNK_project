@@ -32,7 +32,9 @@ Page({
    */
   onLoad: function (options) {
     var _this = this
-
+    _this.setData({
+      list: wx.getStorageSync("chatList")
+    })
     // this.setData({
     //   list:wx.getStorageSync("chatList")
     // })
@@ -50,7 +52,7 @@ Page({
       success(res) {
         new_list = res.data
         console.log(res.data)
-        if (1) {
+        if (res.data.length>0) {
           _this.setData({
             list: wx.getStorageSync("chatList")
           })

@@ -8,7 +8,8 @@ Page({
    */
   data: {
     orders:[],
-    page_count:1
+    page_count:1,
+    status:[]
   },
 
   /**
@@ -16,7 +17,7 @@ Page({
    */
   onLoad: function (options) {
     var self = this;
-    this.fresh()
+    this.loadMore()
   },
 
   /**
@@ -25,9 +26,9 @@ Page({
   onReady: function () {
 
   },
-  fresh(){
+  loadMore(){
     var _this=this
-    console.log("fresh")
+    console.log("loadMore")
     wx.request({
       url: "https://www.schoolbuy.online:80/goods/havebuy",
       data: {
@@ -56,10 +57,43 @@ Page({
         user_id: app.globalData.userID,
       },
       success(res) {
+      //  _this.fresh()
+      }
+    })
+  },
+  receive(e){
+    var _this=this
+    console.log(e.currentTarget.dataset)
+    wx.request({
+      url: "https://www.schoolbuy.online:80/logic/receive",
+      data: {
+        order_id:e.currentTarget.dataset.orderid
+      },
+      success(res) {
+        console.log(res)
        _this.fresh()
       }
     })
   },
+  fresh(){
+    var _this=this
+    console.log("fresh")
+    wx.request({
+      url: "https://www.schoolbuy.online:80/goods/havebuy",
+      data: {
+        user_id: app.globalData.userID,
+        page_count:1
+      },
+      success(res) {
+        console.log(res)
+        _this.setData({
+          orders:res.data,
+          page_count:1
+        })
+      }
+    })
+  },
+  // },
   /**
    * 生命周期函数--监听页面显示
    */

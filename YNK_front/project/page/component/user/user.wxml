@@ -11,18 +11,15 @@
             </view>
         </view>
     </view>
-  
-      
-      
     <view class="deals-all">
         <button class="deals-btn">
             <view class="deals-btn-left">
                 <text>我的订单</text>
             </view>
-            <view class="deals-btn-right">
+            <!-- <view class="deals-btn-right">
                 <text class="text-placeholder">查看全部</text>
                 <icon class='iconfont icon-right'></icon>
-            </view>
+            </view> -->
         </button>
     </view>
     <view class="div-line"></view>
@@ -52,19 +49,26 @@
             </navigator>
         </view>
         <view class="certific">
-         <navigator url="/page/component/approve/approve">
+            <navigator url="/page/component/approve/approve">
                 <image class="" src="/image/certific2.png" />
                 <text class="text-placeholder">认证</text>
             </navigator>
         </view>
-        
-
         <view wx:if="{{hasAddress}}" class="address-list">
             <view>{{address.name}}</view>
             <view>{{address.phone}}</view>
             <view>{{address.detail}}</view>
         </view>
     </view>
+    <form name='pushMsgFm' report-submit="true" bindsubmit='orderSign'>
+        enter product:
+        <input type="text" name="product" value='' placeholder="enter your name" />
+        detail:
+        <input type="text" name='detail' placeholder="enter desc" />
+        select sex:
+        <switch type="switch" name='sex' />
+        <button form-type="submit">submit</button>
+    </form>
     <!-- <view class="orders-box">
         <view class="orders">我的订单</view>
         <view class="orders-list" wx:for="{{orders}}" wx:key="index">
@@ -81,4 +85,7 @@
             </view>
         </view>
     </view> -->
+
+<button open-type='contact'>联系客服</button>
+
 </view>

@@ -3,8 +3,8 @@ var app = getApp()
 Page({
   data: {
     imgUrls: [
-      'https://i.loli.net/2019/05/31/5cf11a2f6d34099154.jpg',
-      'https://i.loli.net/2019/05/31/5cf11a2f6b69b65005.jpg',
+      'http://www.schoolbuy.online:70/static/Poster/poster1.jpg',
+      'http://www.schoolbuy.online:70/static/Poster/poster2.jpg',
       // 'http://schoolbuy.online:70/static/Poster/poster3.png',
     ],
     search_val: "",
@@ -69,7 +69,6 @@ Page({
       this.socketConn()
       this.socketOn()
       this.loadMore(1) //请求第一页
-
     }
 
   },
@@ -85,11 +84,15 @@ Page({
         data: {
           openid: openid,
           user_name: userInfo.nickName,
-          gphoto: userInfo.avatarUrl
+          gphoto: userInfo.avatarUrl,
+
         },
         success: (res) => {
+          console.log("从后台获取的userid")
           console.log(res)
-          app.globalData.userID = res.data
+          app.globalData.userID = res.data.user_id
+          app.globalData.certified = res.data.is_Authentication
+
           // app.globalData.certified= res.data
         }
       })

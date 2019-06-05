@@ -34,7 +34,7 @@
                 
             </view>
             <view class="operate" >
-                <button bindtap="chat" hover-stop-propagation="true">
+                <button bindtap="chat" hover-stop-propagation="true" wx:if="{{!user.user_id==app.globalData.userID}}">
                     私信TA
                 </button>
             </view>
@@ -57,7 +57,7 @@
             </view>
         </view>
     </view>
-    <view class="goods-operation" wx:if="{{!isMyself}}">
+    <view class="goods-operation" wx:if="{{!isMyself && !is_buy}}">
         <view class="opera-item" hover-class="none" hover-stop-propagation="false">
             <navigator class="to-pay" target="" url="../orders/orders?good_id={{goods.id}}" hover-class="navigator-hover" open-type="navigate">
                 立即购买
@@ -71,18 +71,21 @@
             取消收藏<icon class="iconfont icon-shoucang"></icon>
         </view>
     </view>
-    <view class="goods-operation operate-ismyself" wx:else>
+    <view class="goods-operation operate-ismyself" wx:elif="{{isMyself && !is_buy}}">
         <view class="opera-item" hover-class="none" hover-stop-propagation="false">
-            <navigator class="to-pay" target="" url="../orders/orders?good_id={{goods.id}}" hover-class="navigator-hover" open-type="navigate">
+            <navigator class="to-pay" target="" url="../edit/edit?good_id={{goods.id}}" hover-class="navigator-hover" open-type="navigate">
                 编辑
                 <icon class="iconfont icon-edit"></icon>  
             </navigator>
         </view>
-        <view wx:if="{{isnotCart}}" class="operation-to-cart opera-item" bindtap="addToCart">
+        <view wx:if="{{isnotCart}}" class="operation-to-cart opera-item" bindtap="down">
             下架<icon class="iconfont icon-xiajia"></icon>
         </view>
-        <view wx:else  class="operation-to-cart opera-item" bindtap="popToCart">
+        <view wx:else  class="operation-to-cart opera-item" bindtap="shelves">
             重新上架<icon class="iconfont icon-shangjia"></icon>
         </view>
+    </view>
+    <view class="goods-operation operate-ismyself" wx:elif="{{is_buy}}">
+        已售出
     </view>
 </view>

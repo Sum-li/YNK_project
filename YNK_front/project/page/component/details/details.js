@@ -23,6 +23,7 @@ Page({
       avavtar:""
     },
     isnotCart: true,
+    is_buy:true,
     num: 1,
     totalNum: 0,
     isMyself: false,
@@ -42,14 +43,14 @@ Page({
         goods_id:options.good_id
       },
       success: (res) => {
-        console.log(res.data.isnotcoll)
+        console.log(res.data)
         var isMyself=false
         var good = {
           id:`${options.good_id}`,
           title: res.data.name,
           images: res.data.images,
           price: res.data.price,
-          isbuy: res.data.isbuy,
+          is_buy: res.data.is_buy,
           gphoto: res.data.gphoto,
           detail: res.data.discribe,
         }
@@ -67,7 +68,8 @@ Page({
           goods: good,
           user: user,
           isnotCart: res.data.isnotcoll,
-          isMyself:isMyself
+          isMyself:isMyself,
+          is_buy:res.data.is_buy
         })
       },
       fail(res) {
@@ -81,7 +83,56 @@ Page({
       url:"../chat/chat?user_id="+user_id
     })  
   },
-
+  down(){
+    wx.showLoading({
+      title: "操作中...",
+      mask: true,
+    });
+    var _this = this;
+    // var user_id = app.globalData.userID;
+    wx.request({
+      url: "https://www.schoolbuy.online:80/logic/low",
+      method:"get",
+      data: {
+        // user_id: user_id,
+        goods_id: _this.data.goods.id
+      },
+      success(res){
+        console.log("下架成功")
+        _this.setData({
+          isnotCart: !_this.data.isnotCart
+        })
+      },
+      complete(res){
+        wx.hideLoading()
+      }
+    })
+  },
+  shelves(){
+    wx.showLoading({
+      title: "操作中...",
+      mask: true,
+    });
+    var _this = this;
+    // var user_id = app.globalData.userID;
+    wx.request({
+      url: "https://www.schoolbuy.online:80/logic/unlow",
+      method:"get",
+      data: {
+        // user_id: user_id,
+        goods_id: _this.data.goods.id
+      },
+      success(res){
+        console.log("重新上架成功")
+        _this.setData({
+          isnotCart: !_this.data.isnotCart
+        })
+      },
+      complete(res){
+        wx.hideLoading()
+      }
+    })
+  },
   addToCart() {
     wx.showLoading({
       title: "收藏...",

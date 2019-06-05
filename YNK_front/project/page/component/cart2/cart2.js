@@ -17,7 +17,9 @@ Page({
     //   status: "订单已结束"
     // }
   ],
-    page_count:1
+    page_count:1,
+    noMore:false,
+    loading:false
   },
 
   /**
@@ -96,7 +98,62 @@ Page({
       showModal: true
     })
   },
+  down(e){
+    wx.showLoading({
+      title: "操作中...",
+      mask: true,
+    });
+    var _this = this;
+    var orders=this.data.orders
+    // var user_id = app.globalData.userID;
+    wx.request({
+      url: "https://www.schoolbuy.online:80/logic/low",
+      method:"get",
+      data: {
+        // user_id: user_id,
+        goods_id: e.currentTarget.dataset.id
+      },
+      success(res){
+        console.log("下架成功")
+        orders[e.currentTarget.dataset.index].Is_low=!orders[e.currentTarget.dataset.index].Is_low
+        _this.setData({
+          orders:orders
+        })
+      },
+      complete(res){
+        wx.hideLoading()
+      }
+    })
+  },
+  shelves(e){
+    wx.showLoading({
+      title: "操作中...",
+      mask: true,
+    });
+    var _this = this;
+    var orders=this.data.orders
+    // var user_id = app.globalData.userID;
+    wx.request({
+      url: "https://www.schoolbuy.online:80/logic/unlow",
+      method:"get",
+      data: {
+        // user_id: user_id,
+        goods_id: e.currentTarget.dataset.id
+      },
+      success(res){
+        console.log("重新上架成功")
+        // _this.fresh()
+        orders[e.currentTarget.dataset.index].Is_low=!orders[e.currentTarget.dataset.index].Is_low
+        _this.setData({
+          orders:orders
+        })
 
+      },
+      complete(res){
+        wx.hideLoading()
+      }
+    })
+  },
 
   fresh(){
     var _this=this
