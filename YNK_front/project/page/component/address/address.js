@@ -1,8 +1,10 @@
 // page/component/new-pages/user/address/address.js
+let app =  getApp();
+
+  
 Page({
   data:{
     address:{
-      name:'',
       phone:'',
       detail:''
     }
@@ -21,7 +23,8 @@ Page({
   },
   formSubmit(){
     var self = this;
-    if(self.data.address.name && self.data.address.phone && self.data.address.detail){
+    var _this=this
+    if(self.data.address.phone && self.data.address.detail){
       wx.setStorage({
         key: 'address',
         data: self.data.address,
@@ -36,6 +39,25 @@ Page({
         showCancel:false
       })
     }
+    wx.request({
+      url: 'https://www.schoolbuy.online:80/logic/adduserinfo',
+      data: {
+        telephone:_this.data.address.phone,
+        address:_this.data.address.detail,
+        user_id:app.globalData.userID
+      },
+      header: {'content-type':'application/json'},
+      method: 'GET',
+      dataType: 'json',
+      responseType: 'text',
+      success: (res) => {
+        console.log(res)
+      },
+      fail: () => {},
+      complete: () => {}
+    });
+      
+
   },
   bindName(e){
     this.setData({

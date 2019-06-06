@@ -13,9 +13,9 @@ Page({
     school: "",
     image: null,
     res: {
-      name: "asdasd",
-      number: "asdas",
-      school: "asdasd"
+      name: "",
+      number: "",
+      school: ""
     },
     yes: 0,
     approved: 0
@@ -25,7 +25,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    var _this=this
+    console.log(app.globalData)
+    if(app.globalData.certified==true){
+      console.log(11111)
+      this.setData({
+        yes:1,
+        approved:1
+      })
+    }
   },
   submit() {
     console.log(11111)
@@ -49,17 +57,21 @@ Page({
         },
         success: (res) => {
           console.log(res)
-          _this.setData({
-            res: res.data,
-            yes: 1
-          })
+          if(res.data.authentication==true){
+            _this.setData({
+              res: res.data,
+              yes: 1,
+              approved:1
+            })
+          }
+          
         },
       });
         
     }
-    _this.setData({
-      approved: 1
-    })
+    // _this.setData({
+    //   approved: 1
+    // })
     wx.hideLoading();
 
   },

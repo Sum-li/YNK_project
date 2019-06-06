@@ -52,19 +52,29 @@
     color: #b42f2d;
 }
 .orders-footer{
-    height: 60rpx;
-    line-height: 60rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* height: 60rpx; */
+    /* line-height: 60rpx; */
     color: #2f2f2f;
     padding:15rpx 30rpx 15rpx 0;
 }
+.orders-buymsg{
+    width: 80%;
+    color:gray
+}
+.orders-buymsg text{
+    display: block
+}
 .orders-footer .orders-btn{
-    float: right;
-    width: 130rpx;
+    /* float: right; */
+    width: 20%;
     height: 50rpx;
     line-height:50rpx;
     border-radius: 6rpx;
     padding: 0;
-    /* background: #b42f2d; */
-    /* color: #fff; */
+    background: #b42f2d;
+    color: #fff;
     margin: 0 10rpx;
 }

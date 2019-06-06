@@ -42,17 +42,18 @@ Page({
   },
   getList() {
     var _this = this
+    console.log("getList")
     var list_storage = wx.getStorageSync("chatList")
     var new_list
     wx.request({
-      url: "https://schoolbuy.online:80/ws/getchatusersinfo",
+      url: "https://www.schoolbuy.online:80/ws/getchatusersinfo",
       data: {
         user_id: app.globalData.userID
       },
       success(res) {
-        new_list = res.data
-        console.log(res.data)
-        if (res.data.length>0) {
+        new_list = res.data.list
+        console.log(res)
+        if (res.data.length=0) {
           _this.setData({
             list: wx.getStorageSync("chatList")
           })
@@ -79,6 +80,10 @@ Page({
 
           });
         }
+      },
+      complete(res){
+        console.log(res)
+
       }
     })
   },

@@ -92,7 +92,7 @@ Component({
 
     certify(){
       //判断是否已经认证
-      if(app.globalData.certified=false){
+      if(app.globalData.certified==false){
         wx.showModal({
           title: '未认证',
           content: '发布闲置需要进行认证',
@@ -115,7 +115,6 @@ Component({
           },
 
         });
-          
       }
     },
 
@@ -161,17 +160,19 @@ Component({
       })
     },
     submitForm(e) {
+      const _this = this
       const good_name = this.data.good_name
       const textarea_value = this.data.textarea_value
       const category_id = this.data.index
+      var imgs=_this.data.images
       const price = this.data.price;
       var good_id = 1; //后台传回来的
-      const _this = this
-
+      
+      
 
 
       // good_name && textarea_value
-      if (1) {
+      if (good_name&&imgs.length!=0) {
         wx.showLoading({
           title: '发布中...',
           mask: true
@@ -185,7 +186,7 @@ Component({
             name: good_name,
             user_id: app.globalData.userID,
             name: good_name,
-            category_id: category_id,
+            category_id: category_id+1,
             price: price,
             discribe: textarea_value
           },
@@ -233,6 +234,18 @@ Component({
           }
         })
 
+      }else{
+        wx.showModal({
+          title: '提示',
+          content: '信息输入不完整，明确的信息才有更多人感兴趣哦',
+          success (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
       }
     },
   }

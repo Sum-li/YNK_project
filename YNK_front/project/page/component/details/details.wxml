@@ -34,7 +34,7 @@
                 
             </view>
             <view class="operate" >
-                <button bindtap="chat" hover-stop-propagation="true" wx:if="{{!user.user_id==app.globalData.userID}}">
+                <button bindtap="chat" hover-stop-propagation="true" wx:if="{{!isMyself}}">
                     私信TA
                 </button>
             </view>

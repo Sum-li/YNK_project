@@ -50,8 +50,8 @@
         <view class="orders-footer-btn" bindtap="toPay">确定</view>
     </view>
     <view class="orders-footer" wx:if="{{pay_type==1}}">
-        <view class="orders-footer-total">付款合计：￥{{total}}</view>
-        <view class="orders-footer-btn" bindtap="toPay">去付款</view>
+        <view class="orders-footer-total">合计：￥{{total}}</view>
+        <view class="orders-footer-btn" bindtap="toPay">确定</view>
     </view>
 
 </view>

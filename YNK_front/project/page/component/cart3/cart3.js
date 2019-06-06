@@ -71,7 +71,17 @@ Page({
   onReady: function () {
 
   },
-
+  chat(e){
+    wx.navigateTo({
+      url: `../chat/chat?user_id=${e.currentTarget.dataset.user_id}`,
+      success: (res) => {
+        
+      },
+      fail: () => {},
+      complete: () => {}
+    });
+      
+  },
   /**
    * 生命周期函数--监听页面显示
    */

@@ -25,6 +25,7 @@ Page({
     isnotCart: true,
     is_buy:true,
     num: 1,
+    good_id:"",
     totalNum: 0,
     isMyself: false,
     hasCarts: false,
@@ -35,18 +36,25 @@ Page({
   onLoad(options) {
     console.log(options)
     var _this = this;
+    this.setData({
+      good_id:options.good_id
+    })
 
+    this.fresh()
+  },
+  fresh(){
+    var _this=this
     wx.request({
       url: `https://www.schoolbuy.online:80/goods/detail`,
       data:{
         user_id:app.globalData.userID,
-        goods_id:options.good_id
+        goods_id:_this.data.good_id
       },
       success: (res) => {
         console.log(res.data)
         var isMyself=false
         var good = {
-          id:`${options.good_id}`,
+          id:`${_this.data.good_id}`,
           title: res.data.name,
           images: res.data.images,
           price: res.data.price,
@@ -78,7 +86,7 @@ Page({
     })
   },
   chat(e){
-    var user_id=app.globalData.userID;
+    var user_id=this.data.user.user_id;
     wx.navigateTo({
       url:"../chat/chat?user_id="+user_id
     })  

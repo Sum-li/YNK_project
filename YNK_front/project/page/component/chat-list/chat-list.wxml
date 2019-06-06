@@ -30,7 +30,7 @@
             </view>
             <view class="time" >
                 <text class="" selectable="false" space="false" decode="false">
-                    {{item.last_time}}
+                    {{beautify.beautify_time(item.time)}}
                 </text>
             </view>
         </navigator>

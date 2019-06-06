@@ -72,7 +72,7 @@
                                 热度
                             </text> -->
                             <icon class="iconfont icon-redu" size="23" color="red"></icon>
-                            <text class="" selectable="false" space="false" decode="false">99</text>
+                            <text class="" selectable="false" space="false" decode="false">{{item.browse}}</text>
                         </view>
                        
                         <view class="newgood-text-user">

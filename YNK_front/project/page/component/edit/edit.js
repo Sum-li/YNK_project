@@ -30,7 +30,8 @@ Page({
     gphoto: '',
     img_remove: [],
     img_new: [],
-    options: ['新旧程度:', '入手渠道:', '使用感受:', '出手原因:', '222222', '222222', '222222', '222222', '222222']
+    options: ['新旧程度:', '入手渠道:', '使用感受:', '出手原因:', '222222', '222222', '222222', '222222', '222222'],
+    old_gphoto: ""
   },
 
   onLoad: function (options) {
@@ -49,6 +50,8 @@ Page({
   },
   fresh() {
     var _this = this
+    console.log("Resad")
+    console.log(_this.data.good_id)
     wx.request({
       url: `https://www.schoolbuy.online:80/goods/detail`,
       data: {
@@ -56,8 +59,9 @@ Page({
         goods_id: _this.data.good_id
       },
       success: (res) => {
-        var temp_imgs=res.data.images
-        var temp_gphoto=res.data.gphoto
+        console.log(res)
+        var temp_imgs = res.data.images || []
+        var temp_gphoto = res.data.gphoto
         temp_imgs.unshift(temp_gphoto)
         _this.setData({
           good_name: res.data.name,
@@ -66,7 +70,7 @@ Page({
           textarea_value: res.data.discribe,
           gphoto: res.data.gphoto
         })
-        
+
       },
     });
 
@@ -122,6 +126,7 @@ Page({
 
     } else { //删的是旧的
       img_remove.push(e.currentTarget.dataset.url)
+      console.log(e.currentTarget)
     }
     this.setData({
       img_remove: img_remove,
@@ -158,43 +163,37 @@ Page({
     const price = this.data.price;
     const _this = this
 
-    wx.request({
-      url:"",
-      data:{
-        goods_id:_this.data.good_id,
+    // console.log(good_name)
+    // console.log(textarea_value)
 
-      }
-    })
+    // console.log(category_id)
+
+    // console.log(price)
 
 
-    // good_name && textarea_value
-    if (good_name) {
-      wx.showLoading({
-        title: '发布中...',
-        mask: true
-      })
+    var images = this.data.images
+    var img_remove = this.data.img_remove
+    var img_new = this.data.img_new
+    var new_gphoto = images[0]
+    var old_gphoto = this.data.gphoto
 
-      wx.uploadFile({
-        url: "https://www.schoolbuy.online:80/logic/pub",
-        // filePath: _this.data.images[0] ||null,
-        filePath: null,
-
-        name: 'gphoto',
-        formData: {
+    if (old_gphoto == new_gphoto) { //首图没换
+      console.log("首图没换")
+      wx.request({
+        url: "https://www.schoolbuy.online:80/logic/editgoods",
+        data: {
+          goods_id:_this.data.good_id,
           name: good_name,
-          user_id: app.globalData.userID,
-          name: good_name,
-          category_id: category_id,
+          category_id: category_id+1,
           price: price,
-          discribe: textarea_value
+          discribe: textarea_value,
+          img_remove:img_remove,
+          gphoto:new_gphoto
         },
-        success: (res) => {
-          good_id = JSON.parse(res.data).ID;
-          console.log("good_id:" + good_id)
-
-          const arr = _this.data.img_new.map((path, index) => {
-
-            if (index > 0) {
+        success(res) {
+          console.log(res)
+          var arr = img_new.map((path, index) => {
+            if (index >= 0) {
               return wxUploadFile({
                 url: "https://www.schoolbuy.online:80/logic/photo",
                 filePath: path,
@@ -202,30 +201,229 @@ Page({
                 formData: {
                   name: good_name,
                   user_id: app.globalData.userID,
-                  goods_id: good_id
+                  goods_id: _this.data.good_id
                 }
               })
             }
           })
           Promise.all(arr).then(res => {
+            console.log(res)
+            // 上传成功，获取这些图片在服务器上的地址，组成一个数组
+            // console.log("发布商品res:"+ JSON.stringify(res))
+            // return res.map(item => JSON.parse(item.data).url)
+          }).catch(err => {
+            console.log(">>>>error:", err)
+          }).then(res => {
             // 发布成功，清空输入框、转到刚才发布的物品页
-            wx.navigateTo({
-              url: `../details/details?good_id=${good_id}`
-            })
+            // wx.navigateTo({
+            //   url: `../details/details?good_id=${good_id}`
+            // })
           }).then(() => {
-            _this.setData({
-              good_name: '',
-              textarea_value: "",
-              price: 0,
-              images: []
-            })
+            // _this.setData({
+            //   good_name: '',
+            //   textarea_value: "",
+            //   price: 0,
+            //   images: []
+            // })
+
 
             wx.hideLoading()
           })
+        },
+        complete(res) {
         }
       })
+    } else { //首图换了
+      var signal = 0; //信号变量，判断新的首图是旧图的一部分还是新选择的
+      images.forEach(element => {
+        if (new_gphoto == element) {
+          signal = 1
+        }
+      });
 
+      if (signal == 1) { //新的首图是旧图的一部分
+        console.log("新的首图是旧图的一部分")
+        console.log(img_remove)
+        wx.request({
+          url: "https://www.schoolbuy.online:80/logic/editgoods",
+          data: {
+            goods_id:_this.data.good_id,
+            name: good_name,
+            category_id: category_id+1,
+            price: price,
+            discribe: textarea_value,
+            img_remove:img_remove,
+            gphoto:new_gphoto
+
+          },
+          success(res) {
+            console.log(res)
+            var arr = img_new.map((path, index) => {
+              if (index > 0) {
+                return wxUploadFile({
+                  url: "https://www.schoolbuy.online:80/logic/photo",
+                  filePath: path,
+                  name: 'image',
+                  formData: {
+                    name: good_name,
+                    user_id: app.globalData.userID,
+                    goods_id: _this.data.good_id
+                  }
+                })
+              }
+            })
+            Promise.all(arr).then(res => {
+              // 上传成功，获取这些图片在服务器上的地址，组成一个数组
+              // console.log("发布商品res:"+ JSON.stringify(res))
+              // return res.map(item => JSON.parse(item.data).url)
+            }).catch(err => {
+              console.log(">>>>error:", err)
+            }).then(res => {
+              // 发布成功，清空输入框、转到刚才发布的物品页
+              // wx.navigateTo({
+              //   url: `../details/details?good_id=${good_id}`
+              // })
+            }).then(() => {
+              // _this.setData({
+              //   good_name: '',
+              //   textarea_value: "",
+              //   price: 0,
+              //   images: []
+              // })
+
+
+              wx.hideLoading()
+            })
+          }
+        })
+
+      } else { //新的首图是是新选择的
+        console.log("新的首图 是 是新选择的")
+
+        wx.uploadFile({
+          url: "https://www.schoolbuy.online:80/logic/editgoods",
+          filePath: images[0],
+          name: 'gphoto',
+          formData: {
+            goods_id:_this.data.good_id,
+            name: good_name,
+            category_id: category_id+1,
+            price: price,
+            discribe: textarea_value, 
+            img_remove:img_remove,
+          },
+          success(res) {
+            console.log(res)
+            var arr = img_new.map((path, index) => {
+              if (index > 0) {
+                return wxUploadFile({
+                  url: "https://www.schoolbuy.online:80/logic/photo",
+                  filePath: path,
+                  name: 'image',
+                  formData: {
+                    name: good_name,
+                    user_id: app.globalData.userID,
+                    goods_id: _this.data.good_id
+                  }
+                })
+              }
+            })
+            Promise.all(arr).then(res => {
+              // 上传成功，获取这些图片在服务器上的地址，组成一个数组
+              // console.log("发布商品res:"+ JSON.stringify(res))
+              // return res.map(item => JSON.parse(item.data).url)
+            }).catch(err => {
+              console.log(">>>>error:", err)
+            }).then(res => {
+              // 发布成功，清空输入框、转到刚才发布的物品页
+              // wx.navigateTo({
+              //   url: `../details/details?good_id=${good_id}`
+              // })
+            }).then(() => {
+              // _this.setData({
+              //   good_name: '',
+              //   textarea_value: "",
+              //   price: 0,
+              //   images: []
+              // })
+
+
+              wx.hideLoading()
+            })
+
+
+
+
+
+
+
+
+          }
+        })
+
+
+      }
     }
+
+
+    // good_name && textarea_value
+    // if (good_name) {
+    //   wx.showLoading({
+    //     title: '发布中...',
+    //     mask: true
+    //   })
+
+    //   wx.uploadFile({
+    //     url: "https://www.schoolbuy.online:80/logic/pub",
+    //     // filePath: _this.data.images[0] ||null,
+    //     filePath: null,
+    //     name: 'gphoto',
+    //     formData: {
+    //       name: good_name,
+    //       user_id: app.globalData.userID,
+    //       name: good_name,
+    //       category_id: category_id,
+    //       price: price,
+    //       discribe: textarea_value
+    //     },
+    //     success: (res) => {
+    //       good_id = JSON.parse(res.data).ID;
+    //       console.log("good_id:" + good_id)
+
+    //       const arr = _this.data.img_new.map((path, index) => {
+
+    //         if (index > 0) {
+    //           return wxUploadFile({
+    //             url: "https://www.schoolbuy.online:80/logic/photo",
+    //             filePath: path,
+    //             name: 'image',
+    //             formData: {
+    //               name: good_name,
+    //               user_id: app.globalData.userID,
+    //               goods_id: good_id
+    //             }
+    //           })
+    //         }
+    //       })
+    //       Promise.all(arr).then(res => {
+    //         // 发布成功，清空输入框、转到刚才发布的物品页
+    //         wx.navigateTo({
+    //           url: `../details/details?good_id=${good_id}`
+    //         })
+    //       }).then(() => {
+    //         _this.setData({
+    //           good_name: '',
+    //           textarea_value: "",
+    //           price: 0,
+    //           images: []
+    //         })
+
+    //         wx.hideLoading()
+    //       })
+    //     }
+    //   })
+
+    // }
   },
   onUnload: function () {
 

@@ -16,7 +16,7 @@
           <!-- 图片缩略图 -->
           <image class="image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
           <!-- 移除图片的按钮 -->
-          <icon class="iconfont icon-close image-remover" data-url="{{}}" data-idx="{{index}}" bindtap="removeImage"></icon>
+          <icon class="iconfont icon-close image-remover" data-url="{{item}}" data-idx="{{index}}" bindtap="removeImage"></icon>
         </view>
       </block>
       <view class="image-opera image-wrap" hover-class="none" hover-stop-propagation="false">

@@ -54,13 +54,13 @@
                 <text class="text-placeholder">认证</text>
             </navigator>
         </view>
-        <view wx:if="{{hasAddress}}" class="address-list">
+        <!-- <view wx:if="{{hasAddress}}" class="address-list">
             <view>{{address.name}}</view>
             <view>{{address.phone}}</view>
             <view>{{address.detail}}</view>
-        </view>
+        </view> -->
     </view>
-    <form name='pushMsgFm' report-submit="true" bindsubmit='orderSign'>
+    <!-- <form name='pushMsgFm' report-submit="true" bindsubmit='orderSign'>
         enter product:
         <input type="text" name="product" value='' placeholder="enter your name" />
         detail:
@@ -68,7 +68,7 @@
         select sex:
         <switch type="switch" name='sex' />
         <button form-type="submit">submit</button>
-    </form>
+    </form> -->
     <!-- <view class="orders-box">
         <view class="orders">我的订单</view>
         <view class="orders-list" wx:for="{{orders}}" wx:key="index">
@@ -86,6 +86,6 @@
         </view>
     </view> -->
 
-<button open-type='contact'>联系客服</button>
+<button class="service" open-type='contact'>联系客服</button>
 
 </view>

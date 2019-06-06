@@ -55,7 +55,33 @@ App({
   },
   onShow: function () {
     console.log('App Show')
+    // this.socketConn()
+    // this.socketOn()
+  },
+  socketConn() {
+    var _this = this
+    var user_id = app.globalData.userID
+    wx.connectSocket({
+      url: `ws://www.schoolbuy.online:800/ws?user_id=${user_id}`,
+      success: function (res) {}
+    });
 
+    wx.onSocketOpen(function (res) {
+      console.log("连接websocket服务器成功。" + res);
+      app.globalData.socketOpen = true
+    });
+  },
+  socketOn() { //socket长连接   接受新消息
+    var _this = this
+    wx.onSocketMessage(function (res) {
+      console.log('收到服务器发来消息：' + (res.data));
+      if (res.data) { //代表有新消息发来
+        app.globalData.haveUnread = true
+        wx.showTabBarRedDot({
+          index: 3,
+        });
+      }
+    });
   },
   onHide: function () {
     // wx.closeSocket({
