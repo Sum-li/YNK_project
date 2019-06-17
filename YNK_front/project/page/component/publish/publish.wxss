@@ -174,7 +174,19 @@ font-size: 0}
 }
 
 
-
+.festival-gd{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 14px;
+  text-align: left;
+  overflow: hidden;
+  background-color: transparent;
+  border: 0px solid snow;
+}
+.festival-btn-left{
+  /* width: 80%; */
+}
 
 
 .mask {

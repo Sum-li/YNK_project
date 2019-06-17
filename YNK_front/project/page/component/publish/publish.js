@@ -31,27 +31,10 @@ Component({
     textarea_value: "", //详细描述
     price: "",
     category: ["其他", "交通工具", "电子产品", "衣物鞋子", "书本教材"], //可选的物品种类
-    // objectArray: [
-    //   {
-    //     id: 0,
-    //     name: '交通工具'
-    //   },
-    //   {
-    //     id: 1,
-    //     name: '电子产品'
-    //   },
-    //   {
-    //     id: 2,
-    //     name: '衣物鞋子'
-    //   },
-    //   {
-    //     id: 3,
-    //     name: '书本教材'
-    //   }
-    // ],
+    active:[],
     index: 0, //picker组件用到
     images: [],
-    options: ['新旧程度:', '入手渠道:', '使用感受:', '出手原因:', '222222', '222222', '222222', '222222', '222222']
+    options: ['新旧程度:', '入手渠道:', '使用感受:', '出手原因:']
   },
 
 
@@ -159,25 +142,43 @@ Component({
         index: e.detail.value
       })
     },
+    gdChange: function (e){
+      var active=this.data.active
+      console.log('switch1 发生 change 事件，携带值为', e.detail.value)
+      if(e.detail.value==false){
+        active.forEach( (element,index) => {
+          if(element=="gd"){
+            active.splice(index,1)
+          }
+        });
+      }else{
+        active.push('gd')
+      }
+      this.setData({
+        active:active
+      })
+    },
+
+    test(){
+      var category_id =Number(this.data.index)+1 
+      console.log( category_id)
+    },
     submitForm(e) {
       const _this = this
       const good_name = this.data.good_name
       const textarea_value = this.data.textarea_value
-      const category_id = this.data.index
+      var category_id = Number(this.data.index)+1 
       var imgs=_this.data.images
+      const active = this.data.active
       const price = this.data.price;
       var good_id = 1; //后台传回来的
-      
-      
-
-
-      // good_name && textarea_value
       if (good_name&&imgs.length!=0) {
         wx.showLoading({
           title: '发布中...',
           mask: true
         })
-
+        console.log("active:"+JSON.stringify(active)  )
+        console.log(active)
         wx.uploadFile({
           url: "https://www.schoolbuy.online:80/logic/pub",
           filePath: _this.data.images[0],
@@ -186,9 +187,10 @@ Component({
             name: good_name,
             user_id: app.globalData.userID,
             name: good_name,
-            category_id: category_id+1,
+            category_id: category_id,
             price: price,
-            discribe: textarea_value
+            discribe: textarea_value,
+            active: JSON.stringify(active)   
           },
           success: (res) => {
             // console.log("返回good_id的res.data："+ JSON.parse(res.data).ID)
@@ -210,12 +212,6 @@ Component({
               }
             })
             Promise.all(arr).then(res => {
-              // 上传成功，获取这些图片在服务器上的地址，组成一个数组
-              // console.log("发布商品res:"+ JSON.stringify(res))
-              // return res.map(item => JSON.parse(item.data).url)
-            }).catch(err => {
-              console.log(">>>>error:", err)
-            }).then(res => {
               // 发布成功，清空输入框、转到刚才发布的物品页
               wx.navigateTo({
                 url: `../details/details?good_id=${good_id}`

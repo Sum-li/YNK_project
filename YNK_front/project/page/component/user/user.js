@@ -22,19 +22,12 @@ Page({
           nickname: res.userInfo.nickName
         })
       }
-    }),
+    })
 
     /**
      * 发起请求获取订单列表信息
      */
-    wx.request({
-      url: 'http://www.gdfengshuo.com/api/wx/orders.txt',
-      success(res){
-        self.setData({
-          orders: res.data
-        })
-      }
-    })
+    
   },
   onShow(){
     var self = this;
@@ -54,26 +47,14 @@ Page({
   /**
    * 发起支付请求
    */
-  payOrders(){
-    wx.requestPayment({
-      timeStamp: 'String1',
-      nonceStr: 'String2',
-      package: 'String3',
-      signType: 'MD5',
-      paySign: 'String4',
-      success: function(res){
-        console.log(res)
-      },
-      fail: function(res) {
-        console.log(res)
-        wx.showModal({
-          title:'支付提示',
-          content:'<text>',
-          showCancel: false
-        })
-      }
-    })
+  
+  test(){
+    wx.closeSocket()
   },
+
+
+
+
   dealBarChange(e) {
     var index = parseInt(e.currentTarget.dataset.index);
     var target=e.currentTarget.dataset.type;

@@ -42,18 +42,18 @@
         </view>
     </view>
     <view class="address-box">
-        <view class="address-manage">
-            <navigator url="/page/component/address/address">
+        <navigator class="address-manage" url="/page/component/address/address">
+            <!-- <navigator url="/page/component/address/address"> -->
                 <image class="" src="/image/checklist.png" />
                 <text class="text-placeholder">信息管理</text>
-            </navigator>
-        </view>
-        <view class="certific">
-            <navigator url="/page/component/approve/approve">
+            <!-- </navigator> -->
+        </navigator>
+        <navigator class="certific" url="/page/component/approve/approve">
+            <!-- <navigator url="/page/component/approve/approve"> -->
                 <image class="" src="/image/certific2.png" />
                 <text class="text-placeholder">认证</text>
-            </navigator>
-        </view>
+            <!-- </navigator> -->
+        </navigator>
         <!-- <view wx:if="{{hasAddress}}" class="address-list">
             <view>{{address.name}}</view>
             <view>{{address.phone}}</view>
@@ -87,5 +87,4 @@
     </view> -->
 
 <button class="service" open-type='contact'>联系客服</button>
-
 </view>

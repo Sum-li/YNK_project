@@ -5,8 +5,7 @@ Page({
   data: {
     goods: {
       id: 1,
-      images: [
-      ],
+      images: [],
       title: '',
       price: 0,
       gphoto: '',
@@ -20,12 +19,12 @@ Page({
       user_name: '',
       user_school: "",
       sell_count: "",
-      avavtar:""
+      avavtar: ""
     },
     isnotCart: true,
-    is_buy:true,
+    is_buy: true,
     num: 1,
-    good_id:"",
+    good_id: "",
     totalNum: 0,
     isMyself: false,
     hasCarts: false,
@@ -37,24 +36,24 @@ Page({
     console.log(options)
     var _this = this;
     this.setData({
-      good_id:options.good_id
+      good_id: options.good_id
     })
 
     this.fresh()
   },
-  fresh(){
-    var _this=this
+  fresh() {
+    var _this = this
     wx.request({
       url: `https://www.schoolbuy.online:80/goods/detail`,
-      data:{
-        user_id:app.globalData.userID,
-        goods_id:_this.data.good_id
+      data: {
+        user_id: app.globalData.userID,
+        goods_id: _this.data.good_id
       },
       success: (res) => {
         console.log(res.data)
-        var isMyself=false
+        var isMyself = false
         var good = {
-          id:`${_this.data.good_id}`,
+          id: `${_this.data.good_id}`,
           title: res.data.name,
           images: res.data.images,
           price: res.data.price,
@@ -67,17 +66,17 @@ Page({
           user_name: res.data.username,
           user_school: res.data.school,
           sell_count: res.data.sell_count,
-          avavtar:res.data.avavtar
+          avavtar: res.data.avavtar
         };
-        if(user.user_id==app.globalData.userID){
-          isMyself=true
+        if (user.user_id == app.globalData.userID) {
+          isMyself = true
         }
         _this.setData({
           goods: good,
           user: user,
           isnotCart: res.data.isnotcoll,
-          isMyself:isMyself,
-          is_buy:res.data.is_buy
+          isMyself: isMyself,
+          is_buy: res.data.is_buy
         })
       },
       fail(res) {
@@ -85,13 +84,47 @@ Page({
       }
     })
   },
-  chat(e){
-    var user_id=this.data.user.user_id;
+  chat(e) {
+    var user_id = this.data.user.user_id;
     wx.navigateTo({
-      url:"../chat/chat?user_id="+user_id
-    })  
+      url: "../chat/chat?user_id=" + user_id
+    })
+    this.addChatList(user_id)
+
   },
-  down(){
+
+  addChatList(user_id) {
+    var signal = 0
+    var indexx = 0;
+    var data=this.data
+    var chatList = wx.getStorageSync("chatList")
+    chatList.forEach((element, index) => {
+      if (element.user_id == user_id) {
+        signal = 1
+        indexx = index
+      }
+    });
+    if (signal == 0) { //说明是新的消息记录
+      var new_item = {
+        user_id: data.user.user_id, //对方id
+        gphoto: data.user.avavtar, //对方头像
+        time: "", //最后一条消息记录时间
+        from: "", //通过什么物品找来
+        school: data.user.user_school,
+        name: data.user.user_name
+      }
+      chatList.push(new_item)
+    } else {
+      // var new_item = chatList[indexx]
+      // new_item.time = Date.parse(new Date())
+      // chatList[indexx] = new_item
+    }
+
+    wx.setStorageSync("chatList", chatList);
+  },
+
+
+  down() {
     wx.showLoading({
       title: "操作中...",
       mask: true,
@@ -100,23 +133,23 @@ Page({
     // var user_id = app.globalData.userID;
     wx.request({
       url: "https://www.schoolbuy.online:80/logic/low",
-      method:"get",
+      method: "get",
       data: {
         // user_id: user_id,
         goods_id: _this.data.goods.id
       },
-      success(res){
+      success(res) {
         console.log("下架成功")
         _this.setData({
           isnotCart: !_this.data.isnotCart
         })
       },
-      complete(res){
+      complete(res) {
         wx.hideLoading()
       }
     })
   },
-  shelves(){
+  shelves() {
     wx.showLoading({
       title: "操作中...",
       mask: true,
@@ -125,18 +158,18 @@ Page({
     // var user_id = app.globalData.userID;
     wx.request({
       url: "https://www.schoolbuy.online:80/logic/unlow",
-      method:"get",
+      method: "get",
       data: {
         // user_id: user_id,
         goods_id: _this.data.goods.id
       },
-      success(res){
+      success(res) {
         console.log("重新上架成功")
         _this.setData({
           isnotCart: !_this.data.isnotCart
         })
       },
-      complete(res){
+      complete(res) {
         wx.hideLoading()
       }
     })
@@ -153,22 +186,22 @@ Page({
 
     wx.request({
       url: "https://www.schoolbuy.online:80/logic/coll",
-      method:"get",
+      method: "get",
       data: {
         user_id: user_id,
         goods_id: _this.data.goods.id
       },
-      success(res){
+      success(res) {
         console.log("收藏成功")
         _this.setData({
           isnotCart: !_this.data.isnotCart
         })
       },
-      complete(res){
+      complete(res) {
         wx.hideLoading()
       }
     })
-   
+
   },
   popToCart(e) {
     wx.showLoading({
@@ -179,7 +212,7 @@ Page({
     var user_id = app.globalData.userID;
     wx.request({
       url: "https://www.schoolbuy.online:80/logic/cancelcoll",
-      method:"get",
+      method: "get",
       data: {
         user_id: user_id,
         goods_id: _this.data.goods.id
@@ -188,25 +221,37 @@ Page({
         _this.setData({
           isnotCart: !_this.data.isnotCart
         })
-        setTimeout(()=>{wx.hideLoading()},100)
+        setTimeout(() => {
+          wx.hideLoading()
+        }, 100)
       },
-      fail(res){
+      fail(res) {
         wx.showLoading({
           title: "操作失败...",
           mask: true,
         });
-        setTimeout(()=>{wx.hideLoading()},100)
+        setTimeout(() => {
+          wx.hideLoading()
+        }, 100)
       },
     })
 
- 
-  },
 
+  },
+  onShow() {
+    this.fresh()
+
+  },
   bindTap(e) {
     const index = parseInt(e.currentTarget.dataset.index);
     this.setData({
       curIndex: index
     })
+  },
+  onPullDownRefresh() {
+    this.fresh()
+    wx.stopPullDownRefresh();
+
   }
 
 })

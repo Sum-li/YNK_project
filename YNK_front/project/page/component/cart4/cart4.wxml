@@ -6,7 +6,7 @@
         <view class="orders-detail">
             <image src="{{item.Gphoto}}" mode="aspectFill"></image>
             <view class="">{{item.Name}}</view>
-            <view class="">配送帮正在配送</view>
+            <view class="">已拍下</view>
             <text class="orders-status">{{item.status}}</text>
         </view>
         <view class="orders-footer">

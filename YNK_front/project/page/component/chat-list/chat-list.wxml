@@ -20,7 +20,7 @@
                     </view>
                 </view>
                 <view class="msg-good" >
-                    # <text class="">{{item.from}}</text>
+                    <!-- # <text class="">{{item.from}}</text> -->
                 </view>
                 <!-- <view class="time" >
                     <text class="" selectable="false" space="false" decode="false">
@@ -30,7 +30,7 @@
             </view>
             <view class="time" >
                 <text class="" selectable="false" space="false" decode="false">
-                    {{beautify.beautify_time(item.time)}}
+                    {{  item.time?beautify.beautify_time(item.time):"未知时间"}}
                 </text>
             </view>
         </navigator>

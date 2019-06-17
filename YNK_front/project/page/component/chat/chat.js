@@ -152,7 +152,7 @@ Page({
 
   },
   sendSocketMessage: function (msg, callback, callback2, callback3) {
-    if (this.data.socketOpen) {
+    if (app.globalData.socketOpen) {
       wx.sendSocketMessage({
         data: msg,
         success: callback,
@@ -160,6 +160,10 @@ Page({
         complete: callback3
       })
     }
+
+
+
+
   },
   // onUnload: function () {
   //   wx.closeSocket();
@@ -336,12 +340,11 @@ Page({
           console.log(res)
         }, (res) => {
           console.log(res)
+          _this.scrollToBottom();
         });
       },
       fail: (res) => {},
       complete: (res) => {
-        wx.hideLoading();
-        _this.scrollToBottom()
       }
     });
 

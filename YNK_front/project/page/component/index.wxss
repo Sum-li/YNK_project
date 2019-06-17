@@ -20,7 +20,11 @@ button::after{border:0}
     background-color: #ededed;
     box-shadow: 0 0 10rpx 5rpx rgba(0,0,0,0.1)
 }
+.icon-biye{
+    color:gray;
+    /* font-size: 14px !important; */
 
+}
 
 
 .search-box{
@@ -145,10 +149,18 @@ button::after{border:0}
 
 .menu-nav {
     /* background-color: #ededed; */
-    width: 20%;
+    /* width: 20%; */
+    margin-right: 20rpx;
     border-radius: 4rpx;
     text-align: center; 
     padding: 20rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.menu-nav icon{
+    position: relative;
+    
 }
 .menu-nav-on{
     background-color: #ededed;
@@ -262,6 +274,15 @@ button::after{border:0}
 .newgood-text{
     font-size: 30rpx;
     text-align: left;
+}
+.newgood-text-name{
+    width: 120rpx;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    -webkit-line-clamp: 1;    /* white-space:nowrap;   */
 }
 .nav{
     overflow: hidden;

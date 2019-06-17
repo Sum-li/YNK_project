@@ -10,9 +10,7 @@
                 </block>
             </swiper>
         </view>
-        <text class="good_name" selectable="false" space="false" decode="false">
-            {{good_name}}
-        </text>
+        <text class="good_name" selectable="false" space="false" decode="false">{{good_name}}</text>
         <text class="good_price" selectable="false" space="false" decode="false">
             ¥{{good_price}}
         </text>
@@ -29,18 +27,15 @@
             </button>
         </picker>
         <view wx:if="{{pay_type==1}}" class="tips" hover-class="none" hover-stop-propagation="false">
-        <button bindtap="tipPsb">关于配送帮</button>   
-    </view>
-         
+            <button bindtap="tipPsb">关于配送帮</button>
+        </view>
     </view>
     <view class="pay-addres">
-
         <view class="" hover-class="none" hover-stop-propagation="false">
             <textarea placeholder="{{pay_type==0?'面交地址，或与买家商量':'配送地址'}}" bindinput="changeAddress" class="distribution-address" type="text"></textarea>
             <view class="div-line"></view>
-            <input class="distribution-phone" type="text" placeholder="电话" bindinput="changePhone" ></input>
+            <input class="distribution-phone" type="text" placeholder="电话" bindinput="changePhone"></input>
         </view>
-
     </view>
     <navigator url="../address/address">
         <!-- <view wx:else class="orders-no-address">添加收货地址</view> -->
@@ -53,5 +48,4 @@
         <view class="orders-footer-total">合计：￥{{total}}</view>
         <view class="orders-footer-btn" bindtap="toPay">确定</view>
     </view>
-
 </view>

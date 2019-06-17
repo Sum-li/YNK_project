@@ -11,7 +11,7 @@
             <icon class="iconfont icon-zhankai" bindtap="tap_ch"></icon>
         </view>
         <scroll-view class="categroy-right" scroll-y scroll-with-animation="true">
-            <view wx:for="{{detail}}" wx-if="{{index+1==curIndex}}" wx:for-index wx:key="idx">
+            <view wx:for="{{detail}}" wx-if="{{index==curIndex}}" wx:for-index wx:key="idx">
                 <view data-index="{{index}}" class="cate-box">
                     <view class="cate-banner">
                         <image src="http://schoolbuy.online:70/static/Poster/poster1.jpg" mode="aspectFill"></image>

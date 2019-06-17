@@ -3,31 +3,22 @@ var app = getApp()
 Page({
   data: {
     imgUrls: [
-      'http://www.schoolbuy.online:70/static/Poster/poster1.jpg',
       'http://www.schoolbuy.online:70/static/Poster/poster2.jpg',
-      // 'http://schoolbuy.online:70/static/Poster/poster3.png',
+      'http://www.schoolbuy.online:70/static/Poster/poster1.jpg',
+      'http://www.schoolbuy.online:70/static/Poster/poster3.jpg',
     ],
     search_val: "",
     ortherBy: 0,
     page_count: 1,
+    page_count_gd:1,
     certified: false,
     loading: false,
     autoplay: false,
     menu_direction: [0, 1, 0],
-    good_list: [
-      //   {
-      //   name: 'ipad2018 99新 深空灰 在保',
-      //   price: "2099",
-      //   gphoto: 'https://i.loli.net/2019/05/26/5ce9e4fa8824823515.jpg',
-      //   good_id: '99',
-      //   user_name: '陈同学',
-      //   school: '华北电力大学',
-      //   student_number: '201709000103',
-      //   pub_time: "2014-09-01"
-      // }
-    ],
+    good_list: [],
+    active_gd_good_list:[],
     avavtar: "",
-    noMore: false
+    noMore: false,
   },
 
   onLoad(options) {
@@ -42,67 +33,49 @@ Page({
       wx.redirectTo({
         url: "accredit/accredit",
       })
-      wx.login({
-        success: function (res) {
-          if (res.code) {
-            var d = app.globalData; //这里存储了appid、secret、token串  
-            var l = 'https://api.weixin.qq.com/sns/jscode2session?appid=' + d.appid + '&secret=' + d.secret + '&js_code=' + res.code + '&grant_type=authorization_code';
-            wx.request({
-              url: l,
-              data: {},
-              method: 'GET',
-              success: function (res) {
-                console.log("请求到openID:" + JSON.stringify(res.data))
-                var obj = {};
-                obj.openid = res.data.openid;
-                wx.setStorageSync('user', obj); //存储openid
-              }
-            });
-          } else {
-            console.log('获取用户登录态失败！' + res.errMsg)
-          }
-        } //end success  
-      });
     } else {
-      _this.getUserId(); // 已经授权，把openid、userInfo发给后台，获取我们的库中的userid
-
+      _this.getUserId(); // 已经授权，通过后台获取我们的库中的userid
       setTimeout(() => {
         this.socketConn()
         this.socketOn()
-        // this.getList()
+        this.getList()
       }, 1000)
-
       this.data.avavtar = wx.getStorageSync("userInfo").avatarUrl
-
-      this.loadMore(1) //请求第一页
+      this.loadMore() //请求第一页
     }
 
   },
   getUserId: function () {
-    console.log("把openid、userInfo发给后台，获取我们的库中的userid")
-    var _this = this;
-    var openid = wx.getStorageSync('user').openid;
-    var userInfo = wx.getStorageSync("userInfo")
+    wx.login({
+      success: function (res) {
+        var userInfo = wx.getStorageSync("userInfo")
+        if (res.code) {
+          wx.request({
+            url: "https://www.schoolbuy.online:80/user/id",
+            data: {
+              code: res.code,
+              gphoto: userInfo.avatarUrl,
+              user_name: userInfo.nickName
+            },
+            success(res) {
+              console.log("获取userID：")
+              console.log(res)
+              app.globalData.userID = res.data.user_id
+              app.globalData.certified = res.data.is_authentication
+              console.log(app.globalData.certified)
+            },
+            fail(res) {
 
-    if (openid) {
-      wx.request({
-        url: "https://www.schoolbuy.online:80/user/id",
-        data: {
-          openid: openid,
-          user_name: userInfo.nickName,
-          gphoto: userInfo.avatarUrl,
-
-        },
-        success: (res) => {
-          console.log("从后台获取的userid")
-          console.log(res)
-          app.globalData.userID = res.data.user_id
-          app.globalData.certified = res.data.is_authentication
-          console.log(app.globalData.certified)
-          // app.globalData.certified= res.data
+            },
+            complete(res) {
+              console.log(res)
+            }
+          })
+        } else {
+          console.log('获取用户登录态失败！' + res.errMsg)
         }
-      })
-    }
+      }
+    });
   },
   bindsearch(e) {
     this.setData({
@@ -112,76 +85,117 @@ Page({
   onReachBottom() {
     var _this = this
     console.log("到底了")
-    this.loadMore(_this.data.page_count)
+
+    if(this.data.ortherBy==0){
+      this.loadMore()
+    }else{
+      this.loadMore('gd')
+    }
   },
-  loadMore(page_count) { //上拉加载
+  loadMore(choose) { //上拉加载
     var _this = this;
     _this.setData({
       loading: true
     })
+
+    if (choose) {
+      if (choose == "gd") {
+        this.festvialGd()
+      }
+    } else {
+      console.log("没有gd")
+      wx.request({
+        url: 'https://www.schoolbuy.online:80/goods/index',
+        method: "get",
+        data: {
+          page_count: _this.data.page_count
+        },
+        success: function (res) {
+           console.log(res)
+           var new_goods = res.data;
+           var good_list = _this.data.good_list
+           if (new_goods.length == 0) {
+             _this.setData({
+               noMore: true
+             })
+             return
+           }
+           new_goods.forEach(element => {
+             good_list.push(element)
+           });
+           _this.setData({
+             good_list: good_list,
+             page_count: _this.data.page_count + 1,
+             loading: false
+           })
+        },
+        fail: function (res) {
+          console.log("加载请求失败：" + JSON.stringify(res))
+        },
+        complete(res) {
+         
+        }
+      })
+    }
+  },
+  menuClick(e) {
+    var index = e.currentTarget.dataset.index;
+    this.setData({
+      ortherBy: index,
+      // page_count:1
+    })
+    if (index == 1 && this.data.page_count_gd==1) {  //第一次加载
+      this.loadMore('gd')
+    } 
+    // else if (index == 0) {
+    //   this.onPullDownRefresh()
+    // }
+  },
+  festvialGd() {
+    var _this = this
+    
+    console.log("page_count_gd:"+ _this.data.page_count_gd)
+    _this.setData({
+      page_count_gd: _this.data.page_count_gd + 1,
+    })
     wx.request({
-      url: 'https://www.schoolbuy.online:80/goods/index',
+      url: 'https://www.schoolbuy.online:80/goods/active',
       method: "get",
       data: {
-        page_count: _this.data.page_count
+        page_count: _this.data.page_count_gd-1,
+        active:'gd'
       },
-      succes: function (res) {
-        console.log("request success")
-        console.log(res)
-        if (res.data == []) {
-          console.log('已经没有数据了')
-          return
-        }
-        var new_goods = res.data;
-        var good_list = _this.data.good_list
-        good_list.push(new_goods)
-        _this.setData({
-          good_list: good_list,
-          page_count: _this.data.page_count + 1,
-          loading: false
-        })
-      },
-      fail: function (res) {
-        console.log("加载请求失败：" + JSON.stringify(res))
-      },
-      complete(res) {
-        // console.log("request complete")
+      success: function (res) {
         console.log(res)
         var new_goods = res.data;
-        var good_list = _this.data.good_list
+        var good_list = _this.data.active_gd_good_list
         if (new_goods.length == 0) {
           _this.setData({
             noMore: true
           })
           return
         }
-
-
         new_goods.forEach(element => {
           good_list.push(element)
         });
         _this.setData({
-          good_list: good_list,
-          page_count: _this.data.page_count + 1,
+          active_gd_good_list: good_list,
+          // page_count_gd: _this.data.page_count_gd + 1,
           loading: false
         })
-
+      },
+      complete(res) {
+        // console.log("request complete")
+       
       }
-    })
-  },
-  menuClick(e) {
-    var index = e.currentTarget.dataset.index;
-    this.setData({
-      ortherBy: index
     })
   },
   socketConn() {
     var _this = this
     var user_id = app.globalData.userID
-    console.log("connn")
     console.log(user_id)
     wx.connectSocket({
-      url: `ws://www.schoolbuy.online:800/ws?user_id=${user_id}`,
+      url: `wss://www.schoolbuy.online:800/ws?user_id=${user_id}`,
       success: function (res) {}
     });
 
@@ -189,6 +203,8 @@ Page({
       console.log("连接websocket服务器成功。" + res);
       app.globalData.socketOpen = true
     });
+    console.log(user_id)
+
   },
   getUnread() {
     wx.request({
@@ -208,42 +224,53 @@ Page({
   socketOn() { //socket长连接   接受新消息
     var _this = this
     wx.onSocketMessage(function (res) {
-      console.log('收到服务器发来消息：' + (res.data));
+      console.log('index的osocket on 收到服务器发来消息：' + (res.data));
+      console.log(JSON.parse(res.data).send_id)
+      var data = JSON.parse(res.data)
       if (res.data) { //代表有新消息发来
-        app.globalData.haveUnread = true
-        wx.showTabBarRedDot({
-          index: 3,
-        });
+
       }
+      app.globalData.haveUnread = true
+      wx.showTabBarRedDot({
+        index: 3,
+      });
       wx.request({
         url: "https://schoolbuy.online:80/ws/getchatuserinfo",
         data: {
-          user_id: res.data.send_id
+          send_id: data.send_id
         },
-        succes(res) {
+        success(ress) {
+          console.log(ress)
           var signal = 0
+          var indexx = 0;
           var chatList = wx.getStorageSync("chatList")
-          chatList.forEach(element => {
-            if (element.user_id == res.data.send_id) {
+          chatList.forEach((element, index) => {
+            console.log(element.user_id + "vs" + ress.data.send_id)
+            if (element.user_id == data.send_id) {
               signal = 1
-
+              indexx = index
             }
           });
+          console.log("signal:" + signal)
           if (signal == 0) { //说明是新的消息记录
             var new_item = {
-              user_id: res.data.send_id, //对方id
-              gphoto: res.data.gphoto, //对方头像
-              time: res.data.time, //最后一条消息记录时间
+              user_id: data.send_id, //对方id
+              gphoto: ress.data.gphoto, //对方头像
+              time: Date.parse(new Date()), //最后一条消息记录时间
               from: "", //通过什么物品找来
-              school: res.data.school,
-              name: res.data.name
+              school: ress.data.school,
+              name: ress.data.name
             }
             chatList.push(new_item)
-
+          } else {
+            var new_item = chatList[indexx]
+            new_item.time = Date.parse(new Date())
+            chatList[indexx] = new_item
           }
-          _this.setStorage({
-            key:"chatList",
-            data:chatList
+
+          wx.setStorage({
+            key: "chatList",
+            data: chatList
           })
 
         }
@@ -257,21 +284,15 @@ Page({
       page_count: 1,
       good_list: []
     })
-    this.loadMore(_this.data.page_count)
+    this.loadMore()
     wx.stopPullDownRefresh();
   },
   search() {
     var _this = this
     wx.navigateTo({
       url: `list/list?key=${_this.data.search_val}`,
-      success: (res) => {
-
-      },
-      fail: () => {},
-      complete: () => {}
+      success: (res) => {},
     });
-
-
   },
   getList() {
     var _this = this
@@ -285,16 +306,20 @@ Page({
       success(res) {
         new_list = res.data.list
         console.log(res)
-        if (res.data.length = 0) {
-          _this.setData({
-            list: wx.getStorageSync("chatList")
-          })
+        if (!res.data.list) {
+          console.log("没有新的未读消息")
         } else {
+          wx.showTabBarRedDot({
+            index: 3,
+          });
           new_list.forEach((element, index) => {
             list_storage.forEach((elm, idx) => {
               // console.log(elm,element)
+              console.log(element.user_id + "vs" + elm.user_id)
+
               if (element.user_id == elm.user_id) { //已经有这条记录
                 list_storage.splice(idx, 1)
+                console.log(element.user_id + "vs" + elm.user_id)
               }
             })
           });
@@ -306,17 +331,14 @@ Page({
             data: list_storage,
             success: (result) => {
               _this.setData({
-                list: wx.getStorageSync("chatList")
+                list: list_storage
               })
             },
 
           });
         }
       },
-      complete(res) {
-        console.log(res)
-
-      }
+      complete(res) {}
     })
   },
 

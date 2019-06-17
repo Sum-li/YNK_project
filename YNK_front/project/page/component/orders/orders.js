@@ -14,7 +14,7 @@ Page({
     good_price: "",
     pay_type_arr: [
       '面交',
-      '配送帮',
+      // '配送帮',
       // '邮递'
     ],
     pay_type: 0,
@@ -97,17 +97,49 @@ Page({
 
     if (phone && address) {
       if(_data.pay_type==1){  //配送帮
-        wx.requestPayment(
-          {
-          'timeStamp': '',
-          'nonceStr': '',
-          'package': '',
-          'signType': 'MD5',
-          'paySign': '',
-          'success':function(res){},
-          'fail':function(res){},
-          'complete':function(res){}
-          })
+        // wx.requestPayment(
+        //   {
+        //   'timeStamp': '',
+        //   'nonceStr': '',
+        //   'package': '',
+        //   'signType': 'MD5',
+        //   'paySign': '',
+        //   'success':function(res){},
+        //   'fail':function(res){},
+        //   'complete':function(res){}
+        //   })
+        wx.request({
+          url: "https://www.schoolbuy.online:80/logic/buy",
+          method: "get",
+          data: {
+            user_id: _data.userID,
+            goods_id: _data.good_id,
+            address: _data.address,
+            telephone: _data.phone,
+            distribution_id: _data.pay_type + 1
+          },
+          success(res) {
+            console.log(res)
+            wx.redirectTo({
+              url: '../cart4/cart4',
+            });
+            wx.showLoading({
+              title: '操作成功',
+              mask: true
+            })
+          },
+          fail(res) {
+            wx.showLoading({
+              title: '操作失败',
+              mask: true
+            })
+          },
+          complete(res) {
+            setTimeout(() => {
+              wx.hideLoading()
+            }, 500)
+          }
+        })
       }else{
         wx.request({
           url: "https://www.schoolbuy.online:80/logic/buy",

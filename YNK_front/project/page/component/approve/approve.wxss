@@ -27,3 +27,9 @@
 .image image{
 
 }
+
+
+.tips{
+    color: gray;
+    font-size: 30rpx;
+}

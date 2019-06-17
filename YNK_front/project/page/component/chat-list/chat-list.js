@@ -38,7 +38,7 @@ Page({
     // this.setData({
     //   list:wx.getStorageSync("chatList")
     // })
-    this.getList()
+    // this.getList()
   },
   getList() {
     var _this = this
@@ -53,16 +53,19 @@ Page({
       success(res) {
         new_list = res.data.list
         console.log(res)
-        if (res.data.length=0) {
+        if (!res.data.list) {
           _this.setData({
             list: wx.getStorageSync("chatList")
           })
         } else {
           new_list.forEach((element, index) => {
             list_storage.forEach((elm, idx) => {
+              console.log(element.user_id +"vs"+elm.user_id)
+
               // console.log(elm,element)
               if (element.user_id == elm.user_id) { //已经有这条记录
                 list_storage.splice(idx, 1)
+                console.log(element.user_id +"vs"+elm.user_id)
               }
             })
           });
@@ -74,7 +77,7 @@ Page({
             data: list_storage,
             success: (result) => {
               _this.setData({
-                list: wx.getStorageSync("chatList")
+                list: list_storage
               })
             },
 
@@ -82,8 +85,6 @@ Page({
         }
       },
       complete(res){
-        console.log(res)
-
       }
     })
   },
@@ -98,7 +99,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+        this.getList()
 
+    console.log("chatlist show")
+    var _this = this
+    _this.setData({
+      list: wx.getStorageSync("chatList")
+    })
     wx.hideTabBarRedDot({
       index: 3,
     });
@@ -122,6 +129,11 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    var _this = this
+    _this.setData({
+      list: wx.getStorageSync("chatList")
+    })
+    wx.stopPullDownRefresh();
 
   },
 

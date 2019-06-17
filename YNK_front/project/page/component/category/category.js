@@ -3,14 +3,7 @@ var app = getApp();
 
 Page({
   data: {
-    category: [{
-        name: '点心',
-        id: '0'
-      },
-      {
-        name: '粗茶',
-        id: '1'
-      },
+    category: [
     ],
     page_count: [],
     detail: [
@@ -18,11 +11,8 @@ Page({
       [],[],[],[],[],[],[],
       [],
       [],
-      [],
-      [],
-      [],
-      [],
-      [],
+      [],[],[],[],[],[],[],[],
+ 
     ],
     noMore: [],
     curIndex: 0,
@@ -42,7 +32,7 @@ Page({
     var _this = this;
     var arr = []
     var noMore = []
-    for (let i = 0; i < app.globalData.category.length; i++) {
+    for (let i = 0; i <= app.globalData.category.length; i++) {
       arr[i] = 1;
       noMore.push(false)
     }
@@ -66,14 +56,18 @@ Page({
     this.setData({
       loading: true
     })
+    console.log("分类："+_this.data.curIndex)
+    console.log("当前分类page_count"+_this.data.page_count[_this.data.curIndex])
+
     wx.request({
       url: 'https://www.schoolbuy.online:80/goods/goodscategory',
       data: {
         category_id: _this.data.curIndex,
         page_count: _this.data.page_count[_this.data.curIndex]
+
       },
       success(res) {
-
+        console.log(res)
         var page_count = _this.data.page_count
         page_count[_this.data.curIndex]++
         var new_goods = res.data;
@@ -116,8 +110,8 @@ Page({
     this.setData({
       // toView: e.currentTarget.dataset.id,
       curIndex: e.currentTarget.dataset.index
-    })
-
+      })
+      
     this.loadMore()
   },
   tap_ch: function (e) {

@@ -33,9 +33,9 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  fresh(){
+  loadMore(){
     var _this=this
-    console.log("fresh")
+    console.log("loadMore")
     wx.request({
       url: "https://www.schoolbuy.online:80/goods/sold",
       data: {
@@ -52,6 +52,24 @@ Page({
         _this.setData({
           orders:orders,
           page_count:_this.data.page_count+1
+        })
+      }
+    })
+  },
+  fresh(){
+    var _this=this
+    console.log("fresh")
+    wx.request({
+      url: "https://www.schoolbuy.online:80/goods/sold",
+      data: {
+        user_id: app.globalData.userID,
+        page_count:1
+      },
+      success(res) {
+        console.log(res)
+        _this.setData({
+          orders:res.data,
+          page_count:1
         })
       }
     })
